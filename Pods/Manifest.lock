@@ -1,0 +1,41 @@
+PODS:
+  - Alamofire (4.7.3)
+  - Blockstack (0.2.0):
+    - CryptoSwift
+  - CryptoSwift (0.10.0)
+  - SVProgressHUD (2.2.5)
+  - SwiftyJSON (4.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.7)
+  - Blockstack (from `https://github.com/blockstack/blockstack-ios.git`, branch `multiplayer_support`)
+  - SVProgressHUD
+  - SwiftyJSON (~> 4.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - CryptoSwift
+    - SVProgressHUD
+    - SwiftyJSON
+
+EXTERNAL SOURCES:
+  Blockstack:
+    :branch: multiplayer_support
+    :git: https://github.com/blockstack/blockstack-ios.git
+
+CHECKOUT OPTIONS:
+  Blockstack:
+    :commit: 36a2a99a8a03209fc40e3c67641f430f8df327da
+    :git: https://github.com/blockstack/blockstack-ios.git
+
+SPEC CHECKSUMS:
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Blockstack: 932c786c0d2d317a0b807d7fa3eefd9d59d5aefb
+  CryptoSwift: 6c778d69282bed3b4e975ff97a79d074f20bb011
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+
+PODFILE CHECKSUM: ee68d13ea1bdc3bea33ca8cb48342e9c8bd5066f
+
+COCOAPODS: 1.5.3
