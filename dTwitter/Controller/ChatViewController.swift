@@ -9,6 +9,7 @@
 import UIKit
 import Blockstack
 import SwiftyJSON
+import ReverseExtension
 
 class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
@@ -21,8 +22,17 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        messageTableView.delegate = self
-        messageTableView.dataSource = self
+        //You can apply reverse effect only set delegate.
+        messageTableView.re.delegate = self
+        messageTableView.re.scrollViewDidReachTop = { scrollView in
+            print("scrollViewDidReachTop")
+        }
+        messageTableView.re.scrollViewDidReachBottom = { scrollView in
+            print("scrollViewDidReachBottom")
+        }
+        
+        //messageTableView.delegate = self
+        messageTableView.re.dataSource = self
         messageTextField.delegate = self
         
         messageTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "customMessageCell")
@@ -98,10 +108,21 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         retrieveMessages(completeFunc: combineMessages)
     }
     
+    func updateRowsInTable(){
+        self.configureTableView()
+        
+        messageTableView.beginUpdates()
+        messageTableView.re.insertRows(at: [IndexPath.init(row: messageArray.count - 1, section: 0)], with: .automatic)
+        messageTableView.endUpdates()
+    }
+    
+    //MARK:- Blockstack Functions
     func readMessages(json : JSON){
         //print("Messages are \(json)")
-        
-        for message in json{
+        let sortedResults = json.sorted { $0 < $1 }
+        print(sortedResults)
+        messageArray.removeAll()
+        for message in sortedResults{
             print (message.1["messagebody"])
             let text = "\(message.1["messagebody"])"
             let sender = "Hammad"
@@ -112,28 +133,32 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             message.sender = sender
             
             messageArray.append(message)
-            
-            self.configureTableView()
-            self.messageTableView.reloadData()
+            updateRowsInTable()
         }
+        
     }
     
     func combineMessages(json : JSON){
-        print("Messages are \(json)")
+        //print("Messages are \(json)")
         
         
-        let messageDictionary = json.dictionaryObject
+        var messageDictionary = json.dictionaryObject
         let timeInterval = NSDate().timeIntervalSince1970
-        let newItem = ["\(timeInterval)": ["messagebody": messageTextField.text!]]
-        let combinedDict = messageDictionary?.merging(newItem) { $1 }
+        let newItem = ["messagebody": messageTextField.text!]
+        if messageDictionary == nil{
+            messageDictionary = ["\(timeInterval)" :  newItem]
+            
+        }else{
+            messageDictionary?.updateValue(newItem, forKey: "\(timeInterval)")
+        }
         
         var messageJSONText : String = ""
         if let theJSONData = try? JSONSerialization.data(
-            withJSONObject: combinedDict!,
+            withJSONObject: messageDictionary!,
             options: []) {
             messageJSONText = String(data: theJSONData,
                                      encoding: .ascii)!
-            print("JSON string = \(messageJSONText)")
+            //print("JSON string = \(messageJSONText)")
         }
 
         Blockstack.shared.putFile(to: "dStackFile", content: messageJSONText) { (publicURL, error) in
@@ -142,6 +167,13 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             } else {
                 print("put file success \(publicURL!)")
                 DispatchQueue.main.async{
+                    
+                    let message = Message()
+                    let sender = "Hammad"
+                    message.messageBody = self.messageTextField.text!
+                    message.sender = sender
+                    self.messageArray.append(message)
+                    self.updateRowsInTable()
                     self.messageTextField.text = ""
                 }
             }
@@ -161,7 +193,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 
                 
                 let json = JSON.init(parseJSON: (response as? String)!)
+                
+                
                 DispatchQueue.main.async{
+                    //print(json)
                     completeFunc(json)
                 }
             }
@@ -170,3 +205,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     }
     
 }
+extension ViewController: UITableViewDelegate {
+    //ReverseExtension also supports handling UITableViewDelegate.
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("scrollView.contentOffset.y =", scrollView.contentOffset.y)
+    }
+}
+

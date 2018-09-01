@@ -10,4 +10,5 @@ pod 'Blockstack', :git => 'https://github.com/blockstack/blockstack-ios.git', :b
 pod 'Alamofire', '~> 4.7'
 pod 'SwiftyJSON', '~> 4.0'
 pod 'SVProgressHUD'
+pod "ReverseExtension"
 end

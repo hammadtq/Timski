@@ -3,12 +3,14 @@ PODS:
   - Blockstack (0.2.0):
     - CryptoSwift
   - CryptoSwift (0.10.0)
+  - ReverseExtension (0.5.0)
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (4.1.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
   - Blockstack (from `https://github.com/blockstack/blockstack-ios.git`, branch `multiplayer_support`)
+  - ReverseExtension
   - SVProgressHUD
   - SwiftyJSON (~> 4.0)
 
@@ -16,6 +18,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - CryptoSwift
+    - ReverseExtension
     - SVProgressHUD
     - SwiftyJSON
 
@@ -33,9 +36,10 @@ SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Blockstack: 932c786c0d2d317a0b807d7fa3eefd9d59d5aefb
   CryptoSwift: 6c778d69282bed3b4e975ff97a79d074f20bb011
+  ReverseExtension: 21c8dd4e767f93b56fb97d873686d24160f83945
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: ee68d13ea1bdc3bea33ca8cb48342e9c8bd5066f
+PODFILE CHECKSUM: 0935758acfa1c263d297f767ebb9402db8201ce5
 
 COCOAPODS: 1.5.3
