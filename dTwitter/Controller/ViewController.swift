@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var nameButton: UIButton!
+    @IBOutlet weak var otherUserTextField: UITextField!
     
     override func viewWillAppear(_ animated: Bool) {
         updateUI()
@@ -144,16 +145,18 @@ class ViewController: UIViewController {
                 let retrievedUserData = Blockstack.shared.loadUserData()
                 print(retrievedUserData)
                 print(retrievedUserData?.profile?.name as Any)
-                self.nameButton.setTitle(retrievedUserData?.profile?.name ?? "Nameless User",for: .normal)
+                self.nameButton.setTitle("Let's Chat \(retrievedUserData?.profile?.name ?? "Dr. Who")",for: .normal)
                 
                 //self.optionsContainerView.isHidden = false
                 self.nameButton.isHidden = false
+                self.otherUserTextField.isHidden = false
                 self.signInButton?.isHidden = true
                // self.multiplayerGetFileTapped((Any).self)
                 //self.resetKeychainButton.isHidden = true
             } else {
                 //self.optionsContainerView.isHidden = true
                 self.nameButton.isHidden = true
+                self.otherUserTextField.isHidden = true
                 self.signInButton?.isHidden = false
                 //self.resetKeychainButton.isHidden = false
             }
