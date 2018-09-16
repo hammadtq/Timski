@@ -25,9 +25,17 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var messageTableView: UITableView!
+    @IBOutlet weak var menuButton: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Menu Button
+        menuButton.target = self.revealViewController()
+        menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+        self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
+        
+        //Reverse Extenstion
         //You can apply reverse effect only set delegate.
         messageTableView.re.delegate = self
         messageTableView.re.scrollViewDidReachTop = { scrollView in
@@ -167,6 +175,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         var messageDictionary = json.dictionaryObject
         let timeInterval = NSDate().timeIntervalSince1970
         let newItem = ["messagebody": messageTextField.text!]
+        
         if messageDictionary == nil{
             messageDictionary = ["\(timeInterval)" :  newItem]
             
@@ -174,13 +183,16 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             messageDictionary?.updateValue(newItem, forKey: "\(timeInterval)")
         }
         
+        
         var messageJSONText : String = ""
         if let theJSONData = try? JSONSerialization.data(
             withJSONObject: messageDictionary!,
             options: []) {
+        
             messageJSONText = String(data: theJSONData,
-                                     encoding: .ascii)!
-            //print("JSON string = \(messageJSONText)")
+                                     encoding: .utf8)!
+            
+            print("JSON string = \(messageJSONText)")
         }
 
         Blockstack.shared.putFile(to: "dStackFile", content: messageJSONText) { (publicURL, error) in
@@ -311,6 +323,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             timer.invalidate()
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
 }
 extension ViewController: UITableViewDelegate {

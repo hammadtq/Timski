@@ -166,6 +166,10 @@ class ViewController: UIViewController {
     func checkIfSignedIn() {
         Blockstack.shared.isSignedIn() ? print("currently signed in") : print("not signed in")
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 }
 
 
