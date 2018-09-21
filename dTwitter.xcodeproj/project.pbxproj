@@ -15,6 +15,7 @@
 		A310197B215546DC002965B2 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197A215546DC002965B2 /* Channel.swift */; };
 		A310197D215548DC002965B2 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197C215548DC002965B2 /* ChannelCell.swift */; };
 		A310197F215550D6002965B2 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197E215550D6002965B2 /* Helper.swift */; };
+		A310198221555B0D002965B2 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310198121555B0D002965B2 /* MessageService.swift */; };
 		A32740222154EC1B0003C24C /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740202154EC1B0003C24C /* AddChannelViewController.swift */; };
 		A32740232154EC1B0003C24C /* AddChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A32740212154EC1B0003C24C /* AddChannelViewController.xib */; };
 		A32740262154F2340003C24C /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740252154F2340003C24C /* RoundedButton.swift */; };
@@ -44,6 +45,7 @@
 		A310197A215546DC002965B2 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		A310197C215548DC002965B2 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		A310197E215550D6002965B2 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		A310198121555B0D002965B2 /* MessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		A32740202154EC1B0003C24C /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
 		A32740212154EC1B0003C24C /* AddChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddChannelViewController.xib; sourceTree = "<group>"; };
 		A32740252154F2340003C24C /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
@@ -86,6 +88,14 @@
 			path = "Support Files";
 			sourceTree = "<group>";
 		};
+		A310198021555AFB002965B2 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A310198121555B0D002965B2 /* MessageService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		A32740242154EC2D0003C24C /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +125,7 @@
 		A3AC362A212F307B001CCAC3 /* dTwitter */ = {
 			isa = PBXGroup;
 			children = (
+				A310198021555AFB002965B2 /* Services */,
 				A32740242154EC2D0003C24C /* XIBs */,
 				A3FDBEE02132BCD5009D4CEF /* Model */,
 				A3FDBEDF2132BCCE009D4CEF /* Controller */,
@@ -319,6 +330,7 @@
 				A310197F215550D6002965B2 /* Helper.swift in Sources */,
 				A3023819214EA1F5004DBE52 /* GradientView.swift in Sources */,
 				A310197B215546DC002965B2 /* Channel.swift in Sources */,
+				A310198221555B0D002965B2 /* MessageService.swift in Sources */,
 				A35AB81C213E92ED002A592D /* MessageModel.swift in Sources */,
 				A3023817214E7A49004DBE52 /* ChannelViewController.swift in Sources */,
 				A35AB81A213E92DC002A592D /* TableViewCell.swift in Sources */,

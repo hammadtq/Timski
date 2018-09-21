@@ -10,6 +10,7 @@ import UIKit
 import Blockstack
 import SwiftyJSON
 import ReverseExtension
+import SVProgressHUD
 
 class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
@@ -56,11 +57,31 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         configureTableView()
         
-        retrieveMessages(completeFunc: readMessages)
-        
         scheduledTimerWithTimeInterval()
+        
+        readChannels()
     }
     
+    func readChannels(){
+        SVProgressHUD.show()
+        MessageService.instance.findAllChannel { (success) in
+            if success {
+                if MessageService.instance.channels.count > 0 {
+                    MessageService.instance.selectedChannel = MessageService.instance.channels[0]
+                    self.updateWithChannel()
+                } else {
+                    self.title = "No channels yet!"
+                }
+            }
+        }
+    }
+    
+    func updateWithChannel() {
+        let channelName = MessageService.instance.selectedChannel?.channelTitle ?? ""
+        self.title = "#\(channelName)"
+        retrieveMessages(completeFunc: readMessages)
+    }
+
     
     @IBAction func logOutPressed(_ sender: Any) {
         stopTimerTest()
@@ -262,6 +283,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 combinedMessages = JSON(combinedDict as Any)
             }
             completeFunc(combinedMessages)
+            SVProgressHUD.dismiss()
         }
     }
     

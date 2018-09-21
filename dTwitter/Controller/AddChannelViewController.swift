@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Blockstack
+import SwiftyJSON
 
 class AddChannelViewController: UIViewController {
 
@@ -19,6 +21,36 @@ class AddChannelViewController: UIViewController {
         setUpView()
     }
     @IBAction func createChannelPressed(_ sender: Any) {
+        guard let channelName = nameText.text , nameText.text != "" else { return }
+        guard let channelDesc = channelDesc.text else { return }
+        Blockstack.shared.getFile(at: "channelFile") { response, error in
+            if error != nil {
+                print("get file error")
+            } else {
+                print("get file success")
+                print(response as Any)
+                let json = JSON.init(parseJSON: (response as? String)!)
+                var channelDictionary = json.dictionaryObject
+                if channelDictionary == nil{
+                    channelDictionary = ["name" :  channelName, "desc" : channelDesc]
+                    
+                }else{
+                    channelDictionary?.updateValue(channelName, forKey: "name")
+                }
+                
+                let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
+                
+                Blockstack.shared.putFile(to: "dStackFile", content: channelJSONText) { (publicURL, error) in
+                    if error != nil {
+                        print("put file error")
+                    } else {
+                        print("put file success \(publicURL!)")
+                        DispatchQueue.main.async{
+                        }
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func closeModalPressed(_ sender: Any) {
