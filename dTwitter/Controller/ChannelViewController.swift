@@ -19,6 +19,14 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         self.revealViewController().rearViewRevealWidth = self.view.frame.size.width - 60
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(ChannelViewController.reloadData), name:NSNotification.Name(rawValue: "channelDataUpdated"), object: nil)
+    }
+    
+    @objc func reloadData(){
+        tableView.reloadData()
+    }
 
     override var prefersStatusBarHidden: Bool {
         return true

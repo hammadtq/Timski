@@ -23,7 +23,7 @@ class AddChannelViewController: UIViewController {
     @IBAction func createChannelPressed(_ sender: Any) {
         guard let channelName = nameText.text , nameText.text != "" else { return }
         guard let channelDesc = channelDesc.text else { return }
-        Blockstack.shared.getFile(at: "channelFile") { response, error in
+        Blockstack.shared.getFile(at: "channelTest7") { response, error in
             if error != nil {
                 print("get file error")
             } else {
@@ -31,21 +31,24 @@ class AddChannelViewController: UIViewController {
                 print(response as Any)
                 let json = JSON.init(parseJSON: (response as? String)!)
                 var channelDictionary = json.dictionaryObject
-                if channelDictionary == nil{
-                    channelDictionary = ["name" :  channelName, "desc" : channelDesc]
-                    
-                }else{
-                    channelDictionary?.updateValue(channelName, forKey: "name")
-                }
+                let timeStamp = NSDate().timeIntervalSince1970
+                let newChannel =  ["name" : channelName, "desc" : channelDesc]
+                
+                channelDictionary?.updateValue(newChannel, forKey: "\(timeStamp)")
                 
                 let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
                 
-                Blockstack.shared.putFile(to: "dStackFile", content: channelJSONText) { (publicURL, error) in
+                Blockstack.shared.putFile(to: "channelTest7", content: channelJSONText) { (publicURL, error) in
                     if error != nil {
                         print("put file error")
                     } else {
                         print("put file success \(publicURL!)")
                         DispatchQueue.main.async{
+                            MessageService.instance.findAllChannel(completion: { (success) in
+                                NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
+                                 self.dismiss(animated: true, completion: nil)
+                            })
+                           
                         }
                     }
                 }

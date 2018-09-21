@@ -16,10 +16,10 @@ class MessageService {
     
     var channels = [Channel]()
     var selectedChannel : Channel?
-    var channel = Channel()
+    
     func findAllChannel(completion: @escaping (_ Success: Bool) -> ()) {
         //Read channel data from Gaia
-        Blockstack.shared.getFile(at: "channelFile") { response, error in
+        Blockstack.shared.getFile(at: "channelTest7") { response, error in
             if error != nil {
                 print("get file error")
                 completion(false)
@@ -29,15 +29,17 @@ class MessageService {
                 let convertJSON = JSON.init(parseJSON: (response as? String)!)
                 if convertJSON.isEmpty {
                     //assuming the file is not there in all null cases
-                    let channelDictionary = ["name" : "general", "desc" : "General purpose channel"]
+                    let timeStamp = NSDate().timeIntervalSince1970
+                    let channelDictionary = ["\(timeStamp)" : ["name" : "general", "desc" : "General purpose channel"]]
                     let messageJSONText = Helper.serializeJSON(messageDictionary: channelDictionary)
-                    Blockstack.shared.putFile(to: "channelFile", content: messageJSONText, encrypt: false) { (publicURL, error) in
+                    Blockstack.shared.putFile(to: "channelTest7", content: messageJSONText, encrypt: false) { (publicURL, error) in
                         if error != nil {
                             print("put file error")
                         } else {
                             print("put file success \(publicURL!)")
-                            self.channel.channelTitle = "general"
-                            self.channels.append(self.channel)
+                            var channel = Channel()
+                            channel.channelTitle = "general"
+                            self.channels.append(channel)
                             DispatchQueue.main.async{
                                 completion(true)
                             }
@@ -45,10 +47,13 @@ class MessageService {
                     }
                     
                 }else{
-                    for item in convertJSON {
+                    self.channels.removeAll()
+                    let sortedResults = convertJSON.sorted { $0 < $1 }
+                    for item in sortedResults {
                         print(item.1)
-                        self.channel.channelTitle = item.1.stringValue
-                        self.channels.append(self.channel)
+                        var channel = Channel()
+                        channel.channelTitle = item.1["name"].stringValue
+                        self.channels.append(channel)
                     }
                     DispatchQueue.main.async{
                         completion(true)
