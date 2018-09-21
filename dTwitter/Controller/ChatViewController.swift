@@ -183,17 +183,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             messageDictionary?.updateValue(newItem, forKey: "\(timeInterval)")
         }
         
-        
-        var messageJSONText : String = ""
-        if let theJSONData = try? JSONSerialization.data(
-            withJSONObject: messageDictionary!,
-            options: []) {
-        
-            messageJSONText = String(data: theJSONData,
-                                     encoding: .utf8)!
-            
-            print("JSON string = \(messageJSONText)")
-        }
+        let messageJSONText = Helper.serializeJSON(messageDictionary: messageDictionary!)
 
         Blockstack.shared.putFile(to: "dStackFile", content: messageJSONText) { (publicURL, error) in
             if error != nil {
@@ -304,12 +294,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                         self.updateRowsInTable()
                         }
                 }
-                
-//                remoteJson = JSON.init(parseJSON: (response as? String)!)
-//                for (key, var item) in remoteJson {
-//                    item["username"] = JSON(self.remoteUsername)
-//                    remoteJson[key] = item
-//                }
+
             }
         }
     }

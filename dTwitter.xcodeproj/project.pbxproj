@@ -12,6 +12,9 @@
 		A3023817214E7A49004DBE52 /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3023816214E7A49004DBE52 /* ChannelViewController.swift */; };
 		A3023819214EA1F5004DBE52 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3023818214EA1F5004DBE52 /* GradientView.swift */; };
 		A3036DF121303ED000499619 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3036DF021303ED000499619 /* ChatViewController.swift */; };
+		A310197B215546DC002965B2 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197A215546DC002965B2 /* Channel.swift */; };
+		A310197D215548DC002965B2 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197C215548DC002965B2 /* ChannelCell.swift */; };
+		A310197F215550D6002965B2 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197E215550D6002965B2 /* Helper.swift */; };
 		A32740222154EC1B0003C24C /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740202154EC1B0003C24C /* AddChannelViewController.swift */; };
 		A32740232154EC1B0003C24C /* AddChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A32740212154EC1B0003C24C /* AddChannelViewController.xib */; };
 		A32740262154F2340003C24C /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740252154F2340003C24C /* RoundedButton.swift */; };
@@ -25,7 +28,6 @@
 		A3AC3636212F307C001CCAC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3AC3634212F307C001CCAC3 /* LaunchScreen.storyboard */; };
 		A3FDBEE32132BD1E009D4CEF /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3FDBEE22132BD1E009D4CEF /* MessageCell.xib */; };
 		A3FDBEE52132BD3B009D4CEF /* CustomMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FDBEE42132BD3B009D4CEF /* CustomMessageCell.swift */; };
-		A3FDBEE72132CA71009D4CEF /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FDBEE62132CA71009D4CEF /* Message.swift */; };
 		EA8D5480F6338464D31A6981 /* Pods_dTwitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECD1EFB513B8DE30C6F3B87 /* Pods_dTwitter.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +41,9 @@
 		A3023816214E7A49004DBE52 /* ChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
 		A3023818214EA1F5004DBE52 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		A3036DF021303ED000499619 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		A310197A215546DC002965B2 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		A310197C215548DC002965B2 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
+		A310197E215550D6002965B2 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		A32740202154EC1B0003C24C /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
 		A32740212154EC1B0003C24C /* AddChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddChannelViewController.xib; sourceTree = "<group>"; };
 		A32740252154F2340003C24C /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
@@ -54,7 +59,6 @@
 		A3AC3637212F307C001CCAC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3FDBEE22132BD1E009D4CEF /* MessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
 		A3FDBEE42132BD3B009D4CEF /* CustomMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMessageCell.swift; sourceTree = "<group>"; };
-		A3FDBEE62132CA71009D4CEF /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		FECD1EFB513B8DE30C6F3B87 /* Pods_dTwitter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dTwitter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -77,6 +81,7 @@
 				A3023814214E7139004DBE52 /* SWRevealViewController.m */,
 				A3023812214E7138004DBE52 /* dTwitter-Bridging-Header.h */,
 				A3001F34213FDA9B006FAF10 /* LetterImageGenerator.swift */,
+				A310197E215550D6002965B2 /* Helper.swift */,
 			);
 			path = "Support Files";
 			sourceTree = "<group>";
@@ -126,8 +131,8 @@
 		A3FDBEDD2132BCBA009D4CEF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A32740252154F2340003C24C /* RoundedButton.swift */,
 				A3FDBEE12132BD11009D4CEF /* CustomCell */,
+				A32740252154F2340003C24C /* RoundedButton.swift */,
 				A3023818214EA1F5004DBE52 /* GradientView.swift */,
 				A3AC362F212F307B001CCAC3 /* Main.storyboard */,
 			);
@@ -148,7 +153,7 @@
 		A3FDBEE02132BCD5009D4CEF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A3FDBEE62132CA71009D4CEF /* Message.swift */,
+				A310197A215546DC002965B2 /* Channel.swift */,
 				A35AB81B213E92ED002A592D /* MessageModel.swift */,
 			);
 			path = Model;
@@ -161,6 +166,7 @@
 				A35AB819213E92DB002A592D /* TableViewCell.swift */,
 				A35AB817213E91EC002A592D /* TableViewCell.xib */,
 				A3FDBEE22132BD1E009D4CEF /* MessageCell.xib */,
+				A310197C215548DC002965B2 /* ChannelCell.swift */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -310,9 +316,10 @@
 			files = (
 				A3AC362E212F307B001CCAC3 /* ViewController.swift in Sources */,
 				A3AC362C212F307B001CCAC3 /* AppDelegate.swift in Sources */,
+				A310197F215550D6002965B2 /* Helper.swift in Sources */,
 				A3023819214EA1F5004DBE52 /* GradientView.swift in Sources */,
+				A310197B215546DC002965B2 /* Channel.swift in Sources */,
 				A35AB81C213E92ED002A592D /* MessageModel.swift in Sources */,
-				A3FDBEE72132CA71009D4CEF /* Message.swift in Sources */,
 				A3023817214E7A49004DBE52 /* ChannelViewController.swift in Sources */,
 				A35AB81A213E92DC002A592D /* TableViewCell.swift in Sources */,
 				A3023815214E7139004DBE52 /* SWRevealViewController.m in Sources */,
@@ -321,6 +328,7 @@
 				A32740222154EC1B0003C24C /* AddChannelViewController.swift in Sources */,
 				A3001F35213FDA9B006FAF10 /* LetterImageGenerator.swift in Sources */,
 				A32740262154F2340003C24C /* RoundedButton.swift in Sources */,
+				A310197D215548DC002965B2 /* ChannelCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
