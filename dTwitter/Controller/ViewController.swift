@@ -14,7 +14,6 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var nameButton: UIButton!
-    @IBOutlet weak var otherUserTextField: UITextField!
     
     override func viewWillAppear(_ animated: Bool) {
         updateUI()
@@ -149,14 +148,12 @@ class ViewController: UIViewController {
                 
                 //self.optionsContainerView.isHidden = false
                 self.nameButton.isHidden = false
-                self.otherUserTextField.isHidden = false
                 self.signInButton?.isHidden = true
                // self.multiplayerGetFileTapped((Any).self)
                 //self.resetKeychainButton.isHidden = true
             } else {
                 //self.optionsContainerView.isHidden = true
                 self.nameButton.isHidden = true
-                self.otherUserTextField.isHidden = true
                 self.signInButton?.isHidden = false
                 //self.resetKeychainButton.isHidden = false
             }
@@ -166,10 +163,7 @@ class ViewController: UIViewController {
     func checkIfSignedIn() {
         Blockstack.shared.isSignedIn() ? print("currently signed in") : print("not signed in")
     }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+
 }
 
 

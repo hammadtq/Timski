@@ -55,6 +55,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableViewTapped))
         messageTableView.addGestureRecognizer(tapGesture)
         
+        
+        //Add observer to kill Gaia connections if user pressed Log Out button
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.stopTimerTest), name:NSNotification.Name(rawValue: "UserLoggedOut"), object: nil)
+        
         configureTableView()
         
         scheduledTimerWithTimeInterval()
@@ -82,17 +86,23 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         retrieveMessages(completeFunc: readMessages)
     }
 
-    
-    @IBAction func logOutPressed(_ sender: Any) {
-        stopTimerTest()
-        // Sign user out
-        Blockstack.shared.signOut()
-        let navigationController = self.presentingViewController as? UINavigationController
+    @IBAction func addParticipantPressed(_ sender: Any) {
+        let addParticipants = AddParticipantsViewController()
+        addParticipants.modalPresentationStyle = .custom
+        present(addParticipants, animated: true, completion: nil)
         
-        self.dismiss(animated: true) {
-            let _ = navigationController?.popToRootViewController(animated: true)
-        }
     }
+    
+//    @IBAction func logOutPressed(_ sender: Any) {
+//        stopTimerTest()
+//        // Sign user out
+//        Blockstack.shared.signOut()
+//        let navigationController = self.presentingViewController as? UINavigationController
+//        
+//        self.dismiss(animated: true) {
+//            let _ = navigationController?.popToRootViewController(animated: true)
+//        }
+//    }
     
     ///////////////////////////////////////////
     
@@ -326,7 +336,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateRemoteUserChat), userInfo: nil, repeats: true)
     }
-    func stopTimerTest() {
+    @objc func stopTimerTest() {
             timer.invalidate()
     }
     

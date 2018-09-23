@@ -19,6 +19,10 @@
 		A32740222154EC1B0003C24C /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740202154EC1B0003C24C /* AddChannelViewController.swift */; };
 		A32740232154EC1B0003C24C /* AddChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A32740212154EC1B0003C24C /* AddChannelViewController.xib */; };
 		A32740262154F2340003C24C /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740252154F2340003C24C /* RoundedButton.swift */; };
+		A33F0ED62157B31F00C1C95B /* AddParticipantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F0ED42157B31F00C1C95B /* AddParticipantsViewController.swift */; };
+		A33F0ED92157B3F800C1C95B /* AddParticipantsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F0ED82157B3F800C1C95B /* AddParticipantsViewController.xib */; };
+		A33F0EDB2157D00000C1C95B /* UserProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F0EDA2157D00000C1C95B /* UserProfileViewController.xib */; };
+		A33F0EDD2157D00F00C1C95B /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F0EDC2157D00F00C1C95B /* UserProfileViewController.swift */; };
 		A35AB818213E91EC002A592D /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A35AB817213E91EC002A592D /* TableViewCell.xib */; };
 		A35AB81A213E92DC002A592D /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AB819213E92DB002A592D /* TableViewCell.swift */; };
 		A35AB81C213E92ED002A592D /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AB81B213E92ED002A592D /* MessageModel.swift */; };
@@ -49,6 +53,10 @@
 		A32740202154EC1B0003C24C /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
 		A32740212154EC1B0003C24C /* AddChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddChannelViewController.xib; sourceTree = "<group>"; };
 		A32740252154F2340003C24C /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		A33F0ED42157B31F00C1C95B /* AddParticipantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddParticipantsViewController.swift; sourceTree = "<group>"; };
+		A33F0ED82157B3F800C1C95B /* AddParticipantsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddParticipantsViewController.xib; sourceTree = "<group>"; };
+		A33F0EDA2157D00000C1C95B /* UserProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfileViewController.xib; sourceTree = "<group>"; };
+		A33F0EDC2157D00F00C1C95B /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		A35AB817213E91EC002A592D /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		A35AB819213E92DB002A592D /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		A35AB81B213E92ED002A592D /* MessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -100,6 +108,8 @@
 			isa = PBXGroup;
 			children = (
 				A32740212154EC1B0003C24C /* AddChannelViewController.xib */,
+				A33F0ED82157B3F800C1C95B /* AddParticipantsViewController.xib */,
+				A33F0EDA2157D00000C1C95B /* UserProfileViewController.xib */,
 			);
 			path = XIBs;
 			sourceTree = "<group>";
@@ -157,6 +167,8 @@
 				A3036DF021303ED000499619 /* ChatViewController.swift */,
 				A3023816214E7A49004DBE52 /* ChannelViewController.swift */,
 				A32740202154EC1B0003C24C /* AddChannelViewController.swift */,
+				A33F0ED42157B31F00C1C95B /* AddParticipantsViewController.swift */,
+				A33F0EDC2157D00F00C1C95B /* UserProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -260,12 +272,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A33F0EDB2157D00000C1C95B /* UserProfileViewController.xib in Resources */,
 				A3AC3636212F307C001CCAC3 /* LaunchScreen.storyboard in Resources */,
 				A35AB818213E91EC002A592D /* TableViewCell.xib in Resources */,
 				A32740232154EC1B0003C24C /* AddChannelViewController.xib in Resources */,
 				A3FDBEE32132BD1E009D4CEF /* MessageCell.xib in Resources */,
 				A3AC3633212F307C001CCAC3 /* Assets.xcassets in Resources */,
 				A3AC3631212F307B001CCAC3 /* Main.storyboard in Resources */,
+				A33F0ED92157B3F800C1C95B /* AddParticipantsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,11 +345,13 @@
 				A3023819214EA1F5004DBE52 /* GradientView.swift in Sources */,
 				A310197B215546DC002965B2 /* Channel.swift in Sources */,
 				A310198221555B0D002965B2 /* MessageService.swift in Sources */,
+				A33F0ED62157B31F00C1C95B /* AddParticipantsViewController.swift in Sources */,
 				A35AB81C213E92ED002A592D /* MessageModel.swift in Sources */,
 				A3023817214E7A49004DBE52 /* ChannelViewController.swift in Sources */,
 				A35AB81A213E92DC002A592D /* TableViewCell.swift in Sources */,
 				A3023815214E7139004DBE52 /* SWRevealViewController.m in Sources */,
 				A3FDBEE52132BD3B009D4CEF /* CustomMessageCell.swift in Sources */,
+				A33F0EDD2157D00F00C1C95B /* UserProfileViewController.swift in Sources */,
 				A3036DF121303ED000499619 /* ChatViewController.swift in Sources */,
 				A32740222154EC1B0003C24C /* AddChannelViewController.swift in Sources */,
 				A3001F35213FDA9B006FAF10 /* LetterImageGenerator.swift in Sources */,

@@ -12,12 +12,20 @@ import Blockstack
 class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var profileName: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         self.revealViewController().rearViewRevealWidth = self.view.frame.size.width - 60
+        profileImage.layer.cornerRadius = profileImage.bounds.width / 2.0
+        profileImage.layer.masksToBounds = true
+        
+        let userFullName = Blockstack.shared.loadUserData()?.profile?.name
+        profileName.setTitle(userFullName, for: .normal)
+        profileImage.image = LetterImageGenerator.imageWith(name: userFullName, imageBackgroundColor: "local")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,6 +38,12 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    @IBAction func profileNamePressed(_ sender: Any) {
+        let profileView = UserProfileViewController()
+        profileView.modalPresentationStyle = .custom
+        present(profileView, animated: true, completion: nil)
     }
     
     @IBAction func addChannelPressed(_ sender: Any) {
