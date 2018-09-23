@@ -142,9 +142,7 @@ class ViewController: UIViewController {
             if Blockstack.shared.isSignedIn() {
                 // Read user profile data
                 let retrievedUserData = Blockstack.shared.loadUserData()
-                print(retrievedUserData)
-                print(retrievedUserData?.profile?.name as Any)
-                self.nameButton.setTitle("Let's Chat \(retrievedUserData?.profile?.name ?? "Dr. Who")",for: .normal)
+                self.nameButton.setTitle("Let's Chat \(retrievedUserData?.profile?.name ?? "Nameless User")",for: .normal)
                 
                 //self.optionsContainerView.isHidden = false
                 self.nameButton.isHidden = false

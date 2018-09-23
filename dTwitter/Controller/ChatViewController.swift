@@ -22,6 +22,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     var timer = Timer()
     var remoteUserLastChatStringCount = 0
    
+    @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageTextField: UITextField!
@@ -29,6 +30,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var menuButton: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarBorderColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
+        self.bottomView.layer.borderWidth = 1
+        self.bottomView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        self.messageTextField.borderStyle = .none
         
         //Menu Button
         menuButton.target = self.revealViewController()
@@ -349,6 +354,28 @@ extension ViewController: UITableViewDelegate {
     //ReverseExtension also supports handling UITableViewDelegate.
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("scrollView.contentOffset.y =", scrollView.contentOffset.y)
+    }
+}
+
+extension UINavigationController {
+    
+    func setNavigationBarBorderColor(_ color:UIColor) {
+        self.navigationBar.shadowImage = color.as1ptImage()
+    }
+}
+
+extension UIColor {
+    
+    /// Converts this `UIColor` instance to a 1x1 `UIImage` instance and returns it.
+    ///
+    /// - Returns: `self` as a 1x1 `UIImage`.
+    func as1ptImage() -> UIImage {
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        setFill()
+        UIGraphicsGetCurrentContext()?.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+        let image = UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
+        UIGraphicsEndImageContext()
+        return image
     }
 }
 
