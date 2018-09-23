@@ -41,6 +41,24 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
         
+        //Set Notification and add buttons
+        let notificationBtn = SSBadgeButton()
+        notificationBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
+        notificationBtn.setImage(UIImage(named: "notification")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        notificationBtn.badgeEdgeInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 15)
+        notificationBtn.badge = "4"
+        notificationBtn.tintColor = UIColor.darkGray
+        
+        
+        let addButton = UIButton(type: .custom)
+        addButton.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        addButton.frame = CGRect(x: 0.0, y: 0.0, width: 35.0, height: 35.0)
+        addButton.tintColor = UIColor.darkGray
+        addButton.addTarget(self, action: #selector(addParticipantsOpen), for: .touchUpInside)
+        let addButtonItem = UIBarButtonItem(customView: addButton)
+        
+        self.navigationItem.rightBarButtonItems = [addButtonItem, UIBarButtonItem(customView: notificationBtn)]
+        
         //Reverse Extenstion
         //You can apply reverse effect only set delegate.
         messageTableView.re.delegate = self
@@ -91,23 +109,12 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         retrieveMessages(completeFunc: readMessages)
     }
 
-    @IBAction func addParticipantPressed(_ sender: Any) {
+    @objc func addParticipantsOpen(){
         let addParticipants = AddParticipantsViewController()
         addParticipants.modalPresentationStyle = .custom
         present(addParticipants, animated: true, completion: nil)
-        
     }
     
-//    @IBAction func logOutPressed(_ sender: Any) {
-//        stopTimerTest()
-//        // Sign user out
-//        Blockstack.shared.signOut()
-//        let navigationController = self.presentingViewController as? UINavigationController
-//        
-//        self.dismiss(animated: true) {
-//            let _ = navigationController?.popToRootViewController(animated: true)
-//        }
-//    }
     
     ///////////////////////////////////////////
     

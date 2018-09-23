@@ -23,6 +23,7 @@
 		A33F0ED92157B3F800C1C95B /* AddParticipantsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F0ED82157B3F800C1C95B /* AddParticipantsViewController.xib */; };
 		A33F0EDB2157D00000C1C95B /* UserProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F0EDA2157D00000C1C95B /* UserProfileViewController.xib */; };
 		A33F0EDD2157D00F00C1C95B /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F0EDC2157D00F00C1C95B /* UserProfileViewController.swift */; };
+		A33F0EDF2158098900C1C95B /* SSBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F0EDE2158098900C1C95B /* SSBadgeButton.swift */; };
 		A35AB818213E91EC002A592D /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A35AB817213E91EC002A592D /* TableViewCell.xib */; };
 		A35AB81A213E92DC002A592D /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AB819213E92DB002A592D /* TableViewCell.swift */; };
 		A35AB81C213E92ED002A592D /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AB81B213E92ED002A592D /* MessageModel.swift */; };
@@ -57,6 +58,7 @@
 		A33F0ED82157B3F800C1C95B /* AddParticipantsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddParticipantsViewController.xib; sourceTree = "<group>"; };
 		A33F0EDA2157D00000C1C95B /* UserProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfileViewController.xib; sourceTree = "<group>"; };
 		A33F0EDC2157D00F00C1C95B /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		A33F0EDE2158098900C1C95B /* SSBadgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSBadgeButton.swift; sourceTree = "<group>"; };
 		A35AB817213E91EC002A592D /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		A35AB819213E92DB002A592D /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		A35AB81B213E92ED002A592D /* MessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				A3023814214E7139004DBE52 /* SWRevealViewController.m */,
 				A3023812214E7138004DBE52 /* dTwitter-Bridging-Header.h */,
 				A3001F34213FDA9B006FAF10 /* LetterImageGenerator.swift */,
+				A33F0EDE2158098900C1C95B /* SSBadgeButton.swift */,
 				A310197E215550D6002965B2 /* Helper.swift */,
 			);
 			path = "Support Files";
@@ -343,6 +346,7 @@
 				A3AC362C212F307B001CCAC3 /* AppDelegate.swift in Sources */,
 				A310197F215550D6002965B2 /* Helper.swift in Sources */,
 				A3023819214EA1F5004DBE52 /* GradientView.swift in Sources */,
+				A33F0EDF2158098900C1C95B /* SSBadgeButton.swift in Sources */,
 				A310197B215546DC002965B2 /* Channel.swift in Sources */,
 				A310198221555B0D002965B2 /* MessageService.swift in Sources */,
 				A33F0ED62157B31F00C1C95B /* AddParticipantsViewController.swift in Sources */,
