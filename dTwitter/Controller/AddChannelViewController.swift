@@ -23,7 +23,7 @@ class AddChannelViewController: UIViewController {
     @IBAction func createChannelPressed(_ sender: Any) {
         guard let channelName = nameText.text , nameText.text != "" else { return }
         guard let channelDesc = channelDesc.text else { return }
-        Blockstack.shared.getFile(at: "channelTest7") { response, error in
+        Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
             if error != nil {
                 print("get file error")
             } else {
@@ -32,13 +32,13 @@ class AddChannelViewController: UIViewController {
                 let json = JSON.init(parseJSON: (response as? String)!)
                 var channelDictionary = json.dictionaryObject
                 let timeStamp = NSDate().timeIntervalSince1970
-                let newChannel =  ["name" : channelName, "desc" : channelDesc]
+                let newChannel =  ["name" : channelName, "desc" : channelDesc, "participants" : [Blockstack.shared.loadUserData()?.username]] as [String : Any]
                 
                 channelDictionary?.updateValue(newChannel, forKey: "\(timeStamp)")
                 
                 let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
                 
-                Blockstack.shared.putFile(to: "channelTest7", content: channelJSONText) { (publicURL, error) in
+                Blockstack.shared.putFile(to: CHANNEL_FILE, content: channelJSONText) { (publicURL, error) in
                     if error != nil {
                         print("put file error")
                     } else {

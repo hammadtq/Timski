@@ -20,7 +20,7 @@ class MessageService {
     
     func findAllChannel(completion: @escaping (_ Success: Bool) -> ()) {
         //Read channel data from Gaia
-        Blockstack.shared.getFile(at: "channelTest7") { response, error in
+        Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
             if error != nil {
                 print("get file error")
                 completion(false)
@@ -31,15 +31,17 @@ class MessageService {
                 if convertJSON.isEmpty {
                     //assuming the file is not there in all null cases
                     let timeStamp = NSDate().timeIntervalSince1970
-                    let channelDictionary = ["\(timeStamp)" : ["name" : "general", "desc" : "General purpose channel"]]
+                    let channelDictionary = ["\(timeStamp)" : ["name" : "general", "desc" : "General purpose channel", "participants" : [Blockstack.shared.loadUserData()?.username]]]
                     let messageJSONText = Helper.serializeJSON(messageDictionary: channelDictionary)
-                    Blockstack.shared.putFile(to: "channelTest7", content: messageJSONText, encrypt: false) { (publicURL, error) in
+                    Blockstack.shared.putFile(to: CHANNEL_FILE, content: messageJSONText, encrypt: false) { (publicURL, error) in
                         if error != nil {
                             print("put file error")
                         } else {
                             print("put file success \(publicURL!)")
                             var channel = Channel()
                             channel.channelTitle = "general"
+                            channel.channelDescription = "General purpose channel"
+                            channel.id = "\(timeStamp)"
                             self.channels.append(channel)
                             DispatchQueue.main.async{
                                 completion(true)

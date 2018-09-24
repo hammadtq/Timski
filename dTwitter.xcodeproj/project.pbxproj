@@ -12,6 +12,7 @@
 		A3023817214E7A49004DBE52 /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3023816214E7A49004DBE52 /* ChannelViewController.swift */; };
 		A3023819214EA1F5004DBE52 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3023818214EA1F5004DBE52 /* GradientView.swift */; };
 		A3036DF121303ED000499619 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3036DF021303ED000499619 /* ChatViewController.swift */; };
+		A30E4C3C2159686600B37AD5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30E4C3B2159686600B37AD5 /* Constants.swift */; };
 		A310197B215546DC002965B2 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197A215546DC002965B2 /* Channel.swift */; };
 		A310197D215548DC002965B2 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197C215548DC002965B2 /* ChannelCell.swift */; };
 		A310197F215550D6002965B2 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197E215550D6002965B2 /* Helper.swift */; };
@@ -48,6 +49,7 @@
 		A3023816214E7A49004DBE52 /* ChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
 		A3023818214EA1F5004DBE52 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		A3036DF021303ED000499619 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		A30E4C3B2159686600B37AD5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A310197A215546DC002965B2 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		A310197C215548DC002965B2 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		A310197E215550D6002965B2 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 		A3001F33213FDA73006FAF10 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				A30E4C3B2159686600B37AD5 /* Constants.swift */,
 				A3023813214E7139004DBE52 /* SWRevealViewController.h */,
 				A3023814214E7139004DBE52 /* SWRevealViewController.m */,
 				A3023812214E7138004DBE52 /* dTwitter-Bridging-Header.h */,
@@ -356,6 +359,7 @@
 				A33F0ED62157B31F00C1C95B /* AddParticipantsViewController.swift in Sources */,
 				A35AB81C213E92ED002A592D /* MessageModel.swift in Sources */,
 				A3023817214E7A49004DBE52 /* ChannelViewController.swift in Sources */,
+				A30E4C3C2159686600B37AD5 /* Constants.swift in Sources */,
 				A35AB81A213E92DC002A592D /* TableViewCell.swift in Sources */,
 				A3023815214E7139004DBE52 /* SWRevealViewController.m in Sources */,
 				A3FDBEE52132BD3B009D4CEF /* CustomMessageCell.swift in Sources */,
