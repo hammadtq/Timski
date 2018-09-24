@@ -17,11 +17,13 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     var messageArray : [MessageModel] = [MessageModel]()
     let remoteUsername : String = "tayyabejaz.id.blockstack"
     let localUsername : String = "hammadtariq.id"
+    var channelFileName : String = ""
 //    let remoteUsername : String = "hammadtariq.id"
 //    let localUsername : String = "tayyabejaz.id.blockstack"
     var timer = Timer()
     var remoteUserLastChatStringCount = 0
    
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet weak var sendButton: UIButton!
@@ -30,6 +32,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var menuButton: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.bindToKeyboard()
         self.navigationController?.setNavigationBarBorderColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
         self.bottomView.layer.borderWidth = 1
         self.bottomView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
@@ -52,7 +55,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         let addButton = UIButton(type: .custom)
         addButton.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        addButton.frame = CGRect(x: 0.0, y: 0.0, width: 35.0, height: 35.0)
+        addButton.frame = CGRect(x: 0.0, y: 0.0, width: 44.0, height: 44.0)
         addButton.tintColor = UIColor.darkGray
         addButton.addTarget(self, action: #selector(addParticipantsOpen), for: .touchUpInside)
         let addButtonItem = UIBarButtonItem(customView: addButton)
@@ -68,6 +71,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         messageTableView.re.scrollViewDidReachBottom = { scrollView in
             print("scrollViewDidReachBottom")
         }
+        
+        //Add notification listener for channel selection
+        NotificationCenter.default.addObserver(self, selector: #selector(channelSelected(_:)), name:NSNotification.Name(rawValue: "channelSelected"), object: nil)
         
         //messageTableView.delegate = self
         messageTableView.re.dataSource = self
@@ -89,6 +95,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         readChannels()
     }
     
+    @objc func channelSelected(_ notif: Notification) {
+        updateWithChannel()
+    }
+    
     func readChannels(){
         SVProgressHUD.show()
         MessageService.instance.findAllChannel { (success) in
@@ -104,8 +114,11 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func updateWithChannel() {
+        messageArray.removeAll()
+        tableView.reloadData()
         let channelName = MessageService.instance.selectedChannel?.channelTitle ?? ""
         self.title = "#\(channelName)"
+        self.channelFileName = (MessageService.instance.selectedChannel?.id)! + channelName
         retrieveMessages(completeFunc: readMessages)
     }
 
@@ -147,22 +160,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     //MARK:- TextField Delegate Methods
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        UIView.animate(withDuration: 0.3) {
-            self.heightConstraint.constant = 308
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        UIView.animate(withDuration: 0.2) {
-            self.heightConstraint.constant = 50
-            self.view.layoutIfNeeded()
-        }
-    }
-    
     @IBAction func sendPressed(_ sender: Any) {
         
         messageTextField.endEditing(true)
@@ -180,7 +177,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     //MARK:- Blockstack Functions
     func readMessages(json : JSON){
-        //print("Messages are \(json)")
+        print("Messages are \(json)")
         let sortedResults = json.sorted { $0 < $1 }
         //print(sortedResults)
         messageArray.removeAll()
@@ -228,7 +225,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         let messageJSONText = Helper.serializeJSON(messageDictionary: messageDictionary!)
 
-        Blockstack.shared.putFile(to: "dStackFile", content: messageJSONText) { (publicURL, error) in
+        Blockstack.shared.putFile(to: channelFileName, content: messageJSONText) { (publicURL, error) in
             if error != nil {
                 print("put file error")
             } else {
@@ -260,7 +257,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         // Read data from Gaia
-        Blockstack.shared.getFile(at: "dStackFile", username: remoteUsername) { response, error in
+        Blockstack.shared.getFile(at: channelFileName, username: remoteUsername) { response, error in
             if error != nil {
                 print("get file error")
             } else {
@@ -279,7 +276,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         dispatchGroup.enter()
         // Read data from Gaia'
-        Blockstack.shared.getFile(at: "dStackFile") { response, error in
+        Blockstack.shared.getFile(at: channelFileName) { response, error in
             if error != nil {
                 print("get file error")
             } else {
@@ -299,7 +296,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             print("Both functions complete 👍")
             print(localJson)
             print(remoteJson)
-            var combinedMessages : JSON = ""
+            var combinedMessages : JSON = localJson
             if(localJson != JSON.null && remoteJson != JSON.null){
                 let combinedDict = localJson.dictionaryObject?.merging(remoteJson.dictionaryObject!) { $1 }
                 combinedMessages = JSON(combinedDict as Any)
@@ -311,7 +308,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     @objc func updateRemoteUserChat(){
         print("counting..")
-        Blockstack.shared.getFile(at: "dStackFile", username: remoteUsername) { response, error in
+        Blockstack.shared.getFile(at: channelFileName, username: remoteUsername) { response, error in
             if error != nil {
                 print("get file error")
             } else {

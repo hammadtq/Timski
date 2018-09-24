@@ -70,5 +70,19 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
         return MessageService.instance.channels.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let channel = MessageService.instance.channels[indexPath.row]
+        MessageService.instance.selectedChannel = channel
+        
+//        if MessageService.instance.unreadChannels.count > 0 {
+//            MessageService.instance.unreadChannels = MessageService.instance.unreadChannels.filter{$0 != channel.id}
+//        }
+        let index = IndexPath(row: indexPath.row, section: 0)
+        tableView.reloadRows(at: [index], with: .none)
+        tableView.selectRow(at: index, animated: false, scrollPosition: .none)
+        
+        NotificationCenter.default.post(name: Notification.Name("channelSelected"), object: nil)
+        self.revealViewController().revealToggle(animated: true)
+    }
     
 }

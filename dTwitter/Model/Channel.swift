@@ -1,13 +1,15 @@
 //
 //  Channel.swift
-//  Smack
+//  dTwitter
 //
-//  Created by Jonny B on 7/18/17.
-//  Copyright © 2017 Jonny B. All rights reserved.
+//  Created by Hammad Tariq on 9/23/18.
+//  Copyright © 2017 Hammad Tariq. All rights reserved.
 //
 
 import Foundation
 
 struct Channel : Decodable {
     var channelTitle: String!
+    var channelDescription: String!
+    var id: String!
 }

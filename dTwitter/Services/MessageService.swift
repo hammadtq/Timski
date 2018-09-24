@@ -15,6 +15,7 @@ class MessageService {
     static let instance = MessageService()
     
     var channels = [Channel]()
+    var unreadChannels = [String]()
     var selectedChannel : Channel?
     
     func findAllChannel(completion: @escaping (_ Success: Bool) -> ()) {
@@ -53,6 +54,8 @@ class MessageService {
                         print(item.1)
                         var channel = Channel()
                         channel.channelTitle = item.1["name"].stringValue
+                        channel.channelDescription = item.1["desc"].stringValue
+                        channel.id = item.0
                         self.channels.append(channel)
                     }
                     DispatchQueue.main.async{
