@@ -51,6 +51,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         notificationBtn.setImage(UIImage(named: "notification")?.withRenderingMode(.alwaysTemplate), for: .normal)
         notificationBtn.badgeEdgeInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 15)
         notificationBtn.tintColor = UIColor.darkGray
+        notificationBtn.addTarget(self, action: #selector(navigateToNotifications), for: .touchUpInside)
         
         
         let addButton = UIButton(type: .custom)
@@ -386,6 +387,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    @objc func navigateToNotifications(){
+        performSegue(withIdentifier: "goToNotifications", sender: self)
+    }
     
     
 }
