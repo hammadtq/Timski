@@ -11,6 +11,7 @@ import Blockstack
 import SwiftyJSON
 import ReverseExtension
 import SVProgressHUD
+import Alamofire
 
 class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
@@ -22,6 +23,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
 //    let localUsername : String = "tayyabejaz.id.blockstack"
     var timer = Timer()
     var remoteUserLastChatStringCount = 0
+    let notificationBtn = SSBadgeButton()
    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomView: UIView!
@@ -45,11 +47,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
         
         //Set Notification and add buttons
-        let notificationBtn = SSBadgeButton()
         notificationBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         notificationBtn.setImage(UIImage(named: "notification")?.withRenderingMode(.alwaysTemplate), for: .normal)
         notificationBtn.badgeEdgeInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 15)
-        notificationBtn.badge = "4"
         notificationBtn.tintColor = UIColor.darkGray
         
         
@@ -290,8 +290,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             }
             dispatchGroup.leave()
         }
-        
-        dispatchGroup.wait()
+
         dispatchGroup.notify(queue: .main) {
             print("Both functions complete 👍")
             print(localJson)
@@ -307,6 +306,12 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @objc func updateRemoteUserChat(){
+        //TEMPORARY IMPLEMENTATION OF NOTIFICATION SERVICE
+        DispatchQueue.global(qos: .background).async {
+            DispatchQueue.main.async {
+                self.checkNotifications()
+            }
+        }
         print("counting..")
         Blockstack.shared.getFile(at: channelFileName, username: remoteUsername) { response, error in
             if error != nil {
@@ -349,9 +354,39 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             timer.invalidate()
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
+    func checkNotifications(){
+        // Read invitations from api
+        let url = "https://api.iologics.co.uk/timski/index.php"
+        let localUser = Blockstack.shared.loadUserData()?.username ?? "localUser"
+        let newVar = "cryptgraphy makes the \(localUser) rock!".sha256()
+        let parameters: [String: Any] = [
+            "localUser" : "\(localUser)",
+            "uuid" : newVar,
+            "check_invitations" : 1
+        ]
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseJSON { response in
+                if response.result.isSuccess {
+                    let resultJSON : JSON = JSON(response.result.value!)
+                    print("resultingJSON is")
+                    print(resultJSON)
+                    if resultJSON["result"] != "error"{
+                        SVProgressHUD.dismiss()
+                        DispatchQueue.main.async {
+                            self.notificationBtn.badge = resultJSON["result"].stringValue
+                        }
+                        
+                    }else{
+                        print("error")
+                    }
+                    
+                } else {
+                    print("Error: \(String(describing: response.result.error))")
+                }
+        }
     }
+    
+    
     
 }
 extension ViewController: UITableViewDelegate {

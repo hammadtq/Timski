@@ -42,6 +42,7 @@ class MessageService {
                             channel.channelTitle = "general"
                             channel.channelDescription = "General purpose channel"
                             channel.id = "\(timeStamp)"
+                            channel.participants = ["participants" : [Blockstack.shared.loadUserData()?.username]]
                             self.channels.append(channel)
                             DispatchQueue.main.async{
                                 completion(true)
@@ -58,6 +59,7 @@ class MessageService {
                         channel.channelTitle = item.1["name"].stringValue
                         channel.channelDescription = item.1["desc"].stringValue
                         channel.id = item.0
+                        channel.participants = item.1["participants"]
                         self.channels.append(channel)
                     }
                     DispatchQueue.main.async{

@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct Channel : Decodable {
     var channelTitle: String!
     var channelDescription: String!
     var id: String!
+    var participants : JSON!
 }
