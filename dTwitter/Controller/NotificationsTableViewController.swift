@@ -51,6 +51,7 @@ class NotificationsTableViewController: UITableViewController {
                                 notificationModel.remoteChannel = result["channelID"].stringValue
                                 self.notificationArray.append(notificationModel)
                             }
+                            self.tableView.reloadData()
                         }
                         
                     }else{
@@ -68,21 +69,35 @@ class NotificationsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return notificationArray.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell", for: indexPath) as? NotificationCell {
 
-        cell.text = notificationArray[indexPath.row].remoteUser
-
-        return cell
+            if !notificationArray.isEmpty{
+                
+                cell.notificationText.text = "\(notificationArray[indexPath.row].remoteUser) wants you to join \(notificationArray[indexPath.row].remoteChannel)"
+                let time = Double(notificationArray[indexPath.row].notificationTime)
+                let dateFormatter = DateFormatter()
+                let date = Date(timeIntervalSince1970: time!)
+                dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
+                let strDate = dateFormatter.string(from: date)
+                cell.notificationTime.text = strDate
+                
+            }else{
+                cell.textLabel?.text = "You don't have any notifications"
+            }
+            return cell
+        }else {
+            return UITableViewCell()
+        }
     }
     
 

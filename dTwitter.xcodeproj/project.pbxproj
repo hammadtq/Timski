@@ -17,6 +17,8 @@
 		A310197D215548DC002965B2 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197C215548DC002965B2 /* ChannelCell.swift */; };
 		A310197F215550D6002965B2 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197E215550D6002965B2 /* Helper.swift */; };
 		A310198221555B0D002965B2 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310198121555B0D002965B2 /* MessageService.swift */; };
+		A3159E63215CE90000D7992C /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3159E62215CE90000D7992C /* NotificationCell.swift */; };
+		A3159E65215D325800D7992C /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3159E64215D325800D7992C /* SwipeTableViewController.swift */; };
 		A321D0F1215BEBEC004A76D2 /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A321D0F0215BEBEC004A76D2 /* NotificationsTableViewController.swift */; };
 		A321D0F3215BF36E004A76D2 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A321D0F2215BF36D004A76D2 /* NotificationModel.swift */; };
 		A32740222154EC1B0003C24C /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740202154EC1B0003C24C /* AddChannelViewController.swift */; };
@@ -56,6 +58,8 @@
 		A310197C215548DC002965B2 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		A310197E215550D6002965B2 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		A310198121555B0D002965B2 /* MessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
+		A3159E62215CE90000D7992C /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		A3159E64215D325800D7992C /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
 		A321D0F0215BEBEC004A76D2 /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationsTableViewController.swift; path = dTwitter/Controller/NotificationsTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		A321D0F2215BF36D004A76D2 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		A32740202154EC1B0003C24C /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 				A33F0ED42157B31F00C1C95B /* AddParticipantsViewController.swift */,
 				A33F0EDC2157D00F00C1C95B /* UserProfileViewController.swift */,
 				A321D0F0215BEBEC004A76D2 /* NotificationsTableViewController.swift */,
+				A3159E64215D325800D7992C /* SwipeTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 				A35AB817213E91EC002A592D /* TableViewCell.xib */,
 				A3FDBEE22132BD1E009D4CEF /* MessageCell.xib */,
 				A310197C215548DC002965B2 /* ChannelCell.swift */,
+				A3159E62215CE90000D7992C /* NotificationCell.swift */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -370,6 +376,7 @@
 				A30E4C3C2159686600B37AD5 /* Constants.swift in Sources */,
 				A35AB81A213E92DC002A592D /* TableViewCell.swift in Sources */,
 				A3023815214E7139004DBE52 /* SWRevealViewController.m in Sources */,
+				A3159E63215CE90000D7992C /* NotificationCell.swift in Sources */,
 				A3FDBEE52132BD3B009D4CEF /* CustomMessageCell.swift in Sources */,
 				A33F0EDD2157D00F00C1C95B /* UserProfileViewController.swift in Sources */,
 				A3036DF121303ED000499619 /* ChatViewController.swift in Sources */,
@@ -377,6 +384,7 @@
 				A3001F35213FDA9B006FAF10 /* LetterImageGenerator.swift in Sources */,
 				A32740262154F2340003C24C /* RoundedButton.swift in Sources */,
 				A310197D215548DC002965B2 /* ChannelCell.swift in Sources */,
+				A3159E65215D325800D7992C /* SwipeTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
