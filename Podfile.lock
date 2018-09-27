@@ -6,6 +6,7 @@ PODS:
   - ReverseExtension (0.5.0)
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (4.1.0)
+  - SwipeCellKit (2.4.3)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -13,6 +14,7 @@ DEPENDENCIES:
   - ReverseExtension
   - SVProgressHUD
   - SwiftyJSON (~> 4.0)
+  - SwipeCellKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -21,6 +23,7 @@ SPEC REPOS:
     - ReverseExtension
     - SVProgressHUD
     - SwiftyJSON
+    - SwipeCellKit
 
 EXTERNAL SOURCES:
   Blockstack:
@@ -39,7 +42,8 @@ SPEC CHECKSUMS:
   ReverseExtension: 21c8dd4e767f93b56fb97d873686d24160f83945
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
 
-PODFILE CHECKSUM: 0935758acfa1c263d297f767ebb9402db8201ce5
+PODFILE CHECKSUM: c77dd0020957d13853f94c1f578f6db7b9aa3e73
 
 COCOAPODS: 1.5.3

@@ -16,7 +16,7 @@ import Alamofire
 class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
     var messageArray : [MessageModel] = [MessageModel]()
-    let remoteUsername : String = "tayyabejaz.id.blockstack"
+    let remoteUsername : String = "muneeb.id"
     let localUsername : String = "hammadtariq.id"
     var channelFileName : String = ""
 //    let remoteUsername : String = "hammadtariq.id"
@@ -297,7 +297,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             print(localJson)
             print(remoteJson)
             var combinedMessages : JSON = localJson
-            if(localJson != JSON.null && remoteJson != JSON.null){
+            if(localJson != JSON.null && localJson != "" && remoteJson != JSON.null && remoteJson != ""){
                 let combinedDict = localJson.dictionaryObject?.merging(remoteJson.dictionaryObject!) { $1 }
                 combinedMessages = JSON(combinedDict as Any)
             }

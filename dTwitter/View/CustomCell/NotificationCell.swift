@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class NotificationCell: UITableViewCell {
+class NotificationCell: SwipeTableViewCell {
 
     @IBOutlet weak var notificationText: UILabel!
     @IBOutlet weak var notificationTime: UILabel!
