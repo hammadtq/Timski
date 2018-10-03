@@ -19,7 +19,7 @@ class AddParticipantsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        blockstackUserID.becomeFirstResponder()
     }
 
     
@@ -43,11 +43,14 @@ class AddParticipantsViewController: UIViewController {
             } else {
                 let url = "https://api.iologics.co.uk/timski/index.php"
                 let channelID = MessageService.instance.selectedChannel?.id
-                let newVar = "cryptgraphy makes the \(channelID!) rock!".sha256()
+                let channelTitle = MessageService.instance.selectedChannel?.channelTitle
+                let localUser = Blockstack.shared.loadUserData()?.username
+                let newVar = "cryptgraphy makes the \(localUser!) rock!".sha256()
                 let parameters: [String: Any] = [
-                    "localUser" : "\(Blockstack.shared.loadUserData()?.username ?? "localUser")",
+                    "localUser" : "\( localUser ?? "localUser")",
                     "remoteUser" : userID,
                     "channelID" : channelID!,
+                    "channelTitle" : channelTitle!,
                     "uuid" : newVar,
                     "add_participant" : 1
                     ]
@@ -61,7 +64,7 @@ class AddParticipantsViewController: UIViewController {
                                 DispatchQueue.main.async {
                                     let participantName = profile?.name
                                     let selectedChannel = MessageService.instance.selectedChannel?.channelTitle
-                                    let alert = UIAlertController(title: "Invitation Success", message: "We have invited \(participantName ?? "Nameless User") to join the #\(selectedChannel ?? "") channel", preferredStyle: UIAlertControllerStyle.alert)
+                                    let alert = UIAlertController(title: "Invitation Success", message: "\(participantName ?? "Nameless User") has been invited to join #\(selectedChannel ?? "")", preferredStyle: UIAlertControllerStyle.alert)
                                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { action in
                                         switch action.style{
                                         case .default:
@@ -77,6 +80,29 @@ class AddParticipantsViewController: UIViewController {
                                         }}))
                                     self.present(alert, animated: true, completion: nil)
 
+                                }
+                                
+                            }else if resultJSON["result"] == "duplicate"{
+                                SVProgressHUD.dismiss()
+                                DispatchQueue.main.async {
+                                    let participantName = profile?.name
+                                    let selectedChannel = MessageService.instance.selectedChannel?.channelTitle
+                                    let alert = UIAlertController(title: "Duplicate Invitation", message: "\(participantName ?? "Nameless User") has already been requested to join #\(selectedChannel ?? "")", preferredStyle: UIAlertControllerStyle.alert)
+                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { action in
+                                        switch action.style{
+                                        case .default:
+                                            self.dismiss(animated: true, completion: nil)
+                                            
+                                        case .cancel:
+                                            print("cancel")
+                                            
+                                        case .destructive:
+                                            print("destructive")
+                                            
+                                            
+                                        }}))
+                                    self.present(alert, animated: true, completion: nil)
+                                    
                                 }
                                 
                             }else{
