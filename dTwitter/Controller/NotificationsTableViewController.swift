@@ -44,12 +44,15 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                         DispatchQueue.main.async {
                             
                             let resultArray = resultJSON["result"].arrayValue
-                            print(resultArray[1]["remoteUser"])
-                            let notificationModel = NotificationModel()
+                            print(resultArray)
+                            
                             for result in resultArray{
-                                notificationModel.remoteUser = result["remoteUser"].stringValue
+                                let notificationModel = NotificationModel()
+                                notificationModel.remoteUser = result["localUser"].stringValue
                                 notificationModel.notificationTime = result["timestamp"].stringValue
                                 notificationModel.remoteChannel = result["channelID"].stringValue
+                                notificationModel.remoteChannelTitle = result["channelTitle"].stringValue
+                                notificationModel.notificationID = result["id"].stringValue
                                 self.notificationArray.append(notificationModel)
                             }
                             self.tableView.reloadData()
@@ -84,7 +87,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
             cell.delegate = self
             if !notificationArray.isEmpty{
                 
-                cell.notificationText.text = "\(notificationArray[indexPath.row].remoteUser) wants you to join \(notificationArray[indexPath.row].remoteChannel)"
+                cell.notificationText.text = "\(notificationArray[indexPath.row].remoteUser) wants you to join #\(notificationArray[indexPath.row].remoteChannelTitle)"
                 let time = Double(notificationArray[indexPath.row].notificationTime)
                 let dateFormatter = DateFormatter()
                 let date = Date(timeIntervalSince1970: time!)
@@ -104,13 +107,13 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
         
-        let deleteAction = SwipeAction(style: .default, title: "Reject") { action, indexPath in
+        let rejectAction = SwipeAction(style: .default, title: "Reject") { action, indexPath in
             // handle action by updating model with deletion
-            //self.updateModel(at: indexPath)
+            self.rejectRequest(at: indexPath)
         }
         
         // customize the action appearance
-        deleteAction.image = UIImage(named: "delete")
+        rejectAction.image = UIImage(named: "delete")
         
         let approveAction = SwipeAction(style: .default, title: "Approve") { action, indexPath in
             // handle action by updating model with deletion
@@ -122,7 +125,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
         // customize the action appearance
         approveAction.image = UIImage(named: "checked")
         
-        return [approveAction,deleteAction]
+        return [approveAction,rejectAction]
     }
     
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
@@ -132,6 +135,9 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
         return options
     }
     
+    func rejectRequest(at indexPath: IndexPath){
+       print(notificationArray[indexPath.row].notificationID)
+    }
 
 
 

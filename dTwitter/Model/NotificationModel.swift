@@ -11,5 +11,7 @@ import Foundation
 class NotificationModel {
     var remoteUser: String = ""
     var remoteChannel: String = ""
+    var remoteChannelTitle: String = ""
     var notificationTime: String = ""
+    var notificationID: String = ""
 }

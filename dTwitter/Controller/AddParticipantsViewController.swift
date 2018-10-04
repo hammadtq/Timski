@@ -118,29 +118,6 @@ class AddParticipantsViewController: UIViewController {
                             print("Error: \(String(describing: response.result.error))")
                         }
                 }
-//                DispatchQueue.main.async {
-//                    //var participants = MessageService.instance.selectedChannel?.participants.arrayValue as Array!
-//                    //print(participants)
-//                    //participants?.append(JSON(userID))
-//                    //print(participants)
-//                    SVProgressHUD.dismiss()
-//                    let participantName = profile?.name
-//                    let alert = UIAlertController(title: "Confirmation", message: "\(participantName ?? "Nameless User") has been added to the channel", preferredStyle: UIAlertControllerStyle.alert)
-//                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { action in
-//                        switch action.style{
-//                        case .default:
-//                            self.dismiss(animated: true, completion: nil)
-//
-//                        case .cancel:
-//                            print("cancel")
-//
-//                        case .destructive:
-//                            print("destructive")
-//
-//
-//                        }}))
-//                    self.present(alert, animated: true, completion: nil)
-//                }
             }
         }
     }
