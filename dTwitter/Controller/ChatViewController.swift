@@ -369,8 +369,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             .responseJSON { response in
                 if response.result.isSuccess {
                     let resultJSON : JSON = JSON(response.result.value!)
-                    print("resultingJSON is")
-                    print(resultJSON)
                     if resultJSON["result"] != "error"{
                         SVProgressHUD.dismiss()
                         DispatchQueue.main.async {
@@ -379,6 +377,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                         
                     }else{
                         print("error")
+                        self.notificationBtn.badge = nil
                     }
                     
                 } else {

@@ -14,7 +14,8 @@ import SVProgressHUD
 import SwipeCellKit
 
 class NotificationsTableViewController: UITableViewController, SwipeTableViewCellDelegate {
-
+    @IBOutlet var noNotificationsView: UIView!
+    
     var notificationArray : [NotificationModel] = [NotificationModel]()
     
     override func viewDidLoad() {
@@ -60,6 +61,10 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                         
                     }else{
                         print("error")
+                        DispatchQueue.main.async {
+                            SVProgressHUD.dismiss()
+                            self.tableView.backgroundView = self.noNotificationsView
+                        }
                     }
                     
                 } else {
@@ -95,8 +100,6 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                 let strDate = dateFormatter.string(from: date)
                 cell.notificationTime.text = strDate
                 
-            }else{
-                cell.textLabel?.text = "You don't have any notifications"
             }
             return cell
         }else {
@@ -117,7 +120,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
         
         let approveAction = SwipeAction(style: .default, title: "Approve") { action, indexPath in
             // handle action by updating model with deletion
-            //self.updateModel(at: indexPath)
+            self.acceptRequest(at: indexPath)
         }
         approveAction.backgroundColor = UIColor.white
         approveAction.textColor = UIColor.black
@@ -135,10 +138,69 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
         return options
     }
     
+    func acceptRequest(at indexPath: IndexPath){
+        print(notificationArray[indexPath.row].notificationID)
+        
+        
+        
+        Blockstack.shared.lookupProfile(username: "hammadtariq.id") { (profile, error) in
+            if error != nil {
+                print("get file error")
+                SVProgressHUD.dismiss()
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Error", message: "Could not find a Blockstack user with given ID", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }else{
+                //print(profile?.apps)
+                let baseUrl = profile?.apps!["https://innermatrix.co/:8080"]
+                print(baseUrl)
+            }
+        }
+    }
+    
     func rejectRequest(at indexPath: IndexPath){
-       print(notificationArray[indexPath.row].notificationID)
+        let url = "https://api.iologics.co.uk/timski/index.php"
+        let localUser = Blockstack.shared.loadUserData()?.username
+        let newVar = "cryptgraphy makes the \(localUser!) rock!".sha256()
+        let parameters: [String: Any] = [
+            "localUser" : "\( localUser ?? "localUser")",
+            "notificationID" : notificationArray[indexPath.row].notificationID,
+            "uuid" : newVar,
+            "delete_Invitation": 1
+        ]
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseJSON { response in
+                if response.result.isSuccess {
+                    let resultJSON : JSON = JSON(response.result.value!)
+                    print(resultJSON)
+                    if resultJSON["result"] == "success"{
+                        SVProgressHUD.dismiss()
+                        DispatchQueue.main.async {
+                            self.notificationArray.remove(at: indexPath.row)
+                            self.reloadData()
+                        }
+                    }else{
+                        print("error")
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: "Error", message: "Could not delete the invitation", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                            self.present(alert, animated: true)
+                        }
+                    }
+                }
+        }
     }
 
+    func reloadData(){
+        if notificationArray.isEmpty{
+            tableView.backgroundView = noNotificationsView
+            tableView.reloadData()
+        }else{
+            tableView.reloadData()
+        }
+    }
 
 
 }

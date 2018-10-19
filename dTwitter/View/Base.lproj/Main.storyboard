@@ -211,8 +211,26 @@
                             <outlet property="delegate" destination="Zut-Ju-Vv5" id="Iqk-BT-v1b"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="noNotificationsView" destination="a4O-ha-HWW" id="EGi-iw-7na"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IjE-Bx-0ed" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="a4O-ha-HWW">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="277"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="You don't have any invitations" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tuD-U4-p1e">
+                            <rect key="frame" x="16" y="114" width="343" height="68"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <viewLayoutGuide key="safeArea" id="ae9-KI-Ve5"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="6052" y="34.632683658170919"/>
         </scene>
