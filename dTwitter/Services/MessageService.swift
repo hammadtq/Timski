@@ -25,7 +25,7 @@ class MessageService {
                 print("get file error")
                 completion(false)
             } else {
-                print("get file success")
+                print("got channel list")
                 print(response as Any)
                 let convertJSON = JSON.init(parseJSON: (response as? String)!)
                 if convertJSON.isEmpty {
@@ -54,7 +54,7 @@ class MessageService {
                     self.channels.removeAll()
                     let sortedResults = convertJSON.sorted { $0 < $1 }
                     for item in sortedResults {
-                        print(item.1)
+                        print(item)
                         var channel = Channel()
                         channel.channelTitle = item.1["name"].stringValue
                         channel.channelDescription = item.1["desc"].stringValue

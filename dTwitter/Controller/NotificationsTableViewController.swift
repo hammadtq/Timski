@@ -141,21 +141,46 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
     func acceptRequest(at indexPath: IndexPath){
         print(notificationArray[indexPath.row].notificationID)
         
-        
-        
-        Blockstack.shared.lookupProfile(username: "hammadtariq.id") { (profile, error) in
+        Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
             if error != nil {
                 print("get file error")
-                SVProgressHUD.dismiss()
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Error", message: "Could not find a Blockstack user with given ID", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+            } else {
+                let json = JSON.init(parseJSON: (response as? String)!)
+                var channelDictionary = json.dictionaryObject
+                
+                //check if foreignChannels object exists otherwise make one
+                if var foreignChannels = channelDictionary!["foreignChannels"] as? Dictionary<String, AnyObject> {
+                    
+                    //create a new channel and insert it in older foreign channles
+                    let newChannel =  ["channelOwner" : self.notificationArray[indexPath.row].remoteUser, "channelTitle": self.notificationArray[indexPath.row].remoteChannelTitle]
+                    
+                    foreignChannels[self.notificationArray[indexPath.row].remoteChannel] = newChannel as AnyObject
+                    channelDictionary?.updateValue(foreignChannels, forKey: "foreignChannels")
+                 
+                }else{
+                    let newChannel =  [self.notificationArray[indexPath.row].remoteChannel : ["channelOwner" : self.notificationArray[indexPath.row].remoteUser, "channelTitle": self.notificationArray[indexPath.row].remoteChannelTitle]]
+                    channelDictionary?.updateValue(newChannel, forKey: "foreignChannels")
                 }
-            }else{
-                //print(profile?.apps)
-                let baseUrl = profile?.apps!["https://innermatrix.co/:8080"]
-                print(baseUrl)
+            
+                
+               
+                
+                let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
+                
+                Blockstack.shared.putFile(to: CHANNEL_FILE, content: channelJSONText) { (publicURL, error) in
+                    if error != nil {
+                        print("put file error")
+                    } else {
+                        print("put file success \(publicURL!)")
+                        DispatchQueue.main.async{
+                            MessageService.instance.findAllChannel(completion: { (success) in
+                                NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
+                                //self.dismiss(animated: true, completion: nil)
+                            })
+                            
+                        }
+                    }
+                }
             }
         }
     }

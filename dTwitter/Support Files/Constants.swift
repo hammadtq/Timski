@@ -8,7 +8,7 @@
 
 import Foundation
 
-let CHANNEL_FILE = "channelTest9"
+let CHANNEL_FILE = "channelTest10"
 
 
 
