@@ -31,8 +31,8 @@ class ViewController: UIViewController {
     }
     @IBAction func signIn() {
         // Address of deployed web app
-        Blockstack.shared.signIn(redirectURI: "https://innermatrix.co/redirect.html",
-                                 appDomain: URL(string: "https://innermatrix.co/:8080")!, scopes: ["store_write", "publish_data"]) { authResult in
+        Blockstack.shared.signIn(redirectURI: "https://timski.org:444/redirect.html",
+                                 appDomain: URL(string: "https://timski.org:444")!, scopes: ["store_write", "publish_data"]) { authResult in
                                     switch authResult {
                                     case .success(let userData):
                                         print("sign in success")

@@ -23,6 +23,7 @@
 		A32740222154EC1B0003C24C /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740202154EC1B0003C24C /* AddChannelViewController.swift */; };
 		A32740232154EC1B0003C24C /* AddChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A32740212154EC1B0003C24C /* AddChannelViewController.xib */; };
 		A32740262154F2340003C24C /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740252154F2340003C24C /* RoundedButton.swift */; };
+		A3394515218D4C580001009A /* NamespacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3394514218D4C580001009A /* NamespacesViewController.swift */; };
 		A33F0ED62157B31F00C1C95B /* AddParticipantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F0ED42157B31F00C1C95B /* AddParticipantsViewController.swift */; };
 		A33F0ED92157B3F800C1C95B /* AddParticipantsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F0ED82157B3F800C1C95B /* AddParticipantsViewController.xib */; };
 		A33F0EDB2157D00000C1C95B /* UserProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F0EDA2157D00000C1C95B /* UserProfileViewController.xib */; };
@@ -63,6 +64,7 @@
 		A32740202154EC1B0003C24C /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
 		A32740212154EC1B0003C24C /* AddChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddChannelViewController.xib; sourceTree = "<group>"; };
 		A32740252154F2340003C24C /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		A3394514218D4C580001009A /* NamespacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespacesViewController.swift; sourceTree = "<group>"; };
 		A33F0ED42157B31F00C1C95B /* AddParticipantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddParticipantsViewController.swift; sourceTree = "<group>"; };
 		A33F0ED82157B3F800C1C95B /* AddParticipantsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddParticipantsViewController.xib; sourceTree = "<group>"; };
 		A33F0EDA2157D00000C1C95B /* UserProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfileViewController.xib; sourceTree = "<group>"; };
@@ -72,7 +74,7 @@
 		A35AB817213E91EC002A592D /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		A35AB819213E92DB002A592D /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		A35AB81B213E92ED002A592D /* MessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
-		A3AC3628212F307B001CCAC3 /* dTwitter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dTwitter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3AC3628212F307B001CCAC3 /* Timski.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Timski.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3AC362B212F307B001CCAC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3AC362D212F307B001CCAC3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A3AC3630212F307B001CCAC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -141,7 +143,7 @@
 		A3AC3629212F307B001CCAC3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A3AC3628212F307B001CCAC3 /* dTwitter.app */,
+				A3AC3628212F307B001CCAC3 /* Timski.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -181,6 +183,7 @@
 				A3AC362D212F307B001CCAC3 /* ViewController.swift */,
 				A3036DF021303ED000499619 /* ChatViewController.swift */,
 				A3023816214E7A49004DBE52 /* ChannelViewController.swift */,
+				A3394514218D4C580001009A /* NamespacesViewController.swift */,
 				A32740202154EC1B0003C24C /* AddChannelViewController.swift */,
 				A33F0ED42157B31F00C1C95B /* AddParticipantsViewController.swift */,
 				A33F0EDC2157D00F00C1C95B /* UserProfileViewController.swift */,
@@ -232,9 +235,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A3AC3627212F307A001CCAC3 /* dTwitter */ = {
+		A3AC3627212F307A001CCAC3 /* Timski */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A3AC363A212F307C001CCAC3 /* Build configuration list for PBXNativeTarget "dTwitter" */;
+			buildConfigurationList = A3AC363A212F307C001CCAC3 /* Build configuration list for PBXNativeTarget "Timski" */;
 			buildPhases = (
 				6663FC246D7058FA14A7C7DD /* [CP] Check Pods Manifest.lock */,
 				A3AC3624212F307A001CCAC3 /* Sources */,
@@ -246,9 +249,9 @@
 			);
 			dependencies = (
 			);
-			name = dTwitter;
+			name = Timski;
 			productName = dTwitter;
-			productReference = A3AC3628212F307B001CCAC3 /* dTwitter.app */;
+			productReference = A3AC3628212F307B001CCAC3 /* Timski.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -267,7 +270,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A3AC3623212F307A001CCAC3 /* Build configuration list for PBXProject "dTwitter" */;
+			buildConfigurationList = A3AC3623212F307A001CCAC3 /* Build configuration list for PBXProject "Timski" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -280,7 +283,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A3AC3627212F307A001CCAC3 /* dTwitter */,
+				A3AC3627212F307A001CCAC3 /* Timski */,
 			);
 		};
 /* End PBXProject section */
@@ -379,6 +382,7 @@
 				A3FDBEE52132BD3B009D4CEF /* CustomMessageCell.swift in Sources */,
 				A33F0EDD2157D00F00C1C95B /* UserProfileViewController.swift in Sources */,
 				A3036DF121303ED000499619 /* ChatViewController.swift in Sources */,
+				A3394515218D4C580001009A /* NamespacesViewController.swift in Sources */,
 				A32740222154EC1B0003C24C /* AddChannelViewController.swift in Sources */,
 				A3001F35213FDA9B006FAF10 /* LetterImageGenerator.swift in Sources */,
 				A32740262154F2340003C24C /* RoundedButton.swift in Sources */,
@@ -536,7 +540,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.iologics.dTwitter;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.iologics.timski;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "dTwitter/Support Files/dTwitter-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -559,7 +563,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.iologics.dTwitter;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.iologics.timski;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "dTwitter/Support Files/dTwitter-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -570,7 +574,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A3AC3623212F307A001CCAC3 /* Build configuration list for PBXProject "dTwitter" */ = {
+		A3AC3623212F307A001CCAC3 /* Build configuration list for PBXProject "Timski" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3AC3638212F307C001CCAC3 /* Debug */,
@@ -579,7 +583,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A3AC363A212F307C001CCAC3 /* Build configuration list for PBXNativeTarget "dTwitter" */ = {
+		A3AC363A212F307C001CCAC3 /* Build configuration list for PBXNativeTarget "Timski" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3AC363B212F307C001CCAC3 /* Debug */,

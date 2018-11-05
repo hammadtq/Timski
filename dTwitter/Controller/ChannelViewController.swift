@@ -31,6 +31,11 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(ChannelViewController.reloadData), name:NSNotification.Name(rawValue: "channelDataUpdated"), object: nil)
     }
+    @IBAction func namespacePressed(_ sender: Any) {
+        //performSegue(withIdentifier: "sw_rear_namespaces", sender: self)
+        let replacement = self.storyboard?.instantiateViewController(withIdentifier: "namespacesVCID")
+        self.revealViewController().setRear(replacement, animated: true)
+    }
     
     @objc func reloadData(){
         tableView.reloadData()
