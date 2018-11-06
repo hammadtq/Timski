@@ -17,7 +17,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     var messageArray : [MessageModel] = [MessageModel]()
     let remoteUsername : String = "muneeb.id"
-    let localUsername : String = "hammadtariq.id"
+    let localUsername : String = (Blockstack.shared.loadUserData()?.username)!
     var channelFileName : String = ""
 //    let remoteUsername : String = "hammadtariq.id"
 //    let localUsername : String = "tayyabejaz.id.blockstack"
@@ -167,8 +167,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func sendPressed(_ sender: Any) {
         
         messageTextField.endEditing(true)
-
-        retrieveMessages(completeFunc: combineMessages)
+        
+        if (messageTextField.text != "") {
+            retrieveMessages(completeFunc: combineMessages)
+        }
     }
     
     func updateRowsInTable(){
@@ -228,7 +230,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         }
         
         let messageJSONText = Helper.serializeJSON(messageDictionary: messageDictionary!)
-
+        
         Blockstack.shared.putFile(to: channelFileName, content: messageJSONText) { (publicURL, error) in
             if error != nil {
                 print("put file error")
