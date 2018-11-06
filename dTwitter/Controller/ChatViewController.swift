@@ -105,6 +105,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         MessageService.instance.findAllChannel { (success) in
             if success {
                 if MessageService.instance.channels.count > 0 {
+                    MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
                     MessageService.instance.selectedChannel = MessageService.instance.channels[0]
                     self.updateWithChannel()
                 } else {
@@ -115,11 +116,13 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func updateWithChannel() {
+        print("update with channel")
         messageArray.removeAll()
         tableView.reloadData()
         let channelName = MessageService.instance.selectedChannel?.channelTitle ?? ""
         self.title = "#\(channelName)"
         self.channelFileName = (MessageService.instance.selectedChannel?.id)! + channelName
+        print(self.channelFileName)
         retrieveMessages(completeFunc: readMessages)
     }
 

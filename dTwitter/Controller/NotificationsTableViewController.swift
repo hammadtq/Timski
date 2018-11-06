@@ -139,10 +139,11 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
     }
     
     func acceptRequest(at indexPath: IndexPath){
-        print(notificationArray[indexPath.row].notificationID)
-        
+        SVProgressHUD.show()
+    
         Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
             if error != nil {
+                SVProgressHUD.dismiss()
                 print("get file error")
             } else {
                 let json = JSON.init(parseJSON: (response as? String)!)
@@ -161,14 +162,12 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                     let newChannel =  [self.notificationArray[indexPath.row].remoteChannel : ["channelOwner" : self.notificationArray[indexPath.row].remoteUser, "channelTitle": self.notificationArray[indexPath.row].remoteChannelTitle]]
                     channelDictionary?.updateValue(newChannel, forKey: "foreignChannels")
                 }
-            
-                
-               
                 
                 let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
                 
                 Blockstack.shared.putFile(to: CHANNEL_FILE, content: channelJSONText) { (publicURL, error) in
                     if error != nil {
+                        SVProgressHUD.dismiss()
                         print("put file error")
                     } else {
                         print("put file success \(publicURL!)")
@@ -177,7 +176,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                                 NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
                                 //self.dismiss(animated: true, completion: nil)
                             })
-                            
+                            self.deleteInvitation(at: indexPath)
                         }
                     }
                 }
@@ -186,6 +185,10 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
     }
     
     func rejectRequest(at indexPath: IndexPath){
+        deleteInvitation(at: indexPath)
+    }
+
+    func deleteInvitation(at indexPath: IndexPath){
         let url = "https://api.iologics.co.uk/timski/index.php"
         let localUser = Blockstack.shared.loadUserData()?.username
         let newVar = "cryptgraphy makes the \(localUser!) rock!".sha256()
@@ -204,11 +207,14 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                         SVProgressHUD.dismiss()
                         DispatchQueue.main.async {
                             self.notificationArray.remove(at: indexPath.row)
+                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                            SVProgressHUD.dismiss()
                             self.reloadData()
                         }
                     }else{
                         print("error")
                         DispatchQueue.main.async {
+                            SVProgressHUD.dismiss()
                             let alert = UIAlertController(title: "Error", message: "Could not delete the invitation", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                             self.present(alert, animated: true)
@@ -217,7 +223,6 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                 }
         }
     }
-
     func reloadData(){
         if notificationArray.isEmpty{
             tableView.backgroundView = noNotificationsView

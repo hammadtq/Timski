@@ -14,6 +14,7 @@ class NamespacesViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UIButton!
+    var namespaceArr = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,28 +27,51 @@ class NamespacesViewController: UIViewController, UITableViewDelegate, UITableVi
         let userFullName = Blockstack.shared.loadUserData()?.profile?.name
         profileName.setTitle(userFullName, for: .normal)
         profileImage.image = LetterImageGenerator.imageWith(name: userFullName, imageBackgroundColor: "local")
+        reloadData()
     }
-
-//    @IBAction func channelsButtonPressed(_ sender: Any) {
-//        let replacement = self.storyboard?.instantiateViewController(withIdentifier: "channelsVCID")
-//        self.revealViewController().setRear(replacement, animated: true)
-//    }
+    
+    @objc func reloadData(){
+        for channel in MessageService.instance.channels{
+            namespaceArr.append(channel.namespace)
+        }
+        tableView.reloadData()
+    }
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
+    @IBAction func profileNamePressed(_ sender: Any) {
+        let profileView = UserProfileViewController()
+        profileView.modalPresentationStyle = .custom
+        present(profileView, animated: true, completion: nil)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         return 1
+         return namespaceArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "namespaceCell", for: indexPath) as? ChannelCell {
-            let channel = MessageService.instance.channels[indexPath.row]
-            cell.configureCell(channel: channel)
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "namespaceCell", for: indexPath) as? NamespaceCell {
+            let namespace = namespaceArr[indexPath.row]
+            cell.configureCell(namespace: namespace)
             return cell
         } else {
             return UITableViewCell()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let namespace = namespaceArr[indexPath.row]
+        MessageService.instance.selectedNamespace = namespace
+        
+        let index = IndexPath(row: indexPath.row, section: 0)
+        tableView.reloadRows(at: [index], with: .none)
+        tableView.selectRow(at: index, animated: false, scrollPosition: .none)
+        
+        NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
+    
+        let replacement = self.storyboard?.instantiateViewController(withIdentifier: "channelsVCID")
+        self.revealViewController().setRear(replacement, animated: true)
     }
 }

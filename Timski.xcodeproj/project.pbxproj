@@ -24,6 +24,7 @@
 		A32740232154EC1B0003C24C /* AddChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A32740212154EC1B0003C24C /* AddChannelViewController.xib */; };
 		A32740262154F2340003C24C /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740252154F2340003C24C /* RoundedButton.swift */; };
 		A3394515218D4C580001009A /* NamespacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3394514218D4C580001009A /* NamespacesViewController.swift */; };
+		A339C44221918BDA00A20734 /* NamespaceChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A339C44121918BDA00A20734 /* NamespaceChannel.swift */; };
 		A33F0ED62157B31F00C1C95B /* AddParticipantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F0ED42157B31F00C1C95B /* AddParticipantsViewController.swift */; };
 		A33F0ED92157B3F800C1C95B /* AddParticipantsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F0ED82157B3F800C1C95B /* AddParticipantsViewController.xib */; };
 		A33F0EDB2157D00000C1C95B /* UserProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F0EDA2157D00000C1C95B /* UserProfileViewController.xib */; };
@@ -65,6 +66,7 @@
 		A32740212154EC1B0003C24C /* AddChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddChannelViewController.xib; sourceTree = "<group>"; };
 		A32740252154F2340003C24C /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		A3394514218D4C580001009A /* NamespacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespacesViewController.swift; sourceTree = "<group>"; };
+		A339C44121918BDA00A20734 /* NamespaceChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamespaceChannel.swift; sourceTree = "<group>"; };
 		A33F0ED42157B31F00C1C95B /* AddParticipantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddParticipantsViewController.swift; sourceTree = "<group>"; };
 		A33F0ED82157B3F800C1C95B /* AddParticipantsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddParticipantsViewController.xib; sourceTree = "<group>"; };
 		A33F0EDA2157D00000C1C95B /* UserProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfileViewController.xib; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				A3FDBEE22132BD1E009D4CEF /* MessageCell.xib */,
 				A310197C215548DC002965B2 /* ChannelCell.swift */,
 				A3159E62215CE90000D7992C /* NotificationCell.swift */,
+				A339C44121918BDA00A20734 /* NamespaceChannel.swift */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				A3001F35213FDA9B006FAF10 /* LetterImageGenerator.swift in Sources */,
 				A32740262154F2340003C24C /* RoundedButton.swift in Sources */,
 				A310197D215548DC002965B2 /* ChannelCell.swift in Sources */,
+				A339C44221918BDA00A20734 /* NamespaceChannel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

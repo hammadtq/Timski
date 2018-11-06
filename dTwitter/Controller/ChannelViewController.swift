@@ -14,6 +14,8 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UIButton!
+    var channelArr = [Channel]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +28,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
         let userFullName = Blockstack.shared.loadUserData()?.profile?.name
         profileName.setTitle(userFullName, for: .normal)
         profileImage.image = LetterImageGenerator.imageWith(name: userFullName, imageBackgroundColor: "local")
+        reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +41,10 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @objc func reloadData(){
+        //filtering the channels that are only available in current user namespace
+        channelArr = MessageService.instance.channels.filter {
+            $0.namespace ==  MessageService.instance.selectedNamespace
+        }
         tableView.reloadData()
     }
 
@@ -59,7 +66,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath) as? ChannelCell {
-            let channel = MessageService.instance.channels[indexPath.row]
+            let channel = channelArr[indexPath.row]
             cell.configureCell(channel: channel)
             return cell
         } else {
@@ -72,11 +79,11 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MessageService.instance.channels.count
+        return channelArr.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let channel = MessageService.instance.channels[indexPath.row]
+        let channel = channelArr[indexPath.row]
         MessageService.instance.selectedChannel = channel
         
 //        if MessageService.instance.unreadChannels.count > 0 {

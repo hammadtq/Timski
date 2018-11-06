@@ -10,6 +10,7 @@ import Foundation
 import SwiftyJSON
 
 struct Channel : Decodable {
+    var namespace: String!
     var channelTitle: String!
     var channelDescription: String!
     var id: String!

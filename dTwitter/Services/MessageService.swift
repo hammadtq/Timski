@@ -17,6 +17,7 @@ class MessageService {
     var channels = [Channel]()
     var unreadChannels = [String]()
     var selectedChannel : Channel?
+    var selectedNamespace : String?
     
     func findAllChannel(completion: @escaping (_ Success: Bool) -> ()) {
         //Read channel data from Gaia
@@ -54,13 +55,30 @@ class MessageService {
                     self.channels.removeAll()
                     let sortedResults = convertJSON.sorted { $0 < $1 }
                     for item in sortedResults {
-                        print(item)
+                        //print ("printing item")
+                        //print(item)
                         var channel = Channel()
-                        channel.channelTitle = item.1["name"].stringValue
-                        channel.channelDescription = item.1["desc"].stringValue
-                        channel.id = item.0
-                        channel.participants = item.1["participants"]
-                        self.channels.append(channel)
+                        if(item.0 != "foreignChannels"){
+                            channel.namespace = Blockstack.shared.loadUserData()?.username
+                            channel.channelTitle = item.1["name"].stringValue
+                            channel.channelDescription = item.1["desc"].stringValue
+                            channel.id = item.0
+                            channel.participants = item.1["participants"]
+                            self.channels.append(channel)
+                        }else{
+                            print("foreign item")
+                            print(item.1)
+                            for item in item.1{
+                                print(item.1["channelOwner"])
+                                channel.namespace = item.1["channelOwner"].stringValue
+                                channel.channelTitle = item.1["channelTitle"].stringValue
+                                channel.channelDescription = ""
+                                channel.id = item.0
+                                channel.participants = ""
+                                self.channels.append(channel)
+                            }
+                        }
+                        
                     }
                     DispatchQueue.main.async{
                         completion(true)
