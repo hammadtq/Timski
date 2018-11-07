@@ -102,6 +102,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     func readChannels(){
         SVProgressHUD.show()
+        NotificationService.instance.retrieve_accepted_notifications()
         MessageService.instance.findAllChannel { (success) in
             if success {
                 if MessageService.instance.channels.count > 0 {
@@ -122,7 +123,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         let channelName = MessageService.instance.selectedChannel?.channelTitle ?? ""
         self.title = "#\(channelName)"
         self.channelFileName = (MessageService.instance.selectedChannel?.id)! + channelName
-        print(self.channelFileName)
         retrieveMessages(completeFunc: readMessages)
     }
 
@@ -260,6 +260,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         var localJson : JSON = ""
         var remoteJson : JSON = ""
+        var participants = MessageService.instance.selectedChannel?.participants
+        print("channel participants")
+        print(participants)
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         // Read data from Gaia

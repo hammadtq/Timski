@@ -18,6 +18,7 @@
 		A310197F215550D6002965B2 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310197E215550D6002965B2 /* Helper.swift */; };
 		A310198221555B0D002965B2 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A310198121555B0D002965B2 /* MessageService.swift */; };
 		A3159E63215CE90000D7992C /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3159E62215CE90000D7992C /* NotificationCell.swift */; };
+		A31DD60B219323EC00570C64 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31DD60A219323EC00570C64 /* NotificationService.swift */; };
 		A321D0F1215BEBEC004A76D2 /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A321D0F0215BEBEC004A76D2 /* NotificationsTableViewController.swift */; };
 		A321D0F3215BF36E004A76D2 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A321D0F2215BF36D004A76D2 /* NotificationModel.swift */; };
 		A32740222154EC1B0003C24C /* AddChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32740202154EC1B0003C24C /* AddChannelViewController.swift */; };
@@ -60,6 +61,7 @@
 		A310197E215550D6002965B2 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		A310198121555B0D002965B2 /* MessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		A3159E62215CE90000D7992C /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		A31DD60A219323EC00570C64 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		A321D0F0215BEBEC004A76D2 /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationsTableViewController.swift; path = dTwitter/Controller/NotificationsTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		A321D0F2215BF36D004A76D2 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		A32740202154EC1B0003C24C /* AddChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChannelViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				A310198121555B0D002965B2 /* MessageService.swift */,
+				A31DD60A219323EC00570C64 /* NotificationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				A3AC362E212F307B001CCAC3 /* ViewController.swift in Sources */,
 				A3AC362C212F307B001CCAC3 /* AppDelegate.swift in Sources */,
 				A321D0F3215BF36E004A76D2 /* NotificationModel.swift in Sources */,
+				A31DD60B219323EC00570C64 /* NotificationService.swift in Sources */,
 				A33F0EE12158276700C1C95B /* KeyboardBoundView.swift in Sources */,
 				A310197F215550D6002965B2 /* Helper.swift in Sources */,
 				A3023819214EA1F5004DBE52 /* GradientView.swift in Sources */,

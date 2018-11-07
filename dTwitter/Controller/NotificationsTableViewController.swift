@@ -45,7 +45,6 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                         DispatchQueue.main.async {
                             
                             let resultArray = resultJSON["result"].arrayValue
-                            print(resultArray)
                             
                             for result in resultArray{
                                 let notificationModel = NotificationModel()
@@ -140,7 +139,6 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
     
     func acceptRequest(at indexPath: IndexPath){
         SVProgressHUD.show()
-    
         Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
             if error != nil {
                 SVProgressHUD.dismiss()
@@ -148,23 +146,23 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
             } else {
                 let json = JSON.init(parseJSON: (response as? String)!)
                 var channelDictionary = json.dictionaryObject
-                
+
                 //check if foreignChannels object exists otherwise make one
                 if var foreignChannels = channelDictionary!["foreignChannels"] as? Dictionary<String, AnyObject> {
-                    
+
                     //create a new channel and insert it in older foreign channles
                     let newChannel =  ["channelOwner" : self.notificationArray[indexPath.row].remoteUser, "channelTitle": self.notificationArray[indexPath.row].remoteChannelTitle]
-                    
+
                     foreignChannels[self.notificationArray[indexPath.row].remoteChannel] = newChannel as AnyObject
                     channelDictionary?.updateValue(foreignChannels, forKey: "foreignChannels")
-                 
+
                 }else{
                     let newChannel =  [self.notificationArray[indexPath.row].remoteChannel : ["channelOwner" : self.notificationArray[indexPath.row].remoteUser, "channelTitle": self.notificationArray[indexPath.row].remoteChannelTitle]]
                     channelDictionary?.updateValue(newChannel, forKey: "foreignChannels")
                 }
-                
+
                 let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
-                
+
                 Blockstack.shared.putFile(to: CHANNEL_FILE, content: channelJSONText) { (publicURL, error) in
                     if error != nil {
                         SVProgressHUD.dismiss()
@@ -174,9 +172,8 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                         DispatchQueue.main.async{
                             MessageService.instance.findAllChannel(completion: { (success) in
                                 NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
-                                //self.dismiss(animated: true, completion: nil)
                             })
-                            self.deleteInvitation(at: indexPath)
+                            self.updateInvitation(at: indexPath, action: "accept")
                         }
                     }
                 }
@@ -185,10 +182,11 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
     }
     
     func rejectRequest(at indexPath: IndexPath){
-        deleteInvitation(at: indexPath)
+        updateInvitation(at: indexPath, action: "delete")
     }
 
-    func deleteInvitation(at indexPath: IndexPath){
+    func updateInvitation(at indexPath: IndexPath, action: String){
+        print("inside update invitation")
         let url = "https://api.iologics.co.uk/timski/index.php"
         let localUser = Blockstack.shared.loadUserData()?.username
         let newVar = "cryptgraphy makes the \(localUser!) rock!".sha256()
@@ -196,7 +194,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
             "localUser" : "\( localUser ?? "localUser")",
             "notificationID" : notificationArray[indexPath.row].notificationID,
             "uuid" : newVar,
-            "delete_Invitation": 1
+            "\(action)_Invitation": 1
         ]
         Alamofire.request(url, method: .post, parameters: parameters)
             .responseJSON { response in
@@ -215,7 +213,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                         print("error")
                         DispatchQueue.main.async {
                             SVProgressHUD.dismiss()
-                            let alert = UIAlertController(title: "Error", message: "Could not delete the invitation", preferredStyle: .alert)
+                            let alert = UIAlertController(title: "Error", message: "Could not \(action) the invitation", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                             self.present(alert, animated: true)
                         }
@@ -223,6 +221,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                 }
         }
     }
+    
     func reloadData(){
         if notificationArray.isEmpty{
             tableView.backgroundView = noNotificationsView
@@ -234,3 +233,4 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
 
 
 }
+

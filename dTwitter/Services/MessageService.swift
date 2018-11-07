@@ -55,8 +55,6 @@ class MessageService {
                     self.channels.removeAll()
                     let sortedResults = convertJSON.sorted { $0 < $1 }
                     for item in sortedResults {
-                        //print ("printing item")
-                        //print(item)
                         var channel = Channel()
                         if(item.0 != "foreignChannels"){
                             channel.namespace = Blockstack.shared.loadUserData()?.username
@@ -66,10 +64,7 @@ class MessageService {
                             channel.participants = item.1["participants"]
                             self.channels.append(channel)
                         }else{
-                            print("foreign item")
-                            print(item.1)
                             for item in item.1{
-                                print(item.1["channelOwner"])
                                 channel.namespace = item.1["channelOwner"].stringValue
                                 channel.channelTitle = item.1["channelTitle"].stringValue
                                 channel.channelDescription = ""
@@ -87,6 +82,10 @@ class MessageService {
             }
         }
 
+    }
+    
+    func getForeignChannelParticipants(){
+        
     }
     
 }
