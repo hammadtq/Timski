@@ -17,6 +17,8 @@ class NotificationService {
     static let instance = NotificationService()
     var notificationArray : [NotificationModel] = [NotificationModel]()
     
+    //CURRENTLY THIS FUNCTION IS RUNNING ON EACH APP LOAD FROM CHATVIEWCONTROLLER
+    //Retrieve accepted invitations from the centralized server and if there are any, add them to local user's channel and delete from the server
     func retrieve_accepted_notifications(){
         
         // Read accepted invitations from api
@@ -40,14 +42,14 @@ class NotificationService {
                             
                             for result in resultArray{
                                 let notificationModel = NotificationModel()
-                                notificationModel.remoteUser = result["localUser"].stringValue
+                                notificationModel.remoteUser = result["remoteUser"].stringValue
                                 notificationModel.notificationTime = result["timestamp"].stringValue
                                 notificationModel.remoteChannel = result["channelID"].stringValue
                                 notificationModel.remoteChannelTitle = result["channelTitle"].stringValue
                                 notificationModel.notificationID = result["id"].stringValue
                                 self.notificationArray.append(notificationModel)
                             }
-                            
+                            self.addParticipantsToChannel()
                         }
                         
                     }else{
@@ -62,6 +64,7 @@ class NotificationService {
         
     }
     
+    //Add accepted invitation to the user's local channel file
     func addParticipantsToChannel(){
         Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
             if error != nil {
@@ -71,17 +74,21 @@ class NotificationService {
                 //print(response as Any)
                 let json = JSON.init(parseJSON: (response as? String)!)
                 var channelDictionary = json.dictionaryObject
-                var concernedChannel = channelDictionary![self.notificationArray[indexPath.row].remoteChannel]! as! [String:Any]
-                var participants = concernedChannel["participants"] as! [String]
-                participants.append((Blockstack.shared.loadUserData()?.username)!)
-                //print(participants)
-                concernedChannel["participants"] = participants
-                //print(concernedChannel)
-                channelDictionary?.updateValue(concernedChannel, forKey: self.notificationArray[indexPath.row].remoteChannel)
-                print(channelDictionary)
                 
+                for notification in self.notificationArray {
+                    print(notification.remoteChannel)
+                    if (channelDictionary![notification.remoteChannel] != nil){
+                        var concernedChannel = channelDictionary![notification.remoteChannel] as! [String:Any]
+                        var participants = concernedChannel["participants"] as! [String]
+                        if (!participants.contains(notification.remoteUser)){
+                            participants.append(notification.remoteUser)
+                        }
+                        concernedChannel["participants"] = participants
+                        channelDictionary?.updateValue(concernedChannel, forKey: notification.remoteChannel)
+                    }
+                }
                 let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
-                
+
                 Blockstack.shared.putFile(to: CHANNEL_FILE, content: channelJSONText) { (publicURL, error) in
                     if error != nil {
                         print("put file error")
@@ -90,13 +97,47 @@ class NotificationService {
                         DispatchQueue.main.async{
                             MessageService.instance.findAllChannel(completion: { (success) in
                                 NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
-                                self.dismiss(animated: true, completion: nil)
+                                //self.dismiss(animated: true, completion: nil)
+                                self.deleteAcceptedNotifications()
                             })
-                            
+
                         }
                     }
                 }
             }
+        }
+    }
+    
+    //Delete notifications once accepted back by the original initator
+    
+    func deleteAcceptedNotifications(){
+        let url = "https://api.iologics.co.uk/timski/index.php"
+        //let url = "https://requestbin.fullcontact.com/1ispa221"
+        let localUser = Blockstack.shared.loadUserData()?.username
+        let newVar = "cryptgraphy makes the \(localUser!) rock!".sha256()
+        var notificationIDs = [String]()
+        for notification in notificationArray {
+            notificationIDs.append(notification.notificationID)
+        }
+        
+        let notificationIDsString = notificationIDs.joined(separator: ",")
+        let parameters: [String: Any] = [
+            "localUser" : "\( localUser ?? "localUser")",
+            "notificationIDs" : notificationIDsString,
+            "uuid" : newVar,
+            "delete_accepted_invitations": 1
+        ]
+        Alamofire.request(url, method: .post, parameters: parameters)
+            .responseJSON { response in
+                if response.result.isSuccess {
+                    let resultJSON : JSON = JSON(response.result.value!)
+                    print(resultJSON)
+                    if resultJSON["result"] == "success"{
+                        print("deleted accepted ids")
+                    }else{
+                        print("error")
+                    }
+                }
         }
     }
 }
