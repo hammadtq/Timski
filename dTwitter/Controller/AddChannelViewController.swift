@@ -9,6 +9,7 @@
 import UIKit
 import Blockstack
 import SwiftyJSON
+import SVProgressHUD
 
 class AddChannelViewController: UIViewController {
 
@@ -21,6 +22,7 @@ class AddChannelViewController: UIViewController {
         setUpView()
     }
     @IBAction func createChannelPressed(_ sender: Any) {
+        SVProgressHUD.show()
         guard let channelName = nameText.text , nameText.text != "" else { return }
         guard let channelDesc = channelDesc.text else { return }
         Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
@@ -41,9 +43,11 @@ class AddChannelViewController: UIViewController {
                 Blockstack.shared.putFile(to: CHANNEL_FILE, content: channelJSONText) { (publicURL, error) in
                     if error != nil {
                         print("put file error")
+                        SVProgressHUD.dismiss()
                     } else {
                         print("put file success \(publicURL!)")
                         DispatchQueue.main.async{
+                            SVProgressHUD.dismiss()
                             MessageService.instance.findAllChannel(completion: { (success) in
                                 NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
                                  self.dismiss(animated: true, completion: nil)

@@ -84,7 +84,29 @@ class MessageService {
 
     }
     
-    func getForeignChannelParticipants(){
+    func getForeignChannelParticipants(completion: @escaping (_ Success: Bool) -> ()){
+        
+        Blockstack.shared.getFile(at: CHANNEL_FILE, username: (MessageService.instance.selectedChannel?.namespace)!) { response, error in
+            if error != nil {
+                //print("get file error")
+                completion(false)
+            } else {
+                //print("got channel list")
+                //print(response as Any)
+                let json = JSON.init(parseJSON: (response as? String)!)
+                var channelDictionary = json.dictionaryObject
+                if (channelDictionary![(MessageService.instance.selectedChannel?.id)!] != nil){
+                    var concernedChannel = channelDictionary![(MessageService.instance.selectedChannel?.id)!] as! [String:Any]
+                    let participants = concernedChannel["participants"] as! [String]
+                    MessageService.instance.selectedChannel?.participants = JSON(participants)
+                    DispatchQueue.main.async{
+                        completion(true)
+                    }
+                }else{
+                    print ("error in fetching remote participants")
+                }
+            }
+        }
         
     }
     

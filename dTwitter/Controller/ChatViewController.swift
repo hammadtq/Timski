@@ -123,7 +123,21 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         let channelName = MessageService.instance.selectedChannel?.channelTitle ?? ""
         self.title = "#\(channelName)"
         self.channelFileName = (MessageService.instance.selectedChannel?.id)! + channelName
-        retrieveMessages(completeFunc: readMessages)
+        
+        //If its a remote channel we will first retrieve channel participants from the owner's channel file
+        if (MessageService.instance.selectedChannel?.namespace != Blockstack.shared.loadUserData()?.username){
+            print("owner is not current username")
+            MessageService.instance.getForeignChannelParticipants { (success) in
+                if success {
+                    print("remote channel file fetch success")
+                    self.retrieveMessages(completeFunc: self.readMessages)
+                }else{
+                    print("unable to retrieve participants of remote channel")
+                }
+            }
+        }else{
+            retrieveMessages(completeFunc: readMessages)
+        }
     }
 
     @objc func addParticipantsOpen(){
@@ -260,56 +274,79 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         var localJson : JSON = ""
         var remoteJson : JSON = ""
-        var participants = MessageService.instance.selectedChannel?.participants
-        print("channel participants")
+        let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
+        print("participants")
         print(participants)
         let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        // Read data from Gaia
-        Blockstack.shared.getFile(at: channelFileName, username: remoteUsername) { response, error in
-            if error != nil {
-                print("get file error")
-            } else {
-                print("get remote file success")
-                //print(response as Any)
-                let fetchResponse = (response as? String)!
-                self.remoteUserLastChatStringCount = fetchResponse.count
-                remoteJson = JSON.init(parseJSON: fetchResponse)
-                for (key, var item) in remoteJson {
-                    item["username"] = JSON(self.remoteUsername)
-                    remoteJson[key] = item
+        for participant in participants {
+            dispatchGroup.enter()
+            //if (participant != localUsername){
+                print("fetching participant \(participant)")
+                // Read data from Gaia
+                Blockstack.shared.getFile(at: channelFileName, username: participant) { response, error in
+                    if error != nil {
+                        print("get file error for \(participant)")
+                    } else {
+                        print("get remote file success for \(participant)")
+                        print(response as Any)
+                        let fetchResponse = (response as? String)!
+                        self.remoteUserLastChatStringCount = fetchResponse.count
+    
+                        if(remoteJson != JSON.null && remoteJson != ""){
+                            var newJson = JSON.init(parseJSON: fetchResponse)
+                            for (key, var item) in newJson {
+                                item["username"] = JSON(participant)
+                                newJson[key] = item
+                            }
+                            let combinedDict = remoteJson.dictionaryObject?.merging(newJson.dictionaryObject!) { $1 }
+                            remoteJson = JSON(combinedDict as Any)
+                            
+                        }else{
+                            remoteJson = JSON.init(parseJSON: fetchResponse)
+                            for (key, var item) in remoteJson {
+                                item["username"] = JSON(participant)
+                                remoteJson[key] = item
+                            }
+                        }
+                    
+                        
+                        print("remote json after \(participant) is")
+                        print(remoteJson)
+                    }
+                    dispatchGroup.leave()
                 }
-            }
-            dispatchGroup.leave()
+            //}
         }
         
-        dispatchGroup.enter()
-        // Read data from Gaia'
-        Blockstack.shared.getFile(at: channelFileName) { response, error in
-            if error != nil {
-                print("get file error")
-            } else {
-                print("get local file success")
-                //print(response as Any)
-                localJson = JSON.init(parseJSON: (response as? String)!)
-                for (key, var item) in localJson {
-                    item["username"] = JSON(self.localUsername)
-                    localJson[key] = item
-                }
-            }
-            dispatchGroup.leave()
-        }
+        
+        
+//        dispatchGroup.enter()
+//        // Read data from Gaia'
+//        Blockstack.shared.getFile(at: channelFileName) { response, error in
+//            if error != nil {
+//                print("get local file error")
+//            } else {
+//                print("get local file success")
+//                //print(response as Any)
+//                localJson = JSON.init(parseJSON: (response as? String)!)
+//                for (key, var item) in localJson {
+//                    item["username"] = JSON(self.localUsername)
+//                    localJson[key] = item
+//                }
+//            }
+//            dispatchGroup.leave()
+//        }
 
         dispatchGroup.notify(queue: .main) {
             print("Both functions complete 👍")
-            print(localJson)
+            //print(localJson)
             print(remoteJson)
-            var combinedMessages : JSON = localJson
-            if(localJson != JSON.null && localJson != "" && remoteJson != JSON.null && remoteJson != ""){
-                let combinedDict = localJson.dictionaryObject?.merging(remoteJson.dictionaryObject!) { $1 }
-                combinedMessages = JSON(combinedDict as Any)
-            }
-            completeFunc(combinedMessages)
+//            var combinedMessages : JSON = localJson
+//            if(localJson != JSON.null && localJson != "" && remoteJson != JSON.null && remoteJson != ""){
+//                let combinedDict = localJson.dictionaryObject?.merging(remoteJson.dictionaryObject!) { $1 }
+//                combinedMessages = JSON(combinedDict as Any)
+//            }
+            completeFunc(remoteJson)
             SVProgressHUD.dismiss()
         }
     }

@@ -76,7 +76,7 @@ class NotificationService {
                 var channelDictionary = json.dictionaryObject
                 
                 for notification in self.notificationArray {
-                    print(notification.remoteChannel)
+                    //print(notification.remoteChannel)
                     if (channelDictionary![notification.remoteChannel] != nil){
                         var concernedChannel = channelDictionary![notification.remoteChannel] as! [String:Any]
                         var participants = concernedChannel["participants"] as! [String]
