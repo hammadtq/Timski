@@ -19,9 +19,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     let remoteUsername : String = "muneeb.id"
     let localUsername : String = (Blockstack.shared.loadUserData()?.username)!
     var channelFileName : String = ""
-//    let remoteUsername : String = "hammadtariq.id"
-//    let localUsername : String = "tayyabejaz.id.blockstack"
     var timer = Timer()
+    
+    var participantLastMessageStringCount = [String: Int]()
     var remoteUserLastChatStringCount = 0
     let notificationBtn = SSBadgeButton()
    
@@ -89,9 +89,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         //Add observer to kill Gaia connections if user pressed Log Out button
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.stopTimerTest), name:NSNotification.Name(rawValue: "UserLoggedOut"), object: nil)
         
-        configureTableView()
+        //TEMPORARILY INITIATING NAMESPACE OBJECT ON CHAT LOAD
+        MessageService.instance.selectedChannel?.namespace = Blockstack.shared.loadUserData()?.username
         
-        scheduledTimerWithTimeInterval()
+        configureTableView()
         
         readChannels()
     }
@@ -118,25 +119,35 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     func updateWithChannel() {
         print("update with channel")
+        SVProgressHUD.show()
         messageArray.removeAll()
         tableView.reloadData()
         let channelName = MessageService.instance.selectedChannel?.channelTitle ?? ""
         self.title = "#\(channelName)"
         self.channelFileName = (MessageService.instance.selectedChannel?.id)! + channelName
-        
-        //If its a remote channel we will first retrieve channel participants from the owner's channel file
-        if (MessageService.instance.selectedChannel?.namespace != Blockstack.shared.loadUserData()?.username){
-            print("owner is not current username")
-            MessageService.instance.getForeignChannelParticipants { (success) in
-                if success {
-                    print("remote channel file fetch success")
-                    self.retrieveMessages(completeFunc: self.readMessages)
-                }else{
-                    print("unable to retrieve participants of remote channel")
+        print(MessageService.instance.selectedChannel?.namespace)
+        if(MessageService.instance.selectedChannel?.namespace != ""){
+            //If its a remote channel we will first retrieve channel participants from the owner's channel file
+            if (MessageService.instance.selectedChannel?.namespace != Blockstack.shared.loadUserData()?.username){
+                MessageService.instance.getForeignChannelParticipants { (success) in
+                    if success {
+                        if(MessageService.instance.selectedChannel?.participants != ""){
+                            self.retrieveMessages(completeFunc: self.readMessages)
+                        }else{
+                            print("remote participants found to be nil")
+                            SVProgressHUD.dismiss()
+                        }
+                    }else{
+                        print("unable to retrieve participants of remote channel")
+                        SVProgressHUD.dismiss()
+                    }
                 }
+            }else{
+                retrieveMessages(completeFunc: readMessages)
             }
         }else{
-            retrieveMessages(completeFunc: readMessages)
+            print("namespace is not set")
+            SVProgressHUD.dismiss()
         }
     }
 
@@ -183,16 +194,20 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         messageTextField.endEditing(true)
         
         if (messageTextField.text != "") {
-            retrieveMessages(completeFunc: combineMessages)
+            getLocalJson(completeFunc: combineMessages)
         }
     }
     
-    func updateRowsInTable(){
+    func updateRowsInTable(initial : Int){
         self.configureTableView()
         
         messageTableView.beginUpdates()
         messageTableView.re.insertRows(at: [IndexPath.init(row: messageArray.count - 1, section: 0)], with: .automatic)
         messageTableView.endUpdates()
+        //run the timer first time channel is loaded
+        if(initial == 1){
+            self.scheduledTimerWithTimeInterval()
+        }
     }
     
     //MARK:- Blockstack Functions
@@ -223,7 +238,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             }
             
             messageArray.append(messageModel)
-            updateRowsInTable()
+            updateRowsInTable(initial: 1)
         }
         
     }
@@ -261,7 +276,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                     let strDate = dateFormatter.string(from: date)
                     message.time = strDate
                     self.messageArray.append(message)
-                    self.updateRowsInTable()
+                    self.updateRowsInTable(initial: 0)
                     self.messageTextField.text = ""
                 }
             }
@@ -272,50 +287,46 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     func retrieveMessages(completeFunc: @escaping (JSON) -> Void){
         
-        var localJson : JSON = ""
         var remoteJson : JSON = ""
         let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
-        print("participants")
-        print(participants)
+        print(MessageService.instance.selectedChannel)
+        print(MessageService.instance.selectedChannel?.participants)
         let dispatchGroup = DispatchGroup()
         for participant in participants {
+            //saving last message string count to check in updateRemoteUserChat if there are any new messages from the remote user
+            //recording 0 the first time in case the user hasn't sent a message to the channel yet
+            self.participantLastMessageStringCount[participant] = 0
             dispatchGroup.enter()
-            //if (participant != localUsername){
-                print("fetching participant \(participant)")
-                // Read data from Gaia
-                Blockstack.shared.getFile(at: channelFileName, username: participant) { response, error in
-                    if error != nil {
-                        print("get file error for \(participant)")
-                    } else {
-                        print("get remote file success for \(participant)")
-                        print(response as Any)
-                        let fetchResponse = (response as? String)!
-                        self.remoteUserLastChatStringCount = fetchResponse.count
-    
-                        if(remoteJson != JSON.null && remoteJson != ""){
-                            var newJson = JSON.init(parseJSON: fetchResponse)
-                            for (key, var item) in newJson {
-                                item["username"] = JSON(participant)
-                                newJson[key] = item
-                            }
-                            let combinedDict = remoteJson.dictionaryObject?.merging(newJson.dictionaryObject!) { $1 }
-                            remoteJson = JSON(combinedDict as Any)
-                            
-                        }else{
-                            remoteJson = JSON.init(parseJSON: fetchResponse)
-                            for (key, var item) in remoteJson {
-                                item["username"] = JSON(participant)
-                                remoteJson[key] = item
-                            }
+            // Read data from Gaia
+            Blockstack.shared.getFile(at: channelFileName, username: participant) { response, error in
+                if error != nil {
+                    print("get file error for \(participant)")
+                } else {
+                    print("get remote file success for \(participant)")
+                    print(response as Any)
+                    let fetchResponse = (response as? String)!
+                    self.participantLastMessageStringCount[participant] = fetchResponse.count
+                    self.remoteUserLastChatStringCount = fetchResponse.count
+
+                    if(remoteJson != JSON.null && remoteJson != ""){
+                        var newJson = JSON.init(parseJSON: fetchResponse)
+                        for (key, var item) in newJson {
+                            item["username"] = JSON(participant)
+                            newJson[key] = item
                         }
-                    
+                        let combinedDict = remoteJson.dictionaryObject?.merging(newJson.dictionaryObject!) { $1 }
+                        remoteJson = JSON(combinedDict as Any)
                         
-                        print("remote json after \(participant) is")
-                        print(remoteJson)
+                    }else{
+                        remoteJson = JSON.init(parseJSON: fetchResponse)
+                        for (key, var item) in remoteJson {
+                            item["username"] = JSON(participant)
+                            remoteJson[key] = item
+                        }
                     }
-                    dispatchGroup.leave()
                 }
-            //}
+                dispatchGroup.leave()
+            }
         }
         
         
@@ -351,6 +362,23 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    func getLocalJson(completeFunc: @escaping (JSON) -> Void){
+        var localJson : JSON = ""
+        Blockstack.shared.getFile(at: channelFileName) { response, error in
+            if error != nil {
+                print("get local file error")
+            } else {
+                print("get local file success")
+                //print(response as Any)
+                localJson = JSON.init(parseJSON: (response as? String)!)
+                for (key, var item) in localJson {
+                    item["username"] = JSON(self.localUsername)
+                    localJson[key] = item
+                }
+            }
+            completeFunc(localJson)
+        }
+    }
     @objc func updateRemoteUserChat(){
         //TEMPORARY IMPLEMENTATION OF NOTIFICATION SERVICE
         DispatchQueue.global(qos: .background).async {
@@ -359,34 +387,47 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             }
         }
         print("counting..")
-        Blockstack.shared.getFile(at: channelFileName, username: remoteUsername) { response, error in
-            if error != nil {
-                print("get file error")
-            } else {
-                //print("get remote file success")
-                //print(response as Any)
-                let fetchResponse = (response as? String)!
-                
+        if(MessageService.instance.selectedChannel?.participants != ""){
+        let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
+            for participant in participants {
+                if(participant != localUsername){
+                    print("participant name in update remote userchat is \(participant)")
+                    Blockstack.shared.getFile(at: channelFileName, username: participant) { response, error in
+                        if error != nil {
+                            print("get file error")
+                        } else {
+                            //print("get remote file success")
+                            //print(response as Any)
+                            let fetchResponse = (response as? String)!
+                            
+                            if fetchResponse.count > self.participantLastMessageStringCount[participant]!{
+                            DispatchQueue.main.async {
+                                
+                                    let parseJson = JSON.init(parseJSON: (response as? String)!)
+                                    let sortedResults = parseJson.sorted { $0 < $1 }
+                                
+                                    let message = MessageModel()
+                                    message.message = "\(sortedResults.last?.1["messagebody"] ?? "New Message")"
+                                    message.imageName = LetterImageGenerator.imageWith(name: participant, imageBackgroundColor: "remote")
+                                    let dateFormatter = DateFormatter()
+                                    let date = Date(timeIntervalSince1970: NSDate().timeIntervalSince1970)
+                                    dateFormatter.dateFormat = "HH:mm"
+                                    let strDate = dateFormatter.string(from: date)
+                                    message.time = strDate
+                                    self.messageArray.append(message)
+                                    self.participantLastMessageStringCount[participant] = fetchResponse.count
+                                    self.remoteUserLastChatStringCount = fetchResponse.count
+                                    self.updateRowsInTable(initial: 0)
+                                    }
+                            }
 
-                DispatchQueue.main.async {
-                    if fetchResponse.count > self.remoteUserLastChatStringCount{
-                        let parseJson = JSON.init(parseJSON: (response as? String)!)
-                        let sortedResults = parseJson.sorted { $0 < $1 }
-                       
-                        let message = MessageModel()
-                        message.message = "\(sortedResults.last?.1["messagebody"] ?? "New Message")"
-                        message.imageName = LetterImageGenerator.imageWith(name: self.remoteUsername, imageBackgroundColor: "remote")
-                        let dateFormatter = DateFormatter()
-                        let date = Date(timeIntervalSince1970: NSDate().timeIntervalSince1970)
-                        dateFormatter.dateFormat = "HH:mm"
-                        let strDate = dateFormatter.string(from: date)
-                        message.time = strDate
-                        self.messageArray.append(message)
-                        self.remoteUserLastChatStringCount = fetchResponse.count
-                        self.updateRowsInTable()
                         }
+                    }
                 }
-
+            }
+        }else{
+            MessageService.instance.getForeignChannelParticipants { (success) in
+                print("tried fetching participants from remote file again")
             }
         }
     }

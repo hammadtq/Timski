@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         self.updateUI()
         
         // Check if signed in
-        // checkIfSignedIn()
+        //checkIfSignedIn()
     }
     
     @IBAction func signOut(_ sender: Any) {
@@ -140,6 +140,7 @@ class ViewController: UIViewController {
     private func updateUI() {
         DispatchQueue.main.async {
             if Blockstack.shared.isSignedIn() {
+                
                 // Read user profile data
                 let retrievedUserData = Blockstack.shared.loadUserData()
                 self.nameButton.setTitle("Let's Chat \(retrievedUserData?.profile?.name ?? "Nameless User")",for: .normal)

@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableViewCell" rowHeight="56" id="KGk-i7-Jjw" customClass="TableViewCell" customModule="dTwitter" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableViewCell" rowHeight="56" id="KGk-i7-Jjw" customClass="TableViewCell" customModule="Timski" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -19,14 +19,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marty2" translatesAutoresizingMaskIntoConstraints="NO" id="zum-gA-dTG">
-                        <rect key="frame" x="136" y="12" width="32" height="32"/>
+                        <rect key="frame" x="128" y="12" width="32" height="32"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="32" id="Qj0-M4-f9c"/>
                             <constraint firstAttribute="width" constant="32" id="mqk-TJ-2cc"/>
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jUr-b9-i8g">
-                        <rect key="frame" x="180" y="12" width="128" height="32"/>
+                        <rect key="frame" x="172" y="12" width="128" height="32"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is heavy..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zwH-GY-LAK">
                                 <rect key="frame" x="8" y="4" width="112" height="24"/>
@@ -44,7 +44,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJz-uV-Q4q">
-                        <rect key="frame" x="96" y="32" width="32" height="12"/>
+                        <rect key="frame" x="88" y="32" width="32" height="12"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="32" id="cNZ-0X-gFU"/>
                         </constraints>
@@ -52,8 +52,16 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stopwatch" translatesAutoresizingMaskIntoConstraints="NO" id="NLv-L7-KvI">
+                        <rect key="frame" x="304" y="32" width="10" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="10" id="97W-og-QG6"/>
+                            <constraint firstAttribute="height" constant="10" id="QR8-rS-9hg"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="NLv-L7-KvI" secondAttribute="trailing" constant="6" id="CfW-Zx-rGN"/>
                     <constraint firstItem="jUr-b9-i8g" firstAttribute="bottom" secondItem="zum-gA-dTG" secondAttribute="bottom" id="DsM-YD-XTd"/>
                     <constraint firstItem="jUr-b9-i8g" firstAttribute="leading" secondItem="zum-gA-dTG" secondAttribute="trailing" constant="12" id="EdU-bm-FfV"/>
                     <constraint firstAttribute="bottom" secondItem="jUr-b9-i8g" secondAttribute="bottom" constant="11.5" id="Gd0-I3-kc0"/>
@@ -62,7 +70,8 @@
                     <constraint firstItem="zum-gA-dTG" firstAttribute="leading" secondItem="JJz-uV-Q4q" secondAttribute="trailing" constant="8" id="Ntt-ca-AYd"/>
                     <constraint firstItem="JJz-uV-Q4q" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="Pe5-E2-oyn"/>
                     <constraint firstItem="zum-gA-dTG" firstAttribute="bottom" secondItem="JJz-uV-Q4q" secondAttribute="bottom" id="ZVq-ru-2hh"/>
-                    <constraint firstAttribute="trailing" secondItem="jUr-b9-i8g" secondAttribute="trailing" constant="12" id="laU-DP-Ijh"/>
+                    <constraint firstAttribute="trailing" secondItem="jUr-b9-i8g" secondAttribute="trailing" constant="20" id="laU-DP-Ijh"/>
+                    <constraint firstAttribute="bottom" secondItem="NLv-L7-KvI" secondAttribute="bottom" constant="13" id="mHC-rh-Slo"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -76,5 +85,6 @@
     </objects>
     <resources>
         <image name="marty2" width="250" height="250"/>
+        <image name="stopwatch" width="64" height="64"/>
     </resources>
 </document>

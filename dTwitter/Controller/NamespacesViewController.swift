@@ -32,8 +32,11 @@ class NamespacesViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @objc func reloadData(){
         for channel in MessageService.instance.channels{
-            namespaceArr.append(channel.namespace)
+            if !namespaceArr.contains(channel.namespace){
+                namespaceArr.append(channel.namespace)
+            }
         }
+        print(namespaceArr)
         tableView.reloadData()
     }
     
