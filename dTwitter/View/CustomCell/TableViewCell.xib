@@ -78,6 +78,7 @@
                 <outlet property="iconImageView" destination="zum-gA-dTG" id="uYa-15-gaH"/>
                 <outlet property="labelContainerView" destination="jUr-b9-i8g" id="Kql-GW-FTN"/>
                 <outlet property="messageLabel" destination="zwH-GY-LAK" id="hTR-gN-ad1"/>
+                <outlet property="sentImageView" destination="NLv-L7-KvI" id="TlG-hd-Ckd"/>
                 <outlet property="timeLabel" destination="JJz-uV-Q4q" id="uFX-yl-Kdb"/>
             </connections>
             <point key="canvasLocation" x="85" y="59"/>

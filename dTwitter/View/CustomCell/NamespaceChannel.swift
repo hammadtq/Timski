@@ -27,6 +27,6 @@ class NamespaceCell: UITableViewCell {
     
     func configureCell(namespace: String) {
         let title = namespace
-        namespaceName.text = "#\(title)"
+        namespaceName.text = "@\(title)"
     }
 }

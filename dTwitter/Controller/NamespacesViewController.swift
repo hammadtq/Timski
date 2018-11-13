@@ -36,7 +36,6 @@ class NamespacesViewController: UIViewController, UITableViewDelegate, UITableVi
                 namespaceArr.append(channel.namespace)
             }
         }
-        print(namespaceArr)
         tableView.reloadData()
     }
     

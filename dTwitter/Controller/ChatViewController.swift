@@ -21,6 +21,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     var channelFileName : String = ""
     var timer = Timer()
     
+    var messageProgress = [Int]()
+    var sentImage : UIImage = UIImage(named: "stopwatch")!
+    
     var participantLastMessageStringCount = [String: Int]()
     var remoteUserLastChatStringCount = 0
     let notificationBtn = SSBadgeButton()
@@ -62,7 +65,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         let addButtonItem = UIBarButtonItem(customView: addButton)
         
         self.navigationItem.rightBarButtonItems = [addButtonItem, UIBarButtonItem(customView: notificationBtn)]
-        
+        self.navigationController?.navigationBar.isUserInteractionEnabled = false
         //Reverse Extenstion
         //You can apply reverse effect only set delegate.
         messageTableView.re.delegate = self
@@ -109,6 +112,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 if MessageService.instance.channels.count > 0 {
                     MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
                     MessageService.instance.selectedChannel = MessageService.instance.channels[0]
+                    self.navigationController?.navigationBar.isUserInteractionEnabled = true
                     self.updateWithChannel()
                 } else {
                     self.title = "No channels yet!"
@@ -167,6 +171,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         cell.messageLabel.text = messageArray[indexPath.row].message
         cell.timeLabel.text = messageArray[indexPath.row].time
         cell.iconImageView.image = messageArray[indexPath.row].imageName
+        cell.sentImageView.image = sentImage
         //cell.senderUsername.text = messageArray[indexPath.row].sender
         
         return cell
@@ -191,10 +196,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     @IBAction func sendPressed(_ sender: Any) {
         
-        messageTextField.endEditing(true)
+        //messageTextField.endEditing(true)
         
         if (messageTextField.text != "") {
-            getLocalJson(completeFunc: combineMessages)
+            getLocalJson(completeFunc: self.combineMessages)
         }
     }
     
@@ -204,6 +209,8 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         messageTableView.beginUpdates()
         messageTableView.re.insertRows(at: [IndexPath.init(row: messageArray.count - 1, section: 0)], with: .automatic)
         messageTableView.endUpdates()
+    
+        
         //run the timer first time channel is loaded
         if(initial == 1){
             self.scheduledTimerWithTimeInterval()
@@ -236,9 +243,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             }else{
                 messageModel.imageName = LetterImageGenerator.imageWith(name: username, imageBackgroundColor: "remote")
             }
-            
+            self.sentImage = UIImage(named: "checked_simple")!
             messageArray.append(messageModel)
             updateRowsInTable(initial: 1)
+            self.sentImage = UIImage(named: "stopwatch")!
         }
         
     }
@@ -247,9 +255,28 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         //print("Messages are \(json)")
         
         
+        let message = MessageModel()
+        message.message = self.messageTextField.text!
+        message.imageName = LetterImageGenerator.imageWith(name: self.localUsername, imageBackgroundColor: "local")
+        let dateFormatter = DateFormatter()
+        let date = Date(timeIntervalSince1970: NSDate().timeIntervalSince1970)
+        dateFormatter.dateFormat = "HH:mm"
+        let strDate = dateFormatter.string(from: date)
+        message.time = strDate
+        self.messageArray.append(message)
+        
+        //Before updating the row in the table, we want to collect the ID of the message, that is for the progress tick to show
+        //once the we post the updated JSON to the Gaia
+        self.messageProgress.append(self.messageArray.count - 1)
+        
+        //Now update the rows
+        self.updateRowsInTable(initial: 0)
+        
+        //Now combine the new message with previous messages in the JSON file and re-upload it
         var messageDictionary = json.dictionaryObject
         let timeInterval = NSDate().timeIntervalSince1970
         let newItem = ["messagebody": messageTextField.text!]
+        self.messageTextField.text = ""
         
         if messageDictionary == nil{
             messageDictionary = ["\(timeInterval)" :  newItem]
@@ -266,18 +293,19 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             } else {
                 print("put file success \(publicURL!)")
                 DispatchQueue.main.async{
-                    
-                    let message = MessageModel()
-                    message.message = self.messageTextField.text!
-                    message.imageName = LetterImageGenerator.imageWith(name: self.localUsername, imageBackgroundColor: "local")
-                    let dateFormatter = DateFormatter()
-                    let date = Date(timeIntervalSince1970: NSDate().timeIntervalSince1970)
-                    dateFormatter.dateFormat = "HH:mm"
-                    let strDate = dateFormatter.string(from: date)
-                    message.time = strDate
-                    self.messageArray.append(message)
-                    self.updateRowsInTable(initial: 0)
-                    self.messageTextField.text = ""
+                    print("message has been posted")
+                    //Message has been posted, update the tick image
+                    //WE ARE JUST PICKING THE 0 INDEX, THAT MEANS THE LAST MESSAGE INDEX, NEED TO MAKE IT DYNAMIC FOR ALL MESSAGES
+                    let indexPath = IndexPath.init(row: self.messageProgress[0], section: 0)
+                    //let indexPath = self.messageProgress[0]
+                    self.sentImage = UIImage(named: "checked_simple")!
+                    self.messageTableView.beginUpdates()
+                    self.messageTableView.re.reloadRows(
+                        at: [indexPath],
+                        with: .fade)
+                    self.messageTableView.endUpdates()
+                    self.messageProgress.removeAll()
+                    self.sentImage = UIImage(named: "stopwatch")!
                 }
             }
         }
@@ -376,7 +404,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                     localJson[key] = item
                 }
             }
-            completeFunc(localJson)
+            DispatchQueue.main.async{
+                completeFunc(localJson)
+            }
         }
     }
     @objc func updateRemoteUserChat(){
@@ -386,7 +416,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 self.checkNotifications()
             }
         }
-        print("counting..")
+        //print("counting..")
         if(MessageService.instance.selectedChannel?.participants != ""){
         let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
             for participant in participants {
@@ -435,7 +465,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     //Mark-: Timer Functions for Polling
     func scheduledTimerWithTimeInterval(){
         // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateRemoteUserChat), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateRemoteUserChat), userInfo: nil, repeats: true)
     }
     @objc func stopTimerTest() {
             timer.invalidate()
@@ -462,7 +492,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                         }
                         
                     }else{
-                        print("error")
+                        //print("error")
                         self.notificationBtn.badge = nil
                     }
                     

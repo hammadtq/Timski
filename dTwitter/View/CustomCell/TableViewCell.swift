@@ -14,7 +14,8 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var labelContainerView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
-
+    @IBOutlet weak var sentImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
