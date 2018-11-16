@@ -179,28 +179,28 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u2n-78-RsV">
-                                            <rect key="frame" x="31" y="12" width="313" height="20"/>
+                                            <rect key="frame" x="16" y="14" width="87" height="20"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJP-76-W36">
-                                            <rect key="frame" x="31" y="37" width="20" height="6"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="9"/>
+                                            <rect key="frame" x="16" y="35" width="20" height="10.5"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="9"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="kJP-76-W36" secondAttribute="bottom" constant="1" id="Dcu-7f-XKM"/>
-                                        <constraint firstItem="kJP-76-W36" firstAttribute="top" secondItem="u2n-78-RsV" secondAttribute="bottom" constant="5" id="FXE-Bz-m3k"/>
-                                        <constraint firstItem="kJP-76-W36" firstAttribute="leading" secondItem="yz7-pk-3aX" secondAttribute="leading" constant="31" id="SLX-cT-bJj"/>
-                                        <constraint firstItem="u2n-78-RsV" firstAttribute="leading" secondItem="yz7-pk-3aX" secondAttribute="leadingMargin" constant="15" id="awC-qc-uA2"/>
-                                        <constraint firstItem="u2n-78-RsV" firstAttribute="centerY" secondItem="yz7-pk-3aX" secondAttribute="centerY" id="bGr-nh-DOb"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="u2n-78-RsV" secondAttribute="trailing" constant="15" id="pJO-AA-VEM"/>
+                                        <constraint firstItem="u2n-78-RsV" firstAttribute="leading" secondItem="yz7-pk-3aX" secondAttribute="leadingMargin" id="Ie7-SP-eNU"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="kJP-76-W36" secondAttribute="bottom" id="KCz-8k-eQ0"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="u2n-78-RsV" secondAttribute="bottom" constant="2" id="b3t-Z8-BC5"/>
+                                        <constraint firstItem="kJP-76-W36" firstAttribute="top" secondItem="yz7-pk-3aX" secondAttribute="topMargin" constant="24" id="b66-Db-Tj5"/>
+                                        <constraint firstItem="kJP-76-W36" firstAttribute="leading" secondItem="yz7-pk-3aX" secondAttribute="leadingMargin" id="hmA-Rl-8l8"/>
+                                        <constraint firstItem="u2n-78-RsV" firstAttribute="top" secondItem="yz7-pk-3aX" secondAttribute="topMargin" constant="3" id="qhL-NN-vWd"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.59994113449999997" green="0.60004258160000001" blue="0.59991961719999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.30588235294117649" green="0.32549019607843138" blue="0.34509803921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="notificationText" destination="u2n-78-RsV" id="IW7-tu-VB2"/>
                                     <outlet property="notificationTime" destination="kJP-76-W36" id="7aK-5r-Acy"/>
@@ -243,6 +243,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9TV-LD-ZwV">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.33721959590911865" green="0.33728036284446716" blue="0.33720672130584717" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -20,6 +20,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = 80
         checkNotificationsDetail()
     }
     
