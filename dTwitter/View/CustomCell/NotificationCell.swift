@@ -12,7 +12,7 @@ import SwipeCellKit
 class NotificationCell: SwipeTableViewCell {
 
     @IBOutlet weak var notificationText: UILabel!
-    @IBOutlet weak var notificationTime: UILabel!
+    //@IBOutlet weak var notificationTime: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

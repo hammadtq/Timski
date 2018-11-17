@@ -99,12 +99,12 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
             if !notificationArray.isEmpty{
                 
                 cell.notificationText.text = "\(notificationArray[indexPath.row].remoteUser) wants you to join #\(notificationArray[indexPath.row].remoteChannelTitle)"
-                let time = Double(notificationArray[indexPath.row].notificationTime)
-                let dateFormatter = DateFormatter()
-                let date = Date(timeIntervalSince1970: time!)
-                dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
-                let strDate = dateFormatter.string(from: date)
-                cell.notificationTime.text = strDate
+//                let time = Double(notificationArray[indexPath.row].notificationTime)
+//                let dateFormatter = DateFormatter()
+//                let date = Date(timeIntervalSince1970: time!)
+//                dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
+//                let strDate = dateFormatter.string(from: date)
+//                cell.notificationTime.text = strDate
                 
             }
             return cell

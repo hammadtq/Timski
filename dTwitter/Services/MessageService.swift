@@ -40,10 +40,11 @@ class MessageService {
                         } else {
                             print("put file success \(publicURL!)")
                             var channel = Channel()
+                            channel.namespace = Blockstack.shared.loadUserData()?.username
                             channel.channelTitle = "general"
                             channel.channelDescription = "General purpose channel"
                             channel.id = "\(timeStamp)"
-                            channel.participants = ["participants" : [Blockstack.shared.loadUserData()?.username]]
+                            channel.participants = JSON([Blockstack.shared.loadUserData()?.username])
                             self.channels.append(channel)
                             DispatchQueue.main.async{
                                 completion(true)

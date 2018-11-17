@@ -28,6 +28,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
         let userFullName = Blockstack.shared.loadUserData()?.profile?.name
         profileName.setTitle(userFullName, for: .normal)
         profileImage.image = LetterImageGenerator.imageWith(name: userFullName, imageBackgroundColor: "local")
+
         reloadData()
     }
     

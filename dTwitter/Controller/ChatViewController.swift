@@ -112,12 +112,12 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     func readChannels(){
         if Connectivity.isConnectedToInternet {
             SVProgressHUD.show()
-            NotificationService.instance.retrieve_accepted_notifications()
             MessageService.instance.findAllChannel { (success) in
                 if success {
                     if MessageService.instance.channels.count > 0 {
                         MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
                         MessageService.instance.selectedChannel = MessageService.instance.channels[0]
+                        NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
                         self.navigationController?.navigationBar.isUserInteractionEnabled = true
                         self.updateWithChannel()
                     } else {
@@ -139,7 +139,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         self.title = "#\(channelName)"
         self.channelFileName = (MessageService.instance.selectedChannel?.id)! + channelName
         print(MessageService.instance.selectedChannel?.namespace)
-        if(MessageService.instance.selectedChannel?.namespace != ""){
+        if(MessageService.instance.selectedChannel?.namespace != nil){
             //If its a remote channel we will first retrieve channel participants from the owner's channel file
             if (MessageService.instance.selectedChannel?.namespace != Blockstack.shared.loadUserData()?.username){
                 MessageService.instance.getForeignChannelParticipants { (success) in
@@ -321,8 +321,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         var remoteJson : JSON = ""
         let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
-        print(MessageService.instance.selectedChannel)
-        print(MessageService.instance.selectedChannel?.participants)
         let dispatchGroup = DispatchGroup()
         for participant in participants {
             //saving last message string count to check in updateRemoteUserChat if there are any new messages from the remote user
@@ -414,23 +412,25 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     @objc func updateRemoteUserChat(){
+        //TEMPORARY IMPLEMENTATION OF NOTIFICATION SERVICE
+        DispatchQueue.global(qos: .background).async {
+            DispatchQueue.main.async {
+                self.checkNotifications()
+                NotificationService.instance.retrieve_accepted_notifications()
+            }
+        }
+        
         if activateTimer == true {
-            
             if !Connectivity.isConnectedToInternet {
                 self.noInternetAlert()
             } else {
-                //TEMPORARY IMPLEMENTATION OF NOTIFICATION SERVICE
-                DispatchQueue.global(qos: .background).async {
-                    DispatchQueue.main.async {
-                        self.checkNotifications()
-                    }
-                }
+                
                 print("counting..")
                 if(MessageService.instance.selectedChannel?.participants != ""){
                 let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
                     for participant in participants {
                         if(participant != self.localUsername){
-                            print("participant name in update remote userchat is \(participant)")
+                            //print("participant name in update remote userchat is \(participant)")
                             Blockstack.shared.getFile(at: self.channelFileName, username: participant) { response, error in
                                 if error != nil {
                                     print("get file error")
@@ -456,7 +456,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                                             self.messageArray.append(message)
                                             self.participantLastMessageStringCount[participant] = fetchResponse.count
                                             self.remoteUserLastChatStringCount = fetchResponse.count
+                                            self.sentImage = UIImage(named: "checked_simple")!
                                             self.updateRowsInTable()
+                                            self.sentImage = UIImage(named: "stopwatch")!
                                             }
                                     }
 

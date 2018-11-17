@@ -1,14 +1,14 @@
 //
 //  Constants.swift
-//  Smack
+//  Timski
 //
-//  Created by Jonny B on 7/14/17.
-//  Copyright © 2017 Jonny B. All rights reserved.
+//  Created by Hammad Tariq on 9/26/18.
+//  Copyright © 2018 Hammad Tariq. All rights reserved.
 //
 
 import Foundation
 
-let CHANNEL_FILE = "channelTest11"
+let CHANNEL_FILE = "channelTest25"
 
 
 
