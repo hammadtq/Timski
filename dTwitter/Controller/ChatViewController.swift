@@ -110,19 +110,23 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func readChannels(){
-        SVProgressHUD.show()
-        NotificationService.instance.retrieve_accepted_notifications()
-        MessageService.instance.findAllChannel { (success) in
-            if success {
-                if MessageService.instance.channels.count > 0 {
-                    MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
-                    MessageService.instance.selectedChannel = MessageService.instance.channels[0]
-                    self.navigationController?.navigationBar.isUserInteractionEnabled = true
-                    self.updateWithChannel()
-                } else {
-                    self.title = "No channels yet!"
+        if Connectivity.isConnectedToInternet {
+            SVProgressHUD.show()
+            NotificationService.instance.retrieve_accepted_notifications()
+            MessageService.instance.findAllChannel { (success) in
+                if success {
+                    if MessageService.instance.channels.count > 0 {
+                        MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
+                        MessageService.instance.selectedChannel = MessageService.instance.channels[0]
+                        self.navigationController?.navigationBar.isUserInteractionEnabled = true
+                        self.updateWithChannel()
+                    } else {
+                        self.title = "No channels yet!"
+                    }
                 }
             }
+        } else {
+            self.noInternetAlert()
         }
     }
     
@@ -411,54 +415,59 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     }
     @objc func updateRemoteUserChat(){
         if activateTimer == true {
-            //TEMPORARY IMPLEMENTATION OF NOTIFICATION SERVICE
-            DispatchQueue.global(qos: .background).async {
-                DispatchQueue.main.async {
-                    self.checkNotifications()
+            
+            if !Connectivity.isConnectedToInternet {
+                self.noInternetAlert()
+            } else {
+                //TEMPORARY IMPLEMENTATION OF NOTIFICATION SERVICE
+                DispatchQueue.global(qos: .background).async {
+                    DispatchQueue.main.async {
+                        self.checkNotifications()
+                    }
                 }
-            }
-            print("counting..")
-            if(MessageService.instance.selectedChannel?.participants != ""){
-            let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
-                for participant in participants {
-                    if(participant != localUsername){
-                        print("participant name in update remote userchat is \(participant)")
-                        Blockstack.shared.getFile(at: channelFileName, username: participant) { response, error in
-                            if error != nil {
-                                print("get file error")
-                            } else {
-                                //print("get remote file success")
-                                //print(response as Any)
-                                let fetchResponse = (response as? String)!
-                                
-                                if fetchResponse.count > self.participantLastMessageStringCount[participant]!{
-                                DispatchQueue.main.async {
+                print("counting..")
+                if(MessageService.instance.selectedChannel?.participants != ""){
+                let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
+                    for participant in participants {
+                        if(participant != self.localUsername){
+                            print("participant name in update remote userchat is \(participant)")
+                            Blockstack.shared.getFile(at: self.channelFileName, username: participant) { response, error in
+                                if error != nil {
+                                    print("get file error")
+                                } else {
+                                    //print("get remote file success")
+                                    //print(response as Any)
+                                    let fetchResponse = (response as? String)!
                                     
-                                        let parseJson = JSON.init(parseJSON: (response as? String)!)
-                                        let sortedResults = parseJson.sorted { $0 < $1 }
-                                    
-                                        let message = MessageModel()
-                                        message.message = "\(sortedResults.last?.1["messagebody"] ?? "New Message")"
-                                        message.imageName = LetterImageGenerator.imageWith(name: participant, imageBackgroundColor: "remote")
-                                        let dateFormatter = DateFormatter()
-                                        let date = Date(timeIntervalSince1970: NSDate().timeIntervalSince1970)
-                                        dateFormatter.dateFormat = "HH:mm"
-                                        let strDate = dateFormatter.string(from: date)
-                                        message.time = strDate
-                                        self.messageArray.append(message)
-                                        self.participantLastMessageStringCount[participant] = fetchResponse.count
-                                        self.remoteUserLastChatStringCount = fetchResponse.count
-                                        self.updateRowsInTable()
-                                        }
-                                }
+                                    if fetchResponse.count > self.participantLastMessageStringCount[participant]!{
+                                    DispatchQueue.main.async {
+                                        
+                                            let parseJson = JSON.init(parseJSON: (response as? String)!)
+                                            let sortedResults = parseJson.sorted { $0 < $1 }
+                                        
+                                            let message = MessageModel()
+                                            message.message = "\(sortedResults.last?.1["messagebody"] ?? "New Message")"
+                                            message.imageName = LetterImageGenerator.imageWith(name: participant, imageBackgroundColor: "remote")
+                                            let dateFormatter = DateFormatter()
+                                            let date = Date(timeIntervalSince1970: NSDate().timeIntervalSince1970)
+                                            dateFormatter.dateFormat = "HH:mm"
+                                            let strDate = dateFormatter.string(from: date)
+                                            message.time = strDate
+                                            self.messageArray.append(message)
+                                            self.participantLastMessageStringCount[participant] = fetchResponse.count
+                                            self.remoteUserLastChatStringCount = fetchResponse.count
+                                            self.updateRowsInTable()
+                                            }
+                                    }
 
+                                }
                             }
                         }
                     }
-                }
-            }else{
-                MessageService.instance.getForeignChannelParticipants { (success) in
-                    print("tried fetching participants from remote file again")
+                }else{
+                    MessageService.instance.getForeignChannelParticipants { (success) in
+                        print("tried fetching participants from remote file again")
+                    }
                 }
             }
         }
@@ -511,6 +520,12 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func menuButtonToggle(_ sender: Any) {
         messageTextField.endEditing(true)
         self.revealViewController().revealToggle(self)
+    }
+    
+    func noInternetAlert(){
+        let alert = UIAlertController(title: "Error", message: "No internet connection", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

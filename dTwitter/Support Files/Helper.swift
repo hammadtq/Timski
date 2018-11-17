@@ -7,9 +7,17 @@
 //
 
 import Foundation
+import Alamofire
+
+//struct for checking internect connectivity using Alamofire
+struct Connectivity {
+    static let sharedInstance = NetworkReachabilityManager()!
+    static var isConnectedToInternet:Bool {
+        return self.sharedInstance.isReachable
+    }
+}
 
 class Helper{
-    
     static func serializeJSON (messageDictionary : Dictionary<String, Any>) -> String{
         var messageJSONText : String = ""
         if let theJSONData = try? JSONSerialization.data(
@@ -23,5 +31,4 @@ class Helper{
         }
         return messageJSONText
     }
-    
 }

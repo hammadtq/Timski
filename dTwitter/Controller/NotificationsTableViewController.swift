@@ -21,7 +21,11 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 80
-        checkNotificationsDetail()
+        if !Connectivity.isConnectedToInternet {
+            self.noInternetAlert()
+        } else {
+            checkNotificationsDetail()
+        }
     }
     
     func checkNotificationsDetail(){
@@ -232,6 +236,12 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
         }else{
             tableView.reloadData()
         }
+    }
+    
+    func noInternetAlert(){
+        let alert = UIAlertController(title: "Error", message: "No internet connection", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 
 
