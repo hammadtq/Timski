@@ -22,9 +22,25 @@ class AddChannelViewController: UIViewController {
         setUpView()
     }
     @IBAction func createChannelPressed(_ sender: Any) {
-        SVProgressHUD.show()
+        
         guard let channelName = nameText.text , nameText.text != "" else { return }
         guard let channelDesc = channelDesc.text else { return }
+        
+        let nameCharacterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+        if channelName.rangeOfCharacter(from: nameCharacterset.inverted) != nil {
+            print("string contains special characters")
+            presentAlert(type: "name")
+            return
+        }
+        
+        let descCharacterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ")
+        if channelDesc.rangeOfCharacter(from: descCharacterset.inverted) != nil {
+            print("string contains special characters")
+            presentAlert(type: "description")
+            return
+        }
+        
+        SVProgressHUD.show()
         Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
             if error != nil {
                 print("get file error")
@@ -62,6 +78,12 @@ class AddChannelViewController: UIViewController {
     
     @IBAction func closeModalPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func presentAlert(type: String){
+        let alert = UIAlertController(title: "Error", message: "Please make sure channel \(type) contains only alpha numeric characters", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: setUpView)
     }
     
     func setUpView(){

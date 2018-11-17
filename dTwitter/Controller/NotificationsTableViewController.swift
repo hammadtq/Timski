@@ -35,6 +35,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
             "uuid" : newVar,
             "retrieve_invitations" : 1
         ]
+        print("sending request")
         Alamofire.request(url, method: .post, parameters: parameters)
             .responseJSON { response in
                 if response.result.isSuccess {
@@ -42,7 +43,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                     print("resultingJSON is")
                     print(resultJSON)
                     if resultJSON["result"] != "error"{
-                        SVProgressHUD.dismiss()
+                        
                         DispatchQueue.main.async {
                             
                             let resultArray = resultJSON["result"].arrayValue
@@ -55,6 +56,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                                 notificationModel.remoteChannelTitle = result["channelTitle"].stringValue
                                 notificationModel.notificationID = result["id"].stringValue
                                 self.notificationArray.append(notificationModel)
+                                SVProgressHUD.dismiss()
                             }
                             self.tableView.reloadData()
                         }
