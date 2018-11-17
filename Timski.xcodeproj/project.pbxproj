@@ -42,12 +42,15 @@
 		A3AC3636212F307C001CCAC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3AC3634212F307C001CCAC3 /* LaunchScreen.storyboard */; };
 		A3FDBEE32132BD1E009D4CEF /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3FDBEE22132BD1E009D4CEF /* MessageCell.xib */; };
 		A3FDBEE52132BD3B009D4CEF /* CustomMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FDBEE42132BD3B009D4CEF /* CustomMessageCell.swift */; };
+		D681846BB90AA6CB910331D4 /* Pods_Timski.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F9B1DD06FBF6DAC7D20F90 /* Pods_Timski.framework */; };
 		EA8D5480F6338464D31A6981 /* Pods_dTwitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECD1EFB513B8DE30C6F3B87 /* Pods_dTwitter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0EB0C2D47D94CC256C186488 /* Pods-dTwitter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dTwitter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-dTwitter/Pods-dTwitter.debug.xcconfig"; sourceTree = "<group>"; };
+		289C862EF841663EC8C909A8 /* Pods-Timski.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Timski.release.xcconfig"; path = "Pods/Target Support Files/Pods-Timski/Pods-Timski.release.xcconfig"; sourceTree = "<group>"; };
 		466CFCF97CD404F327B8B927 /* Pods-dTwitter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dTwitter.release.xcconfig"; path = "Pods/Target Support Files/Pods-dTwitter/Pods-dTwitter.release.xcconfig"; sourceTree = "<group>"; };
+		94F9B1DD06FBF6DAC7D20F90 /* Pods_Timski.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Timski.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3001F34213FDA9B006FAF10 /* LetterImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterImageGenerator.swift; sourceTree = "<group>"; };
 		A3023812214E7138004DBE52 /* dTwitter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dTwitter-Bridging-Header.h"; sourceTree = "<group>"; };
 		A3023813214E7139004DBE52 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -87,6 +90,7 @@
 		A3AC3637212F307C001CCAC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3FDBEE22132BD1E009D4CEF /* MessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
 		A3FDBEE42132BD3B009D4CEF /* CustomMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMessageCell.swift; sourceTree = "<group>"; };
+		CD47C0D771BCC18EF8AC5D72 /* Pods-Timski.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Timski.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Timski/Pods-Timski.debug.xcconfig"; sourceTree = "<group>"; };
 		FECD1EFB513B8DE30C6F3B87 /* Pods_dTwitter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dTwitter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -96,6 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA8D5480F6338464D31A6981 /* Pods_dTwitter.framework in Frameworks */,
+				D681846BB90AA6CB910331D4 /* Pods_Timski.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				FECD1EFB513B8DE30C6F3B87 /* Pods_dTwitter.framework */,
+				94F9B1DD06FBF6DAC7D20F90 /* Pods_Timski.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -234,6 +240,8 @@
 			children = (
 				0EB0C2D47D94CC256C186488 /* Pods-dTwitter.debug.xcconfig */,
 				466CFCF97CD404F327B8B927 /* Pods-dTwitter.release.xcconfig */,
+				CD47C0D771BCC18EF8AC5D72 /* Pods-Timski.debug.xcconfig */,
+				289C862EF841663EC8C909A8 /* Pods-Timski.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -324,7 +332,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-dTwitter-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Timski-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -337,7 +345,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-dTwitter/Pods-dTwitter-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Timski/Pods-Timski-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Blockstack/Blockstack.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
@@ -358,7 +366,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-dTwitter/Pods-dTwitter-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Timski/Pods-Timski-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -536,7 +544,7 @@
 		};
 		A3AC363B212F307C001CCAC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0EB0C2D47D94CC256C186488 /* Pods-dTwitter.debug.xcconfig */;
+			baseConfigurationReference = CD47C0D771BCC18EF8AC5D72 /* Pods-Timski.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CLANG_ENABLE_MODULES = YES;
@@ -544,10 +552,7 @@
 				DEVELOPMENT_TEAM = NKVT77JN2L;
 				INFOPLIST_FILE = dTwitter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.iologics.timski;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "dTwitter/Support Files/dTwitter-Bridging-Header.h";
@@ -559,7 +564,7 @@
 		};
 		A3AC363C212F307C001CCAC3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 466CFCF97CD404F327B8B927 /* Pods-dTwitter.release.xcconfig */;
+			baseConfigurationReference = 289C862EF841663EC8C909A8 /* Pods-Timski.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CLANG_ENABLE_MODULES = YES;
@@ -567,10 +572,7 @@
 				DEVELOPMENT_TEAM = NKVT77JN2L;
 				INFOPLIST_FILE = dTwitter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.iologics.timski;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "dTwitter/Support Files/dTwitter-Bridging-Header.h";
