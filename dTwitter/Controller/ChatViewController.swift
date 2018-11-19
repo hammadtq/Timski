@@ -22,9 +22,10 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     var timer = Timer()
     
     var activateTimer : Bool = false
+    let defaults = UserDefaults.standard
     
     var messageProgress = [Int]()
-    var sentImage : UIImage = UIImage(named: "stopwatch")!
+    var sentImage : UIImage = UIImage(named: "checked_simple")!
     
     var participantLastMessageStringCount = [String: Int]()
     var remoteUserLastChatStringCount = 0
@@ -93,6 +94,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         //TEMPORARILY INITIATING NAMESPACE OBJECT ON CHAT LOAD
         MessageService.instance.selectedChannel?.namespace = Blockstack.shared.loadUserData()?.username
+        MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
         
         configureTableView()
         
@@ -115,8 +117,40 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             MessageService.instance.findAllChannel { (success) in
                 if success {
                     if MessageService.instance.channels.count > 0 {
-                        MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
-                        MessageService.instance.selectedChannel = MessageService.instance.channels[0]
+                        print(self.defaults.object(forKey:"selectedNamespace"))
+                        if(self.defaults.object(forKey:"selectedNamespace") == nil || self.defaults.object(forKey:"selectedChannelDictio") == nil){
+                            
+                            print("userdefaults are nil")
+                            self.defaults.set(MessageService.instance.selectedNamespace, forKey: "selectedNamespace")
+                            print(MessageService.instance.selectedNamespace)
+                            print(self.defaults.object(forKey:"selectedNamespace"))
+                            let channelDict = ["id" : MessageService.instance.channels[0].id, "title" : MessageService.instance.channels[0].channelTitle, "description" : MessageService.instance.channels[0].channelDescription, "namespace" : MessageService.instance.channels[0].namespace, "participants": MessageService.instance.channels[0].participants.rawString()] as [String : Any]
+                            
+                            self.defaults.set(channelDict, forKey: "selectedChannelDictio")
+                            MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
+                            MessageService.instance.selectedChannel = MessageService.instance.channels[0]
+                        }else{
+                            MessageService.instance.selectedNamespace = self.defaults.object(forKey:"selectedNamespace") as? String
+                            
+                            let channelDict = self.defaults.object(forKey: "selectedChannelDictio") as? [String: Any] ?? [String: Any]()
+                            
+                            print(channelDict)
+                            var channel = Channel()
+                            channel.id = channelDict["id"] as! String
+                            channel.channelDescription = channelDict["description"] as! String
+                            channel.channelTitle = channelDict["title"] as! String
+                            channel.namespace = channelDict["namespace"] as! String
+                            let jsonString = channelDict["participants"] ?? ""
+                            print("participants are")
+                            print(jsonString)
+                            channel.participants = JSON([jsonString])
+                            print(MessageService.instance.channels[0].participants.arrayObject)
+                            print(channel.participants.arrayObject)
+                            print(channel)
+                            
+                            MessageService.instance.selectedChannel = channel
+                        }
+                        
                         NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
                         self.navigationController?.navigationBar.isUserInteractionEnabled = true
                         self.updateWithChannel()
@@ -138,7 +172,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         let channelName = MessageService.instance.selectedChannel?.channelTitle ?? ""
         self.title = "#\(channelName)"
         self.channelFileName = (MessageService.instance.selectedChannel?.id)! + channelName
-        print(MessageService.instance.selectedChannel?.namespace)
         if(MessageService.instance.selectedChannel?.namespace != nil){
             //If its a remote channel we will first retrieve channel participants from the owner's channel file
             if (MessageService.instance.selectedChannel?.namespace != Blockstack.shared.loadUserData()?.username){
@@ -246,11 +279,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             }else{
                 messageModel.imageName = LetterImageGenerator.imageWith(name: username, imageBackgroundColor: "remote")
             }
-            self.sentImage = UIImage(named: "checked_simple")!
             messageArray.append(messageModel)
             activateTimer = true
             updateRowsInTable()
-            self.sentImage = UIImage(named: "stopwatch")!
         }
         
     }
@@ -267,6 +298,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         dateFormatter.dateFormat = "HH:mm"
         let strDate = dateFormatter.string(from: date)
         message.time = strDate
+        self.sentImage = UIImage(named: "stopwatch")!
         self.messageArray.append(message)
         
         //Before updating the row in the table, we want to collect the ID of the message, that is for the progress tick to show
@@ -290,7 +322,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         }
         
         let messageJSONText = Helper.serializeJSON(messageDictionary: messageDictionary!)
-        
+        print("putfile name \(channelFileName)")
         Blockstack.shared.putFile(to: channelFileName, content: messageJSONText) { (publicURL, error) in
             if error != nil {
                 print("put file error")
@@ -309,7 +341,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                         with: .fade)
                     self.messageTableView.endUpdates()
                     self.messageProgress.removeAll()
-                    self.sentImage = UIImage(named: "stopwatch")!
                 }
             }
         }
@@ -320,7 +351,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     func retrieveMessages(completeFunc: @escaping (JSON) -> Void){
         
         var remoteJson : JSON = ""
+        print(MessageService.instance.selectedChannel?.participants)
         let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
+        print(participants)
         let dispatchGroup = DispatchGroup()
         for participant in participants {
             //saving last message string count to check in updateRemoteUserChat if there are any new messages from the remote user
@@ -328,6 +361,8 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             self.participantLastMessageStringCount[participant] = 0
             dispatchGroup.enter()
             // Read data from Gaia
+            print("print participants are \(participant)")
+            print("getfile name \(channelFileName)")
             Blockstack.shared.getFile(at: channelFileName, username: participant) { response, error in
                 if error != nil {
                     print("get file error for \(participant)")
@@ -456,9 +491,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                                             self.messageArray.append(message)
                                             self.participantLastMessageStringCount[participant] = fetchResponse.count
                                             self.remoteUserLastChatStringCount = fetchResponse.count
-                                            self.sentImage = UIImage(named: "checked_simple")!
                                             self.updateRowsInTable()
-                                            self.sentImage = UIImage(named: "stopwatch")!
                                             }
                                     }
 

@@ -14,6 +14,8 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UIButton!
+    @IBOutlet weak var namespaceOutlet: UIButton!
+    
     var channelArr = [Channel]()
     
     
@@ -42,6 +44,8 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @objc func reloadData(){
+        //update the namespace button
+        namespaceOutlet.setTitle(MessageService.instance.selectedNamespace, for: .normal)
         //filtering the channels that are only available in current user namespace
         channelArr = MessageService.instance.channels.filter {
             $0.namespace ==  MessageService.instance.selectedNamespace

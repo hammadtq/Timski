@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 //struct for checking internect connectivity using Alamofire
 struct Connectivity {
@@ -30,5 +31,16 @@ class Helper{
             print("JSON string = \(messageJSONText)")
         }
         return messageJSONText
+    }
+    
+    static func addUserJSONDataToUserDefaults(userData: JSON) {
+        guard let jsonString = userData.rawString() else { return }
+        UserDefaults.standard.set(jsonString, forKey: "user")
+    }
+    
+    static func getCachedUserJSONData() -> JSON? {
+        let jsonString = UserDefaults.standard.string(forKey: "user") ?? ""
+        guard let jsonData = jsonString.data(using: .utf8, allowLossyConversion: false) else { return nil }
+        return try? JSON(data: jsonData)
     }
 }
