@@ -111,29 +111,38 @@ class MessageService {
         
     }
     
-    func getSetSavedNamespaceChannel(namespace : String, channel : Channel, completion: @escaping (_ Success: Bool) -> ()){
+    func getSetSavedNamespaceChannel(namespace : String, channel : Channel, write : Bool, completion: @escaping (_ Success: Bool) -> ()){
         let defaults = UserDefaults.standard
-        if(defaults.object(forKey:"selectedNamespace") == nil || defaults.object(forKey:"selectedChannelDic") == nil){
+        if(defaults.object(forKey:"selectedNamespace") == nil || defaults.object(forKey:"selectedChannelDictionar") == nil || write == true){
+            print("writing user defaults")
+            defaults.set(namespace, forKey: "selectedNamespace")
+            print(channel.participants)
+            var channelParticipants = JSON(channel.participants).arrayObject as Any
+            print("channel participants are")
+            print(channelParticipants)
+            if (channel.participants == ""){
+                channelParticipants = ""
+            }
             
-            defaults.set(MessageService.instance.selectedNamespace, forKey: "selectedNamespace")
-            let channelDict = ["id" : MessageService.instance.channels[0].id, "title" : MessageService.instance.channels[0].channelTitle, "description" : MessageService.instance.channels[0].channelDescription, "namespace" : MessageService.instance.channels[0].namespace, "participants": [MessageService.instance.channels[0].participants.rawString()]] as [String : Any]
+            print(channelParticipants)
+            let channelDict = ["id" : channel.id, "title" : channel.channelTitle, "description" : channel.channelDescription, "namespace" : channel.namespace, "participants": channelParticipants] as [String : Any]
             
-            defaults.set(channelDict, forKey: "selectedChannelDic")
-            MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
-            MessageService.instance.selectedChannel = MessageService.instance.channels[0]
+            defaults.set(channelDict, forKey: "selectedChannelDictionar")
+            MessageService.instance.selectedNamespace = namespace
+            MessageService.instance.selectedChannel = channel
             completion(true)
         }else{
+            print("user defaults exist")
             MessageService.instance.selectedNamespace = defaults.object(forKey:"selectedNamespace") as? String
             
-            let channelDict = defaults.object(forKey: "selectedChannelDic") as? [String: Any] ?? [String: Any]()
+            let channelDict = defaults.object(forKey: "selectedChannelDictionar") as? [String: Any] ?? [String: Any]()
             
             var channel = Channel()
             channel.id = channelDict["id"] as! String
             channel.channelDescription = channelDict["description"] as! String
             channel.channelTitle = channelDict["title"] as! String
             channel.namespace = channelDict["namespace"] as! String
-            let jsonString = channelDict["participants"] ?? ""
-            channel.participants = JSON(jsonString)
+            channel.participants = JSON(channelDict["participants"] as Any)
             
             MessageService.instance.selectedChannel = channel
             completion(true)

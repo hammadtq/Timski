@@ -75,7 +75,7 @@
             </objects>
             <point key="canvasLocation" x="2220" y="32.833583208395808"/>
         </scene>
-        <!--#general-->
+        <!--Chat View Controller-->
         <scene sceneID="llB-Zz-oof">
             <objects>
                 <viewController id="iZL-tN-L3x" customClass="ChatViewController" customModule="Timski" customModuleProvider="target" sceneMemberID="viewController">
@@ -155,7 +155,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="IoZ-5g-i87"/>
                     </view>
-                    <navigationItem key="navigationItem" title="#general" id="Bek-Ft-4mG">
+                    <navigationItem key="navigationItem" id="Bek-Ft-4mG">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="smackBurger" id="OZb-Pm-bFU">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -527,6 +527,7 @@
                         <viewLayoutGuide key="safeArea" id="SQg-MZ-RlC"/>
                     </view>
                     <connections>
+                        <outlet property="addChannelButton" destination="ghr-eu-D5b" id="J2q-C5-ZpK"/>
                         <outlet property="namespaceOutlet" destination="bjg-nT-nkU" id="CPa-HJ-4DK"/>
                         <outlet property="profileImage" destination="dFy-pk-9tq" id="Mhl-75-V5z"/>
                         <outlet property="profileName" destination="tGT-rs-eSm" id="KFx-S0-VtL"/>

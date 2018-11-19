@@ -108,6 +108,8 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @objc func channelSelected(_ notif: Notification) {
+        print("selected channel is")
+        print(MessageService.instance.selectedChannel)
         updateWithChannel()
     }
     
@@ -117,43 +119,13 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             MessageService.instance.findAllChannel { (success) in
                 if success {
                     if MessageService.instance.channels.count > 0 {
-                        print(self.defaults.object(forKey:"selectedNamespace"))
-                        if(self.defaults.object(forKey:"selectedNamespace") == nil || self.defaults.object(forKey:"selectedChannelDictio") == nil){
-                            
-                            print("userdefaults are nil")
-                            self.defaults.set(MessageService.instance.selectedNamespace, forKey: "selectedNamespace")
-                            print(MessageService.instance.selectedNamespace)
-                            print(self.defaults.object(forKey:"selectedNamespace"))
-                            let channelDict = ["id" : MessageService.instance.channels[0].id, "title" : MessageService.instance.channels[0].channelTitle, "description" : MessageService.instance.channels[0].channelDescription, "namespace" : MessageService.instance.channels[0].namespace, "participants": MessageService.instance.channels[0].participants.rawString()] as [String : Any]
-                            
-                            self.defaults.set(channelDict, forKey: "selectedChannelDictio")
-                            MessageService.instance.selectedNamespace = Blockstack.shared.loadUserData()?.username
-                            MessageService.instance.selectedChannel = MessageService.instance.channels[0]
-                        }else{
-                            MessageService.instance.selectedNamespace = self.defaults.object(forKey:"selectedNamespace") as? String
-                            
-                            let channelDict = self.defaults.object(forKey: "selectedChannelDictio") as? [String: Any] ?? [String: Any]()
-                            
-                            print(channelDict)
-                            var channel = Channel()
-                            channel.id = channelDict["id"] as! String
-                            channel.channelDescription = channelDict["description"] as! String
-                            channel.channelTitle = channelDict["title"] as! String
-                            channel.namespace = channelDict["namespace"] as! String
-                            let jsonString = channelDict["participants"] ?? ""
-                            print("participants are")
-                            print(jsonString)
-                            channel.participants = JSON([jsonString])
-                            print(MessageService.instance.channels[0].participants.arrayObject)
-                            print(channel.participants.arrayObject)
-                            print(channel)
-                            
-                            MessageService.instance.selectedChannel = channel
-                        }
                         
-                        NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
-                        self.navigationController?.navigationBar.isUserInteractionEnabled = true
-                        self.updateWithChannel()
+                        MessageService.instance.getSetSavedNamespaceChannel(namespace: MessageService.instance.selectedNamespace!, channel: MessageService.instance.channels[0], write: false, completion: { (success) in
+                            NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
+                            self.navigationController?.navigationBar.isUserInteractionEnabled = true
+                            self.updateWithChannel()
+                        })
+                        
                     } else {
                         self.title = "No channels yet!"
                     }
@@ -248,6 +220,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     func updateRowsInTable(){
         self.configureTableView()
         
+        print("message array count is")
+        print(messageArray.count)
+        
         messageTableView.beginUpdates()
         messageTableView.re.insertRows(at: [IndexPath.init(row: messageArray.count - 1, section: 0)], with: .automatic)
         messageTableView.endUpdates()
@@ -256,9 +231,11 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     //MARK:- Blockstack Functions
     func readMessages(json : JSON){
         print("Messages are \(json)")
+       
         let sortedResults = json.sorted { $0 < $1 }
         //print(sortedResults)
         messageArray.removeAll()
+        messageTableView.reloadData()
         for message in sortedResults{
             //print (message.1["messagebody"])
             let text = "\(message.1["messagebody"])"
@@ -279,12 +256,13 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             }else{
                 messageModel.imageName = LetterImageGenerator.imageWith(name: username, imageBackgroundColor: "remote")
             }
+            
             messageArray.append(messageModel)
-            activateTimer = true
             updateRowsInTable()
         }
-        
+        activateTimer = true
     }
+    
     
     func combineMessages(json : JSON){
         //print("Messages are \(json)")
@@ -351,9 +329,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     func retrieveMessages(completeFunc: @escaping (JSON) -> Void){
         
         var remoteJson : JSON = ""
-        print(MessageService.instance.selectedChannel?.participants)
         let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
-        print(participants)
         let dispatchGroup = DispatchGroup()
         for participant in participants {
             //saving last message string count to check in updateRemoteUserChat if there are any new messages from the remote user
@@ -361,8 +337,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             self.participantLastMessageStringCount[participant] = 0
             dispatchGroup.enter()
             // Read data from Gaia
-            print("print participants are \(participant)")
-            print("getfile name \(channelFileName)")
             Blockstack.shared.getFile(at: channelFileName, username: participant) { response, error in
                 if error != nil {
                     print("get file error for \(participant)")

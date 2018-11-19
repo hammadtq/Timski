@@ -15,6 +15,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UIButton!
     @IBOutlet weak var namespaceOutlet: UIButton!
+    @IBOutlet weak var addChannelButton: UIButton!
     
     var channelArr = [Channel]()
     
@@ -36,6 +37,11 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(ChannelViewController.reloadData), name:NSNotification.Name(rawValue: "channelDataUpdated"), object: nil)
+        if(MessageService.instance.selectedNamespace != Blockstack.shared.loadUserData()?.username){
+            addChannelButton.isHidden = true
+        }else{
+            addChannelButton.isHidden = false
+        }
     }
     @IBAction func namespacePressed(_ sender: Any) {
         //performSegue(withIdentifier: "sw_rear_namespaces", sender: self)
@@ -89,17 +95,15 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let channel = channelArr[indexPath.row]
-        MessageService.instance.selectedChannel = channel
         
-//        if MessageService.instance.unreadChannels.count > 0 {
-//            MessageService.instance.unreadChannels = MessageService.instance.unreadChannels.filter{$0 != channel.id}
-//        }
-        let index = IndexPath(row: indexPath.row, section: 0)
-        tableView.reloadRows(at: [index], with: .none)
-        tableView.selectRow(at: index, animated: false, scrollPosition: .none)
+        MessageService.instance.getSetSavedNamespaceChannel(namespace: MessageService.instance.selectedNamespace!, channel: channel, write: true) { (success) in
+            let index = IndexPath(row: indexPath.row, section: 0)
+            tableView.reloadRows(at: [index], with: .none)
+            tableView.selectRow(at: index, animated: false, scrollPosition: .none)
+            NotificationCenter.default.post(name: Notification.Name("channelSelected"), object: nil)
+            self.revealViewController().revealToggle(animated: true)
+        }
         
-        NotificationCenter.default.post(name: Notification.Name("channelSelected"), object: nil)
-        self.revealViewController().revealToggle(animated: true)
     }
     
 }
