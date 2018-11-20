@@ -34,7 +34,8 @@ class MessageService {
                     let timeStamp = NSDate().timeIntervalSince1970
                     let channelDictionary = ["\(timeStamp)" : ["name" : "general", "desc" : "General purpose channel", "participants" : [Blockstack.shared.loadUserData()?.username]]]
                     let messageJSONText = Helper.serializeJSON(messageDictionary: channelDictionary)
-                    Blockstack.shared.putFile(to: CHANNEL_FILE, content: messageJSONText, encrypt: false) { (publicURL, error) in
+                    
+                    Blockstack.shared.putFile(to: CHANNEL_FILE, text: messageJSONText, completion: { (publicURL, error) in
                         if error != nil {
                             print("put file error")
                         } else {
@@ -50,7 +51,7 @@ class MessageService {
                                 completion(true)
                             }
                         }
-                    }
+                    })
                     
                 }else{
                     self.channels.removeAll()

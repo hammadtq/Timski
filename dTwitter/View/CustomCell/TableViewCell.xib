@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -66,10 +65,10 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hammadtariq.id" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FnB-vb-Zd7">
-                        <rect key="frame" x="0.0" y="12" width="115" height="13"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <rect key="frame" x="88" y="0.0" width="212" height="13"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="115" id="Hhx-gc-G7K"/>
+                            <constraint firstAttribute="width" constant="212" id="VW7-2Q-Why"/>
+                            <constraint firstAttribute="height" constant="13" id="zzc-rW-jjn"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -79,18 +78,17 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="NLv-L7-KvI" secondAttribute="trailing" constant="6" id="CfW-Zx-rGN"/>
                     <constraint firstItem="jUr-b9-i8g" firstAttribute="bottom" secondItem="zum-gA-dTG" secondAttribute="bottom" id="DsM-YD-XTd"/>
-                    <constraint firstItem="zum-gA-dTG" firstAttribute="leading" secondItem="FnB-vb-Zd7" secondAttribute="trailing" constant="13" id="E7h-pC-hpy"/>
+                    <constraint firstAttribute="trailing" secondItem="FnB-vb-Zd7" secondAttribute="trailing" constant="20" id="Dyg-vq-nlC"/>
                     <constraint firstItem="jUr-b9-i8g" firstAttribute="leading" secondItem="zum-gA-dTG" secondAttribute="trailing" constant="12" id="EdU-bm-FfV"/>
                     <constraint firstAttribute="bottom" secondItem="jUr-b9-i8g" secondAttribute="bottom" constant="11.5" id="Gd0-I3-kc0"/>
-                    <constraint firstItem="FnB-vb-Zd7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="1" id="I5e-6a-nad"/>
                     <constraint firstItem="jUr-b9-i8g" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="KvH-Ey-ef7"/>
                     <constraint firstItem="jUr-b9-i8g" firstAttribute="height" relation="greaterThanOrEqual" secondItem="zum-gA-dTG" secondAttribute="height" id="NOE-UM-RUn"/>
                     <constraint firstItem="zum-gA-dTG" firstAttribute="leading" secondItem="JJz-uV-Q4q" secondAttribute="trailing" constant="8" id="Ntt-ca-AYd"/>
                     <constraint firstItem="JJz-uV-Q4q" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="Pe5-E2-oyn"/>
                     <constraint firstItem="zum-gA-dTG" firstAttribute="bottom" secondItem="JJz-uV-Q4q" secondAttribute="bottom" id="ZVq-ru-2hh"/>
+                    <constraint firstItem="FnB-vb-Zd7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="k9h-6L-Ys8"/>
                     <constraint firstAttribute="trailing" secondItem="jUr-b9-i8g" secondAttribute="trailing" constant="20" id="laU-DP-Ijh"/>
                     <constraint firstAttribute="bottom" secondItem="NLv-L7-KvI" secondAttribute="bottom" constant="13" id="mHC-rh-Slo"/>
-                    <constraint firstItem="FnB-vb-Zd7" firstAttribute="centerY" secondItem="zum-gA-dTG" secondAttribute="centerY" constant="-9.5" id="tF2-1V-urQ"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -99,6 +97,7 @@
                 <outlet property="messageLabel" destination="zwH-GY-LAK" id="hTR-gN-ad1"/>
                 <outlet property="sentImageView" destination="NLv-L7-KvI" id="TlG-hd-Ckd"/>
                 <outlet property="timeLabel" destination="JJz-uV-Q4q" id="uFX-yl-Kdb"/>
+                <outlet property="usernameLabel" destination="FnB-vb-Zd7" id="O6x-zH-y2J"/>
             </connections>
             <point key="canvasLocation" x="85" y="59"/>
         </tableViewCell>

@@ -15,6 +15,7 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var labelContainerView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var sentImageView: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,5 +37,6 @@ class TableViewCell: UITableViewCell {
         iconImageView.image = message.imageName
         messageLabel.text = message.message
         timeLabel.text = message.time
+        usernameLabel.text = message.username
     }
 }

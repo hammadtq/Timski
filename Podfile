@@ -11,5 +11,5 @@ pod 'Alamofire', '~> 4.7'
 pod 'SwiftyJSON', '~> 4.0'
 pod 'SVProgressHUD'
 pod "ReverseExtension"
-pod 'SwipeCellKit'
+pod 'SwipeCellKit', '2.4.3'
 end

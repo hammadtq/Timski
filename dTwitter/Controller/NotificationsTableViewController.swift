@@ -169,8 +169,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                 }
 
                 let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
-
-                Blockstack.shared.putFile(to: CHANNEL_FILE, content: channelJSONText) { (publicURL, error) in
+                Blockstack.shared.putFile(to: CHANNEL_FILE, text: channelJSONText, completion: { (publicURL, error) in
                     if error != nil {
                         SVProgressHUD.dismiss()
                         print("put file error")
@@ -183,7 +182,8 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                             self.updateInvitation(at: indexPath, action: "accept")
                         }
                     }
-                }
+                })
+                
             }
         }
     }

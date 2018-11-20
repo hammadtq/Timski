@@ -91,7 +91,8 @@ class NotificationService {
                 }
                 let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
 
-                Blockstack.shared.putFile(to: CHANNEL_FILE, content: channelJSONText) { (publicURL, error) in
+                
+                Blockstack.shared.putFile(to: CHANNEL_FILE, text: channelJSONText) { (publicURL, error) in
                     if error != nil {
                         print("put file error")
                     } else {

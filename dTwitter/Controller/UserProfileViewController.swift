@@ -25,7 +25,7 @@ class UserProfileViewController : UIViewController {
     }
     
     @IBAction func logoutPressed(_ sender: Any) {
-        Blockstack.shared.signOut()
+        Blockstack.shared.signUserOut()
         NotificationCenter.default.post(name: Notification.Name("UserLoggedOut"), object: nil)
        // dismiss(animated: true, completion: nil)
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)

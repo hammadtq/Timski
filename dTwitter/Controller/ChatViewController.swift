@@ -183,6 +183,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         cell.messageLabel.text = messageArray[indexPath.row].message
         cell.timeLabel.text = messageArray[indexPath.row].time
         cell.iconImageView.image = messageArray[indexPath.row].imageName
+        cell.usernameLabel.text = messageArray[indexPath.row].username
         cell.sentImageView.image = sentImage
         //cell.senderUsername.text = messageArray[indexPath.row].sender
         
@@ -218,9 +219,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     func updateRowsInTable(){
         self.configureTableView()
         
-        print("message array count is")
-        print(messageArray.count)
-        
         messageTableView.beginUpdates()
         messageTableView.re.insertRows(at: [IndexPath.init(row: messageArray.count - 1, section: 0)], with: .automatic)
         messageTableView.endUpdates()
@@ -249,6 +247,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             
             messageModel.message = text
             messageModel.time = strDate
+            messageModel.username = username
             if(username == localUsername){
                 messageModel.imageName = LetterImageGenerator.imageWith(name: username, imageBackgroundColor: "local")
             }else{
@@ -298,8 +297,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         }
         
         let messageJSONText = Helper.serializeJSON(messageDictionary: messageDictionary!)
-        print("putfile name \(channelFileName)")
-        Blockstack.shared.putFile(to: channelFileName, content: messageJSONText) { (publicURL, error) in
+        Blockstack.shared.putFile(to: channelFileName, text: messageJSONText) { (publicURL, error) in
             if error != nil {
                 print("put file error")
             } else {
@@ -320,6 +318,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 }
             }
         }
+        
         
         
     }
@@ -350,13 +349,8 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                     if (arr[0] != "<?xml"){
                         self.participantLastMessageStringCount[participant] = fetchResponse.count
                         self.remoteUserLastChatStringCount = fetchResponse.count
-                        print("fetch response is")
-                        print(fetchResponse)
                     }
                     
-                    print("retrieve participant is \(participant)")
-                    print("retrieve current count is \(fetchResponse.count)")
-                    print("retrieve last count was \(self.participantLastMessageStringCount[participant]!)")
                     if(remoteJson != JSON.null && remoteJson != ""){
                         var newJson = JSON.init(parseJSON: fetchResponse)
                         for (key, var item) in newJson {

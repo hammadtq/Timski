@@ -11,4 +11,5 @@ class MessageModel {
     var imageName: UIImage?
     var message: String = ""
     var time: String = ""
+    var username: String = ""
 }

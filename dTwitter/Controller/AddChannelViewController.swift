@@ -56,8 +56,7 @@ class AddChannelViewController: UIViewController {
                 channelDictionary?.updateValue(newChannel, forKey: "\(timeStamp)")
                 
                 let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)
-                
-                Blockstack.shared.putFile(to: CHANNEL_FILE, content: channelJSONText) { (publicURL, error) in
+                Blockstack.shared.putFile(to: CHANNEL_FILE, text: channelJSONText, completion: { (publicURL, error) in
                     if error != nil {
                         print("put file error")
                         SVProgressHUD.dismiss()
@@ -67,12 +66,12 @@ class AddChannelViewController: UIViewController {
                             SVProgressHUD.dismiss()
                             MessageService.instance.findAllChannel(completion: { (success) in
                                 NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
-                                 self.dismiss(animated: true, completion: nil)
+                                self.dismiss(animated: true, completion: nil)
                             })
-                           
+                            
                         }
                     }
-                }
+                })
             }
         }
     }

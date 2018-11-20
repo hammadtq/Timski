@@ -56,18 +56,12 @@ class ViewController: UIViewController {
     
     @IBAction func signOut(_ sender: Any) {
         // Sign user out
-        Blockstack.shared.signOut()
+        Blockstack.shared.signUserOut()
         self.updateUI()
     }
     
     @IBAction func resetDeviceKeychain(_ sender: Any) {
-        Blockstack.shared.promptClearDeviceKeychain(redirectUri: "myBlockstackApp") { error in
-            if let error = error {
-                print("sign out failed, error: \(error)")
-            } else {
-                print("sign out success")
-            }
-        }
+        Blockstack.shared.promptClearDeviceKeychain()
     }
     
     @IBAction func putFileTapped(_ sender: Any) {
@@ -81,7 +75,7 @@ class ViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Send", style: .default) { _ in
             let text = alert.textFields?.first?.text ?? "Default Text"
-            Blockstack.shared.putFile(to: "testFile", content: text, encrypt: false) { (publicURL, error) in
+            Blockstack.shared.putFile(to: "testFile", text: text, encrypt: false) { (publicURL, error) in
                 if error != nil {
                     print("put file error")
                 } else {
@@ -139,7 +133,8 @@ class ViewController: UIViewController {
     
     private func updateUI() {
         DispatchQueue.main.async {
-            if Blockstack.shared.isSignedIn() {
+            
+            if Blockstack.shared.isUserSignedIn() {
                 
                 // Read user profile data
                 let retrievedUserData = Blockstack.shared.loadUserData()
@@ -160,7 +155,7 @@ class ViewController: UIViewController {
     }
     
     func checkIfSignedIn() {
-        Blockstack.shared.isSignedIn() ? print("currently signed in") : print("not signed in")
+        Blockstack.shared.isUserSignedIn() ? print("currently signed in") : print("not signed in")
     }
 
 }
