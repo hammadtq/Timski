@@ -209,7 +209,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                     let resultJSON : JSON = JSON(response.result.value!)
                     print(resultJSON)
                     if resultJSON["result"] == "success"{
-                        SVProgressHUD.dismiss()
+                        //SVProgressHUD.dismiss()
                         DispatchQueue.main.async {
                             self.notificationArray.remove(at: indexPath.row)
                             self.tableView.deleteRows(at: [indexPath], with: .fade)

@@ -65,6 +65,8 @@ class NotificationService {
     }
     
     //Add accepted invitation to the user's local channel file
+    //MINOR FUNCTIONALITY BUG: WHILE ADDING PARTICIPANTS, THE ACCEPTING USER NEEDS TO UPDATE THE OPEN CHANNEL's PARTICIPANTS
+    //OTHERWISE HE/SHE/IT CANNOT SEE REMOTE MESSAGES UNTIL THE CHANNEL IS RELOADED
     func addParticipantsToChannel(){
         Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
             if error != nil {

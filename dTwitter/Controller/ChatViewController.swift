@@ -108,8 +108,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @objc func channelSelected(_ notif: Notification) {
-        print("selected channel is")
-        print(MessageService.instance.selectedChannel)
         updateWithChannel()
     }
     
@@ -330,6 +328,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         var remoteJson : JSON = ""
         let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
+        print(participants)
         let dispatchGroup = DispatchGroup()
         for participant in participants {
             //saving last message string count to check in updateRemoteUserChat if there are any new messages from the remote user
@@ -344,17 +343,30 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                     print("get remote file success for \(participant)")
                     print(response as Any)
                     let fetchResponse = (response as? String)!
-                    self.participantLastMessageStringCount[participant] = fetchResponse.count
-                    self.remoteUserLastChatStringCount = fetchResponse.count
-
+                    
+                    //Test to see if we got Blob Not Found error i.e., user hasn't posted any msg yet
+                    //in that case we can not update the fetchResponse.count as last count of msgs
+                    let arr = fetchResponse.split {$0 == " "}
+                    if (arr[0] != "<?xml"){
+                        self.participantLastMessageStringCount[participant] = fetchResponse.count
+                        self.remoteUserLastChatStringCount = fetchResponse.count
+                        print("fetch response is")
+                        print(fetchResponse)
+                    }
+                    
+                    print("retrieve participant is \(participant)")
+                    print("retrieve current count is \(fetchResponse.count)")
+                    print("retrieve last count was \(self.participantLastMessageStringCount[participant]!)")
                     if(remoteJson != JSON.null && remoteJson != ""){
                         var newJson = JSON.init(parseJSON: fetchResponse)
                         for (key, var item) in newJson {
                             item["username"] = JSON(participant)
                             newJson[key] = item
                         }
-                        let combinedDict = remoteJson.dictionaryObject?.merging(newJson.dictionaryObject!) { $1 }
-                        remoteJson = JSON(combinedDict as Any)
+                        if(newJson.dictionaryObject != nil){
+                            let combinedDict = remoteJson.dictionaryObject?.merging(newJson.dictionaryObject!) { $1 }
+                            remoteJson = JSON(combinedDict as Any)
+                        }
                         
                     }else{
                         remoteJson = JSON.init(parseJSON: fetchResponse)
@@ -447,8 +459,8 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                                     //print("get remote file success")
                                     //print(response as Any)
                                     let fetchResponse = (response as? String)!
-                                    
-                                    if fetchResponse.count > self.participantLastMessageStringCount[participant]!{
+                                    let arr = fetchResponse.split {$0 == " "}
+                                    if (arr[0] != "<?xml" && fetchResponse.count > self.participantLastMessageStringCount[participant]!){
                                     DispatchQueue.main.async {
                                         
                                             let parseJson = JSON.init(parseJSON: (response as? String)!)

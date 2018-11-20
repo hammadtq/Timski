@@ -19,6 +19,7 @@ class AddChannelViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameText.becomeFirstResponder()
         setUpView()
     }
     @IBAction func createChannelPressed(_ sender: Any) {

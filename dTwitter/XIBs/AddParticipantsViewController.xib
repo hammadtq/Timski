@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddParticipantsViewController" customModule="dTwitter" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddParticipantsViewController" customModule="Timski" customModuleProvider="target">
             <connections>
                 <outlet property="blockstackUserID" destination="RuX-Yb-gJ7" id="Eth-rc-7rM"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -39,7 +39,7 @@
                                 <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="1uM-R0-eso"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="set-Qf-Rzr" customClass="RoundedButton" customModule="dTwitter" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="set-Qf-Rzr" customClass="RoundedButton" customModule="Timski" customModuleProvider="target">
                             <rect key="frame" x="42.5" y="250" width="250" height="50"/>
                             <color key="backgroundColor" red="0.18039215689999999" green="0.69411764710000001" blue="0.52941176469999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>

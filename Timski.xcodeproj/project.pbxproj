@@ -43,7 +43,6 @@
 		A3FDBEE32132BD1E009D4CEF /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3FDBEE22132BD1E009D4CEF /* MessageCell.xib */; };
 		A3FDBEE52132BD3B009D4CEF /* CustomMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FDBEE42132BD3B009D4CEF /* CustomMessageCell.swift */; };
 		D681846BB90AA6CB910331D4 /* Pods_Timski.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F9B1DD06FBF6DAC7D20F90 /* Pods_Timski.framework */; };
-		EA8D5480F6338464D31A6981 /* Pods_dTwitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECD1EFB513B8DE30C6F3B87 /* Pods_dTwitter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,7 +90,6 @@
 		A3FDBEE22132BD1E009D4CEF /* MessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
 		A3FDBEE42132BD3B009D4CEF /* CustomMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMessageCell.swift; sourceTree = "<group>"; };
 		CD47C0D771BCC18EF8AC5D72 /* Pods-Timski.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Timski.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Timski/Pods-Timski.debug.xcconfig"; sourceTree = "<group>"; };
-		FECD1EFB513B8DE30C6F3B87 /* Pods_dTwitter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dTwitter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +97,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA8D5480F6338464D31A6981 /* Pods_dTwitter.framework in Frameworks */,
 				D681846BB90AA6CB910331D4 /* Pods_Timski.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,7 +226,6 @@
 		B171B080FBC0EFB48B9A3844 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FECD1EFB513B8DE30C6F3B87 /* Pods_dTwitter.framework */,
 				94F9B1DD06FBF6DAC7D20F90 /* Pods_Timski.framework */,
 			);
 			name = Frameworks;
@@ -552,7 +548,10 @@
 				DEVELOPMENT_TEAM = NKVT77JN2L;
 				INFOPLIST_FILE = dTwitter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.iologics.timski;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "dTwitter/Support Files/dTwitter-Bridging-Header.h";
@@ -572,7 +571,10 @@
 				DEVELOPMENT_TEAM = NKVT77JN2L;
 				INFOPLIST_FILE = dTwitter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.iologics.timski;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "dTwitter/Support Files/dTwitter-Bridging-Header.h";
