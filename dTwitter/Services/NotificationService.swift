@@ -87,6 +87,17 @@ class NotificationService {
                         }
                         concernedChannel["participants"] = participants
                         channelDictionary?.updateValue(concernedChannel, forKey: notification.remoteChannel)
+                        
+                        //if current selected channel is open, this will introduce new participant
+                        // - THIS SHOULD HAVE BEEN DONE AFTER THE PUT FILE METHOD SUCCESS
+                        if MessageService.instance.selectedChannel?.channelTitle == notification.remoteChannelTitle {
+                            var participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
+                            if (!participants.contains(notification.remoteUser)){
+                                participants.append(notification.remoteUser)
+                            }
+                            MessageService.instance.selectedChannel?.participants = JSON(participants as Any)
+                            print(participants)
+                        }
                     }
                 }
                 let channelJSONText = Helper.serializeJSON(messageDictionary: channelDictionary!)

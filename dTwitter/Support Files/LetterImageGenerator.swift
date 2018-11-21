@@ -18,7 +18,7 @@ class LetterImageGenerator: NSObject {
     if(imageBackgroundColor == "local"){
             nameLabel.backgroundColor = UIColor(red:0.00, green:0.72, blue:0.58, alpha:1.0)
     }else{
-            nameLabel.backgroundColor = .red
+            nameLabel.backgroundColor = UIColor(red:1.00, green:0.46, blue:0.46, alpha:1.0)
     }
     var initials = ""
     if let initialsArray = name?.components(separatedBy: " ") {

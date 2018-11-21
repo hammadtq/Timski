@@ -49,22 +49,13 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
         
-        //Set Notification and add buttons
+        //Set Notification button - its getting added to the navigation bar from updatewithchannel()
         notificationBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         notificationBtn.setImage(UIImage(named: "notification")?.withRenderingMode(.alwaysTemplate), for: .normal)
         notificationBtn.badgeEdgeInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 15)
         notificationBtn.tintColor = UIColor.darkGray
         notificationBtn.addTarget(self, action: #selector(navigateToNotifications), for: .touchUpInside)
         
-        
-        let addButton = UIButton(type: .custom)
-        addButton.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        addButton.frame = CGRect(x: 0.0, y: 0.0, width: 44.0, height: 44.0)
-        addButton.tintColor = UIColor.darkGray
-        addButton.addTarget(self, action: #selector(addParticipantsOpen), for: .touchUpInside)
-        let addButtonItem = UIBarButtonItem(customView: addButton)
-        
-        self.navigationItem.rightBarButtonItems = [addButtonItem, UIBarButtonItem(customView: notificationBtn)]
         self.navigationController?.navigationBar.isUserInteractionEnabled = false
         //Reverse Extenstion
         //You can apply reverse effect only set delegate.
@@ -102,7 +93,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("starting timer")
         stopTimerTest()
         self.scheduledTimerWithTimeInterval()
     }
@@ -120,7 +110,6 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                         
                         MessageService.instance.getSetSavedNamespaceChannel(namespace: MessageService.instance.selectedNamespace!, channel: MessageService.instance.channels[0], write: false, completion: { (success) in
                             NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
-                            self.navigationController?.navigationBar.isUserInteractionEnabled = true
                             self.updateWithChannel()
                         })
                         
@@ -145,6 +134,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         if(MessageService.instance.selectedChannel?.namespace != nil){
             //If its a remote channel we will first retrieve channel participants from the owner's channel file
             if (MessageService.instance.selectedChannel?.namespace != Blockstack.shared.loadUserData()?.username){
+                self.navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: notificationBtn)]
                 MessageService.instance.getForeignChannelParticipants { (success) in
                     if success {
                         if(MessageService.instance.selectedChannel?.participants != ""){
@@ -159,6 +149,14 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 }
             }else{
+                let addButton = UIButton(type: .custom)
+                addButton.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                addButton.frame = CGRect(x: 0.0, y: 0.0, width: 44.0, height: 44.0)
+                addButton.tintColor = UIColor.darkGray
+                addButton.addTarget(self, action: #selector(addParticipantsOpen), for: .touchUpInside)
+                let addButtonItem = UIBarButtonItem(customView: addButton)
+                
+                self.navigationItem.rightBarButtonItems = [addButtonItem, UIBarButtonItem(customView: notificationBtn)]
                 retrieveMessages(completeFunc: readMessages)
             }
         }else{
@@ -273,6 +271,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         dateFormatter.dateFormat = "HH:mm"
         let strDate = dateFormatter.string(from: date)
         message.time = strDate
+        message.username = self.localUsername
         self.sentImage = UIImage(named: "stopwatch")!
         self.messageArray.append(message)
         
@@ -340,7 +339,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                     print("get file error for \(participant)")
                 } else {
                     print("get remote file success for \(participant)")
-                    print(response as Any)
+                    //print(response as Any)
                     let fetchResponse = (response as? String)!
                     
                     //Test to see if we got Blob Not Found error i.e., user hasn't posted any msg yet
@@ -403,6 +402,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
 //                combinedMessages = JSON(combinedDict as Any)
 //            }
             completeFunc(remoteJson)
+            self.navigationController?.navigationBar.isUserInteractionEnabled = true
             SVProgressHUD.dismiss()
         }
     }
@@ -443,17 +443,22 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 print("counting..")
                 if(MessageService.instance.selectedChannel?.participants != ""){
                 let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
+                    print(participants)
                     for participant in participants {
                         if(participant != self.localUsername){
-                            //print("participant name in update remote userchat is \(participant)")
+                            print("participant name in update remote userchat is \(participant)")
+                            if self.participantLastMessageStringCount[participant] == nil {
+                                self.participantLastMessageStringCount[participant] = 0
+                            }
                             Blockstack.shared.getFile(at: self.channelFileName, username: participant) { response, error in
                                 if error != nil {
                                     print("get file error")
                                 } else {
-                                    //print("get remote file success")
-                                    //print(response as Any)
+                                    print("get remote file success")
+                                    print(response as Any)
                                     let fetchResponse = (response as? String)!
                                     let arr = fetchResponse.split {$0 == " "}
+                                    
                                     if (arr[0] != "<?xml" && fetchResponse.count > self.participantLastMessageStringCount[participant]!){
                                     DispatchQueue.main.async {
                                         
@@ -468,6 +473,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                                             dateFormatter.dateFormat = "HH:mm"
                                             let strDate = dateFormatter.string(from: date)
                                             message.time = strDate
+                                            message.username = participant
                                             self.messageArray.append(message)
                                             self.participantLastMessageStringCount[participant] = fetchResponse.count
                                             self.remoteUserLastChatStringCount = fetchResponse.count

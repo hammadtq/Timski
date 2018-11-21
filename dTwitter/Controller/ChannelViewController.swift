@@ -28,7 +28,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
         profileImage.layer.cornerRadius = profileImage.bounds.width / 2.0
         profileImage.layer.masksToBounds = true
         
-        let userFullName = Blockstack.shared.loadUserData()?.profile?.name
+        let userFullName = Blockstack.shared.loadUserData()?.profile?.name ?? "Nameless User"
         profileName.setTitle(userFullName, for: .normal)
         profileImage.image = LetterImageGenerator.imageWith(name: userFullName, imageBackgroundColor: "local")
 

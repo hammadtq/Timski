@@ -14,6 +14,7 @@ class NamespacesViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var profileName: UIButton!
+    
     var namespaceArr = [String]()
     
     override func viewDidLoad() {
@@ -24,7 +25,7 @@ class NamespacesViewController: UIViewController, UITableViewDelegate, UITableVi
         profileImage.layer.cornerRadius = profileImage.bounds.width / 2.0
         profileImage.layer.masksToBounds = true
         
-        let userFullName = Blockstack.shared.loadUserData()?.profile?.name
+        let userFullName = Blockstack.shared.loadUserData()?.profile?.name ?? "Nameless User"
         profileName.setTitle(userFullName, for: .normal)
         profileImage.image = LetterImageGenerator.imageWith(name: userFullName, imageBackgroundColor: "local")
         reloadData()

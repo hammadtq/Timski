@@ -26,7 +26,7 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9nT-xN-IjG">
-                    <rect key="frame" x="20" y="100" width="335" height="320"/>
+                    <rect key="frame" x="20" y="40" width="335" height="300"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YBi-Gh-5j9">
                             <rect key="frame" x="299" y="8" width="28" height="28"/>
@@ -37,26 +37,6 @@
                             <state key="normal" image="closeButton"/>
                             <connections>
                                 <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="1uM-R0-eso"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="set-Qf-Rzr" customClass="RoundedButton" customModule="Timski" customModuleProvider="target">
-                            <rect key="frame" x="42.5" y="250" width="250" height="50"/>
-                            <color key="backgroundColor" red="0.18039215689999999" green="0.69411764710000001" blue="0.52941176469999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="250" id="AsD-l4-BOQ"/>
-                                <constraint firstAttribute="height" constant="50" id="STC-a3-uEz"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                            <state key="normal" title="Add Participant">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="5"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="addParticipantPressed:" destination="-1" eventType="touchUpInside" id="zuQ-IE-gnD"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Participant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zPi-5I-j5O">
@@ -88,25 +68,45 @@
                                 </view>
                             </subviews>
                         </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="set-Qf-Rzr" customClass="RoundedButton" customModule="Timski" customModuleProvider="target">
+                            <rect key="frame" x="42" y="220" width="250" height="50"/>
+                            <color key="backgroundColor" red="0.18039215689999999" green="0.69411764710000001" blue="0.52941176469999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="250" id="AsD-l4-BOQ"/>
+                                <constraint firstAttribute="height" constant="50" id="STC-a3-uEz"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <state key="normal" title="Add Participant">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="addParticipantPressed:" destination="-1" eventType="touchUpInside" id="zuQ-IE-gnD"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="c93-OA-ePr" firstAttribute="centerX" secondItem="9nT-xN-IjG" secondAttribute="centerX" id="007-ph-kDn"/>
-                        <constraint firstItem="c93-OA-ePr" firstAttribute="centerY" secondItem="9nT-xN-IjG" secondAttribute="centerY" constant="-10" id="BPx-jn-jmw"/>
+                        <constraint firstItem="c93-OA-ePr" firstAttribute="centerY" secondItem="9nT-xN-IjG" secondAttribute="centerY" id="BPx-jn-jmw"/>
                         <constraint firstItem="YBi-Gh-5j9" firstAttribute="top" secondItem="9nT-xN-IjG" secondAttribute="top" constant="8" id="CUq-4Z-88B"/>
-                        <constraint firstAttribute="height" constant="320" id="LJt-P2-FF5"/>
+                        <constraint firstAttribute="height" constant="300" id="LJt-P2-FF5"/>
                         <constraint firstItem="zPi-5I-j5O" firstAttribute="top" secondItem="9nT-xN-IjG" secondAttribute="top" constant="40" id="LVz-B5-7ip"/>
                         <constraint firstItem="zPi-5I-j5O" firstAttribute="centerX" secondItem="9nT-xN-IjG" secondAttribute="centerX" id="aDh-sD-vwH"/>
                         <constraint firstItem="set-Qf-Rzr" firstAttribute="centerX" secondItem="9nT-xN-IjG" secondAttribute="centerX" id="gvd-4Y-Apm"/>
                         <constraint firstAttribute="trailing" secondItem="YBi-Gh-5j9" secondAttribute="trailing" constant="8" id="yh3-OT-78E"/>
-                        <constraint firstAttribute="bottom" secondItem="set-Qf-Rzr" secondAttribute="bottom" constant="20" id="zZi-n9-aLX"/>
+                        <constraint firstAttribute="bottom" secondItem="set-Qf-Rzr" secondAttribute="bottom" constant="30" id="zZi-n9-aLX"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9nT-xN-IjG" secondAttribute="trailing" constant="20" id="4yT-YJ-ASe"/>
-                <constraint firstItem="9nT-xN-IjG" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="80" id="5nw-Yl-N6v"/>
+                <constraint firstItem="9nT-xN-IjG" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="5nw-Yl-N6v"/>
                 <constraint firstItem="9nT-xN-IjG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="HC2-X9-oH6"/>
                 <constraint firstItem="57g-aV-2dV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="L1t-c4-7Aq"/>
                 <constraint firstItem="57g-aV-2dV" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="MvW-6F-EFJ"/>

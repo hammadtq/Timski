@@ -28,7 +28,7 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9nT-xN-IjG">
-                    <rect key="frame" x="20" y="100" width="335" height="320"/>
+                    <rect key="frame" x="20" y="40" width="335" height="320"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YBi-Gh-5j9">
                             <rect key="frame" x="299" y="8" width="28" height="28"/>
@@ -126,7 +126,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9nT-xN-IjG" secondAttribute="trailing" constant="20" id="4yT-YJ-ASe"/>
-                <constraint firstItem="9nT-xN-IjG" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="80" id="5nw-Yl-N6v"/>
+                <constraint firstItem="9nT-xN-IjG" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="5nw-Yl-N6v"/>
                 <constraint firstItem="9nT-xN-IjG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="HC2-X9-oH6"/>
                 <constraint firstItem="57g-aV-2dV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="L1t-c4-7Aq"/>
                 <constraint firstItem="57g-aV-2dV" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="MvW-6F-EFJ"/>

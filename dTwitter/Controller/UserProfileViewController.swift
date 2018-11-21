@@ -36,7 +36,7 @@ class UserProfileViewController : UIViewController {
     }
     
     func setupView() {
-        let userFullName = Blockstack.shared.loadUserData()?.profile?.name
+        let userFullName = Blockstack.shared.loadUserData()?.profile?.name ?? "Nameless User"
         userName.text = userFullName
         userEmail.text = Blockstack.shared.loadUserData()?.profile?.description
         profileImg.image = LetterImageGenerator.imageWith(name: userFullName, imageBackgroundColor: "local")
