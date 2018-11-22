@@ -39,13 +39,11 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
             "uuid" : newVar,
             "retrieve_invitations" : 1
         ]
-        print("sending request")
+        //print("sending request")
         Alamofire.request(url, method: .post, parameters: parameters)
             .responseJSON { response in
                 if response.result.isSuccess {
                     let resultJSON : JSON = JSON(response.result.value!)
-                    print("resultingJSON is")
-                    print(resultJSON)
                     if resultJSON["result"] != "error"{
                         
                         DispatchQueue.main.async {
@@ -174,7 +172,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
                         SVProgressHUD.dismiss()
                         print("put file error")
                     } else {
-                        print("put file success \(publicURL!)")
+                        //print("put file success \(publicURL!)")
                         DispatchQueue.main.async{
                             MessageService.instance.findAllChannel(completion: { (success) in
                                 NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
@@ -193,7 +191,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
     }
 
     func updateInvitation(at indexPath: IndexPath, action: String){
-        print("inside update invitation")
+        //print("inside update invitation")
         let url = "https://api.iologics.co.uk/timski/index.php"
         let localUser = Blockstack.shared.loadUserData()?.username
         let newVar = "cryptgraphy makes the \(localUser!) rock!".sha256()
@@ -207,7 +205,7 @@ class NotificationsTableViewController: UITableViewController, SwipeTableViewCel
             .responseJSON { response in
                 if response.result.isSuccess {
                     let resultJSON : JSON = JSON(response.result.value!)
-                    print(resultJSON)
+                    //print(resultJSON)
                     if resultJSON["result"] == "success"{
                         //SVProgressHUD.dismiss()
                         DispatchQueue.main.async {

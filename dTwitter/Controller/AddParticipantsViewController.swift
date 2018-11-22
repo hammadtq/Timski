@@ -58,7 +58,7 @@ class AddParticipantsViewController: UIViewController {
                     .responseJSON { response in
                         if response.result.isSuccess {
                             let resultJSON : JSON = JSON(response.result.value!)
-                            print(resultJSON)
+                            //print(resultJSON)
                             if resultJSON["result"] == "success"{
                                 SVProgressHUD.dismiss()
                                 DispatchQueue.main.async {

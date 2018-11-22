@@ -23,11 +23,11 @@ class MessageService {
         //Read channel data from Gaia
         Blockstack.shared.getFile(at: CHANNEL_FILE) { response, error in
             if error != nil {
-                print("get file error")
+                //print("get file error")
                 completion(false)
             } else {
-                print("got channel list")
-                print(response as Any)
+                //print("got channel list")
+                //print(response as Any)
                 let convertJSON = JSON.init(parseJSON: (response as? String)!)
                 if convertJSON.isEmpty {
                     //assuming the file is not there in all null cases
@@ -37,9 +37,9 @@ class MessageService {
                     
                     Blockstack.shared.putFile(to: CHANNEL_FILE, text: messageJSONText, completion: { (publicURL, error) in
                         if error != nil {
-                            print("put file error")
+                            //print("put file error")
                         } else {
-                            print("put file success \(publicURL!)")
+                            //print("put file success \(publicURL!)")
                             var channel = Channel()
                             channel.namespace = Blockstack.shared.loadUserData()?.username
                             channel.channelTitle = "general"
@@ -97,7 +97,8 @@ class MessageService {
                 //print(response as Any)
                 let json = JSON.init(parseJSON: (response as? String)!)
                 var channelDictionary = json.dictionaryObject
-                if (channelDictionary![(MessageService.instance.selectedChannel?.id)!] != nil){
+                
+                if (channelDictionary != nil && channelDictionary![(MessageService.instance.selectedChannel?.id)!] != nil){
                     var concernedChannel = channelDictionary![(MessageService.instance.selectedChannel?.id)!] as! [String:Any]
                     let participants = concernedChannel["participants"] as! [String]
                     MessageService.instance.selectedChannel?.participants = JSON(participants)
@@ -105,7 +106,8 @@ class MessageService {
                         completion(true)
                     }
                 }else{
-                    print ("error in fetching remote participants")
+                    completion(false)
+                    //print ("error in fetching remote participants")
                 }
             }
         }
@@ -115,17 +117,13 @@ class MessageService {
     func getSetSavedNamespaceChannel(namespace : String, channel : Channel, write : Bool, completion: @escaping (_ Success: Bool) -> ()){
         let defaults = UserDefaults.standard
         if(defaults.object(forKey:"selectedNamespace") == nil || defaults.object(forKey:"selectedChannelDictionar") == nil || write == true){
-            print("writing user defaults")
             defaults.set(namespace, forKey: "selectedNamespace")
-            print(channel.participants)
+            //print(channel.participants)
             var channelParticipants = JSON(channel.participants).arrayObject as Any
-            print("channel participants are")
-            print(channelParticipants)
             if (channel.participants == ""){
                 channelParticipants = ""
             }
             
-            print(channelParticipants)
             let channelDict = ["id" : channel.id, "title" : channel.channelTitle, "description" : channel.channelDescription, "namespace" : channel.namespace, "participants": channelParticipants] as [String : Any]
             
             defaults.set(channelDict, forKey: "selectedChannelDictionar")
@@ -133,7 +131,6 @@ class MessageService {
             MessageService.instance.selectedChannel = channel
             completion(true)
         }else{
-            print("user defaults exist")
             MessageService.instance.selectedNamespace = defaults.object(forKey:"selectedNamespace") as? String
             
             let channelDict = defaults.object(forKey: "selectedChannelDictionar") as? [String: Any] ?? [String: Any]()

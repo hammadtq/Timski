@@ -115,16 +115,18 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                         
                     } else {
                         self.title = "No channels yet!"
+                        SVProgressHUD.dismiss()
+                        self.errorAlert(error: "Could not fetch channels!")
                     }
                 }
             }
         } else {
-            self.noInternetAlert()
+            self.errorAlert(error: "No internet connection")
         }
     }
     
     func updateWithChannel() {
-        print("update with channel")
+        //print("update with channel")
         SVProgressHUD.show()
         messageArray.removeAll()
         tableView.reloadData()
@@ -140,12 +142,14 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                         if(MessageService.instance.selectedChannel?.participants != ""){
                             self.retrieveMessages(completeFunc: self.readMessages)
                         }else{
-                            print("remote participants found to be nil")
+                            //print("remote participants found to be nil")
                             SVProgressHUD.dismiss()
+                            self.errorAlert(error: "Could not fetch participants. Please try selecting the channel again!")
                         }
                     }else{
-                        print("unable to retrieve participants of remote channel")
+                        //print("unable to retrieve participants of remote channel")
                         SVProgressHUD.dismiss()
+                        self.errorAlert(error: "Could not fetch participants. Please try selecting the channel again!")
                     }
                 }
             }else{
@@ -160,8 +164,9 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 retrieveMessages(completeFunc: readMessages)
             }
         }else{
-            print("namespace is not set")
+            //print("namespace is not set")
             SVProgressHUD.dismiss()
+            self.errorAlert(error: "Could not fetch selected namespace, please try selecting it again!")
         }
     }
 
@@ -224,7 +229,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     //MARK:- Blockstack Functions
     func readMessages(json : JSON){
-        print("Messages are \(json)")
+        //print("Messages are \(json)")
        
         let sortedResults = json.sorted { $0 < $1 }
         //print(sortedResults)
@@ -298,11 +303,12 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         let messageJSONText = Helper.serializeJSON(messageDictionary: messageDictionary!)
         Blockstack.shared.putFile(to: channelFileName, text: messageJSONText) { (publicURL, error) in
             if error != nil {
-                print("put file error")
+                //print("put file error")
+                self.errorAlert(error: "Could not post message. Please try again!")
             } else {
-                print("put file success \(publicURL!)")
+                //print("put file success \(publicURL!)")
                 DispatchQueue.main.async{
-                    print("message has been posted")
+                    //print("message has been posted")
                     //Message has been posted, update the tick image
                     //WE ARE JUST PICKING THE 0 INDEX, THAT MEANS THE LAST MESSAGE INDEX, NEED TO MAKE IT DYNAMIC FOR ALL MESSAGES
                     let indexPath = IndexPath.init(row: self.messageProgress[0], section: 0)
@@ -326,7 +332,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         var remoteJson : JSON = ""
         let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
-        print(participants)
+        //print(participants)
         let dispatchGroup = DispatchGroup()
         for participant in participants {
             //saving last message string count to check in updateRemoteUserChat if there are any new messages from the remote user
@@ -336,9 +342,11 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
             // Read data from Gaia
             Blockstack.shared.getFile(at: channelFileName, username: participant) { response, error in
                 if error != nil {
-                    print("get file error for \(participant)")
+                    //print("get file error for \(participant)")
+                    SVProgressHUD.dismiss()
+                    self.errorAlert(error: "Could not fetch chat. Please try selecting the channel again!")
                 } else {
-                    print("get remote file success for \(participant)")
+                    //print("get remote file success for \(participant)")
                     //print(response as Any)
                     let fetchResponse = (response as? String)!
                     
@@ -374,33 +382,11 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         }
         
         
-        
-//        dispatchGroup.enter()
-//        // Read data from Gaia'
-//        Blockstack.shared.getFile(at: channelFileName) { response, error in
-//            if error != nil {
-//                print("get local file error")
-//            } else {
-//                print("get local file success")
-//                //print(response as Any)
-//                localJson = JSON.init(parseJSON: (response as? String)!)
-//                for (key, var item) in localJson {
-//                    item["username"] = JSON(self.localUsername)
-//                    localJson[key] = item
-//                }
-//            }
-//            dispatchGroup.leave()
-//        }
 
         dispatchGroup.notify(queue: .main) {
-            print("Both functions complete 👍")
+            //print("Both functions complete 👍")
             //print(localJson)
-            print(remoteJson)
-//            var combinedMessages : JSON = localJson
-//            if(localJson != JSON.null && localJson != "" && remoteJson != JSON.null && remoteJson != ""){
-//                let combinedDict = localJson.dictionaryObject?.merging(remoteJson.dictionaryObject!) { $1 }
-//                combinedMessages = JSON(combinedDict as Any)
-//            }
+            //print(remoteJson)
             completeFunc(remoteJson)
             self.navigationController?.navigationBar.isUserInteractionEnabled = true
             SVProgressHUD.dismiss()
@@ -411,9 +397,11 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         var localJson : JSON = ""
         Blockstack.shared.getFile(at: channelFileName) { response, error in
             if error != nil {
-                print("get local file error")
+                //print("get local file error")
+                SVProgressHUD.dismiss()
+                self.errorAlert(error: "Could not fetch chat. Please try selecting the channel again!")
             } else {
-                print("get local file success")
+                //print("get local file success")
                 //print(response as Any)
                 localJson = JSON.init(parseJSON: (response as? String)!)
                 for (key, var item) in localJson {
@@ -437,25 +425,25 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         if activateTimer == true {
             if !Connectivity.isConnectedToInternet {
-                self.noInternetAlert()
+                self.errorAlert(error: "No internet connection")
             } else {
                 
-                print("counting..")
+                //print("counting..")
                 if(MessageService.instance.selectedChannel?.participants != ""){
                 let participants = MessageService.instance.selectedChannel?.participants.arrayObject as! [String]
-                    print(participants)
+                    //print(participants)
                     for participant in participants {
                         if(participant != self.localUsername){
-                            print("participant name in update remote userchat is \(participant)")
+                            //print("participant name in update remote userchat is \(participant)")
                             if self.participantLastMessageStringCount[participant] == nil {
                                 self.participantLastMessageStringCount[participant] = 0
                             }
                             Blockstack.shared.getFile(at: self.channelFileName, username: participant) { response, error in
                                 if error != nil {
-                                    print("get file error")
+                                    //print("get remote file error")
                                 } else {
-                                    print("get remote file success")
-                                    print(response as Any)
+                                    //print("get remote file success")
+                                    //print(response as Any)
                                     let fetchResponse = (response as? String)!
                                     let arr = fetchResponse.split {$0 == " "}
                                     
@@ -486,9 +474,11 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                         }
                     }
                 }else{
-                    MessageService.instance.getForeignChannelParticipants { (success) in
-                        print("tried fetching participants from remote file again")
-                    }
+//                    MessageService.instance.getForeignChannelParticipants { (success) in
+//                        print("tried fetching participants from remote file again")
+//                    }
+                    SVProgressHUD.dismiss()
+                    self.errorAlert(error: "Could not fetch participants. Please select channel again!")
                 }
             }
         }
@@ -529,7 +519,7 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
                     }
                     
                 } else {
-                    print("Error: \(String(describing: response.result.error))")
+                    //print("Error: \(String(describing: response.result.error))")
                 }
         }
     }
@@ -543,8 +533,8 @@ class ChatViewController : UIViewController, UITableViewDelegate, UITableViewDat
         self.revealViewController().revealToggle(self)
     }
     
-    func noInternetAlert(){
-        let alert = UIAlertController(title: "Error", message: "No internet connection", preferredStyle: UIAlertControllerStyle.alert)
+    func errorAlert(error : String){
+        let alert = UIAlertController(title: "Error", message: error, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

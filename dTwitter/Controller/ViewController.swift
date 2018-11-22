@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         updateUI()
+        //resetDeviceKeychain(self)
     }
 
     @IBAction func helloButtonPressed(_ sender: Any) {
@@ -46,7 +47,7 @@ class ViewController: UIViewController {
     }
     
     func handleSignInSuccess(userData: UserData) {
-        print(userData.profile?.name as Any)
+        //print(userData.profile?.name as Any)
         
         self.updateUI()
         

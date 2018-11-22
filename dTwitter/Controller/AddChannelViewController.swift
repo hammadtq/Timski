@@ -29,14 +29,12 @@ class AddChannelViewController: UIViewController {
         
         let nameCharacterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
         if channelName.rangeOfCharacter(from: nameCharacterset.inverted) != nil {
-            print("string contains special characters")
             presentAlert(type: "name")
             return
         }
         
         let descCharacterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ")
         if channelDesc.rangeOfCharacter(from: descCharacterset.inverted) != nil {
-            print("string contains special characters")
             presentAlert(type: "description")
             return
         }
@@ -46,8 +44,8 @@ class AddChannelViewController: UIViewController {
             if error != nil {
                 print("get file error")
             } else {
-                print("get file success")
-                print(response as Any)
+                //print("get file success")
+                //print(response as Any)
                 let json = JSON.init(parseJSON: (response as? String)!)
                 var channelDictionary = json.dictionaryObject
                 let timeStamp = NSDate().timeIntervalSince1970
@@ -61,7 +59,7 @@ class AddChannelViewController: UIViewController {
                         print("put file error")
                         SVProgressHUD.dismiss()
                     } else {
-                        print("put file success \(publicURL!)")
+                        //print("put file success \(publicURL!)")
                         DispatchQueue.main.async{
                             SVProgressHUD.dismiss()
                             MessageService.instance.findAllChannel(completion: { (success) in

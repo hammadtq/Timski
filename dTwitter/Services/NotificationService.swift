@@ -36,9 +36,9 @@ class NotificationService {
                     let resultJSON : JSON = JSON(response.result.value!)
                     if resultJSON["result"] != "error"{
                         DispatchQueue.main.async {
-                            print("result array is")
+                            //print("result array is")
                             let resultArray = resultJSON["result"].arrayValue
-                            print(resultArray)
+                            //print(resultArray)
                             
                             for result in resultArray{
                                 let notificationModel = NotificationModel()
@@ -53,7 +53,7 @@ class NotificationService {
                         }
                         
                     }else{
-                        print("error")
+                        //print("there are no invitations to accept")
                         //self.notificationBtn.badge = nil
                     }
                     
@@ -96,7 +96,7 @@ class NotificationService {
                                 participants.append(notification.remoteUser)
                             }
                             MessageService.instance.selectedChannel?.participants = JSON(participants as Any)
-                            print(participants)
+                            //print(participants)
                         }
                     }
                 }
@@ -107,7 +107,7 @@ class NotificationService {
                     if error != nil {
                         print("put file error")
                     } else {
-                        print("put file success \(publicURL!)")
+                        //print("put file success \(publicURL!)")
                         DispatchQueue.main.async{
                             MessageService.instance.findAllChannel(completion: { (success) in
                                 NotificationCenter.default.post(name: Notification.Name("channelDataUpdated"), object: nil)
@@ -145,7 +145,7 @@ class NotificationService {
             .responseJSON { response in
                 if response.result.isSuccess {
                     let resultJSON : JSON = JSON(response.result.value!)
-                    print(resultJSON)
+                    //print(resultJSON)
                     if resultJSON["result"] == "success"{
                         print("deleted accepted ids")
                     }else{
