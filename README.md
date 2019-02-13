@@ -19,4 +19,4 @@ The app is built using Swift and XCode.
 
 The app was pulled from iOS store on 1st February 2019 due to the lack of the funding.
 
-It's available under MIT License.
+It's available under [MIT License](https://github.com/hammadtq/Timski/blob/master/LICENSE).
