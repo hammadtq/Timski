@@ -15,6 +15,8 @@ This implementation of app does not use any third party service providers such a
 
 The app does require a central service to keep track of invitations sent to other users.
 
+The app is built using Swift and XCode.
+
 The app was pulled from iOS store on 1st February 2019 due to the lack of the funding.
 
 It's available under MIT License.
