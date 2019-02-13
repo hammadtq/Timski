@@ -1,5 +1,7 @@
 # Timski
 
+[![Watch the video](https://img.youtube.com/vi/43bH8NuJLK0/maxresdefault.jpg)](https://www.youtube.com/watch?v=43bH8NuJLK0)
+
 Timski was a group chat app developed solely over Blockstack blockchain using Gaia hub storage. The app allows a user to create multiple groups, add and invite other Blockstack users to the groups and have real-time multi-participant chat.
 
 The concept of the app is to use each user's own storage configured through Blockstack. The app then pulls each user's chat message from user's own storage, sort it based over timestamp and allow one to chat with other users.
