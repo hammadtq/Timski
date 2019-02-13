@@ -1,6 +1,6 @@
 # Timski
 
-## Video
+## Demo Video
 [![Watch the video](https://img.youtube.com/vi/43bH8NuJLK0/maxresdefault.jpg)](https://www.youtube.com/watch?v=43bH8NuJLK0)
 
 ## Screenshots
